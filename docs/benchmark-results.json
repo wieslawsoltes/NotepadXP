@@ -1,0 +1,52 @@
+{
+  "generatedAt": "2026-09-08T06:25:24.528Z",
+  "environment": {
+    "node": "v22.16.0",
+    "platform": "linux",
+    "arch": "x64",
+    "cpu": "AMD EPYC 9V74 80-Core Processor",
+    "logicalCPUs": 5,
+    "explicitGC": true
+  },
+  "method": "Single warmed-up run per synthetic ASCII dataset; CPU persistent-rope operations only. 64 recent roots retained during 1,000 single-character replacement edits. All original-coordinate lookup round trips and tree invariants verified. Includes no browser worker transfer, rendering, encoding, storage, or file-read time. Timing is environment-specific, not a performance guarantee.",
+  "results": [
+    {
+      "datasetMiB": 10,
+      "utf16CodeUnits": 10485772,
+      "logicalLines": 126335,
+      "buildMs": 16.909,
+      "positionRoundTrips10000Ms": 11.791,
+      "positionChecksPassed": 10000,
+      "randomEdits1000Ms": 38.46,
+      "editMedianMs": 0.037,
+      "editP95Ms": 0.064,
+      "findEndMarkerMs": 6.781,
+      "endMarkerFoundAt": 10485760,
+      "replaceAllMs": 61.341,
+      "replacementCount": 986,
+      "slice4096Ms": 0.027,
+      "heapUsedMiBAfter": 31.687,
+      "rssMiBAfter": 72.867,
+      "heapDeltaMiB": 27.21
+    },
+    {
+      "datasetMiB": 100,
+      "utf16CodeUnits": 104857612,
+      "logicalLines": 1263345,
+      "buildMs": 166.567,
+      "positionRoundTrips10000Ms": 14.574,
+      "positionChecksPassed": 10000,
+      "randomEdits1000Ms": 51.308,
+      "editMedianMs": 0.049,
+      "editP95Ms": 0.073,
+      "findEndMarkerMs": 32.129,
+      "endMarkerFoundAt": 104857600,
+      "replaceAllMs": 632.978,
+      "replacementCount": 9869,
+      "slice4096Ms": 0.033,
+      "heapUsedMiBAfter": 123.817,
+      "rssMiBAfter": 186.297,
+      "heapDeltaMiB": 109.739
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "notepad-xp": {
+      "command": "node",
+      "args": ["/ABSOLUTE/PATH/NotepadXP/mcp/server.mjs", "--stdio"],
+      "env": {"NOTEPAD_PORT": "8787"}
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "name": "Notepad XP Web Edition",
+  "version": "1.0.0",
+  "builtAt": "2026-09-08T06:32:40.274309+00:00",
+  "standaloneBytes": 184514,
+  "standaloneSHA256": "44e40442a9369f3b25f8c36081dee70492e05feb92c59f23d2eba577b887f401",
+  "runtimeDependencies": [],
+  "nodeTestsPassed": 46,
+  "browserChecksPassed": 36,
+  "browserRendererTested": "Canvas 2D",
+  "browserWorkerStartupTested": false,
+  "webgpuRuntimeValidated": false,
+  "workerModuleLogicTestedInNode": true,
+  "mcpProtocols": [
+    "2025-11-25",
+    "2025-06-18",
+    "2025-03-26"
+  ]
+}

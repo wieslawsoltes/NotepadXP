@@ -14,41 +14,20 @@ jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      contents: read
       pages: read
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Assemble original source on first import
-        id: bootstrap
-        shell: bash
-        run: |
-          if [ -f .bootstrap/manifest.json ]; then
-            node .bootstrap/import.mjs
-            echo "imported=true" >> "$GITHUB_OUTPUT"
-          fi
       - name: Check JavaScript syntax
         shell: bash
-        run: find src mcp tests tools -name '*.mjs' -print0 | xargs -0 -n1 node --check
+        run: find src mcp tests tools examples -name '*.mjs' -print0 | xargs -0 -n1 node --check
       - name: Build standalone HTML
         run: npm run build
       - name: Run automated tests
         run: npm test
-      - name: Verify original standalone build
-        if: steps.bootstrap.outputs.imported == 'true'
-        run: echo '44e40442a9369f3b25f8c36081dee70492e05feb92c59f23d2eba577b887f401  NotepadXP.html' | sha256sum --check
-      - name: Commit assembled source and standalone artifact
-        if: steps.bootstrap.outputs.imported == 'true'
-        shell: bash
-        run: |
-          rm -rf .bootstrap
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add src/app.mjs src/style.css NotepadXP.html .bootstrap
-          git commit -m "Complete verified source import and build standalone Notepad XP"
-          git push origin HEAD:main
       - name: Stage static website
         shell: bash
         run: |
