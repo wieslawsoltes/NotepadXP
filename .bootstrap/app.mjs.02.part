@@ -1,0 +1,52 @@
+    const dialog=this.dialogs.open(save?'Save As':'Open',`<div class="file-toolbar"><label for="file-location">${save?'Save in:':'Look in:'}</label><select id="file-location"><option>/My Documents</option><option>/Desktop</option><option>/Recent Documents</option></select><button class="small-tool" data-action="up" title="Up One Level" aria-label="Up One Level">↰</button><button class="small-tool" data-action="folder" title="Create New Folder" aria-label="Create New Folder">▣</button><button class="xp-button" data-action="browse">Browse…</button></div><div class="file-main"><aside class="places"><button data-place="/Recent Documents"><span class="place-icon">${placeIcon('recent')}</span>My Recent<br>Documents</button><button data-place="/Desktop"><span class="place-icon">${placeIcon('desktop')}</span>Desktop</button><button data-place="/My Documents" class="selected"><span class="place-icon">${placeIcon('documents')}</span>My Documents</button><button data-place="browse"><span class="place-icon">${placeIcon('computer')}</span>My Computer</button></aside><div class="file-list" role="listbox" aria-label="Files"></div></div><div class="file-bottom"><div><div class="field"><label for="file-name">File name:</label><input id="file-name" type="text" autocomplete="off"></div><div class="field"><label for="file-type">${save?'Save as type:':'Files of type:'}</label><select id="file-type"><option value="text">Text Documents (*.txt)</option><option value="all">All Files</option></select></div><div class="field"><label for="file-encoding">Encoding:</label><select id="file-encoding">${encodingOptions(!save)}</select></div></div><div class="file-buttons"><button class="xp-button default" data-action="confirm">${save?'Save':'Open'}</button><button class="xp-button" data-action="cancel">Cancel</button></div></div><p class="file-note">Folders shown here are browser storage. Browse opens files on your device.</p>`,{width:560,focus:'#file-name'});
+    dialog.query('#file-name').value=save?(this.name==='Untitled'?'*.txt':this.name):'';dialog.query('#file-encoding').value=save?this.encoding:'auto';
+    const navigate=async path=>{folder=path;selected=null;pendingFile=null;pendingHandle=null;const select=dialog.query('#file-location');if(![...select.options].some(o=>o.value===path))select.add(new Option(path,path));select.value=path;for(const b of dialog.el.querySelectorAll('[data-place]'))b.classList.toggle('selected',b.dataset.place===path);await refresh();};
+    const refresh=async()=>{const all=await this.files.all();const list=dialog.query('.file-list');if(dialog.closed)return;list.replaceChildren();let records=folder==='/Recent Documents'?all.filter(r=>!r.folder).sort((a,b)=>b.modified-a.modified).slice(0,30):all.filter(r=>r.path.slice(0,r.path.lastIndexOf('/'))===folder);if(dialog.query('#file-type').value==='text')records=records.filter(r=>r.folder||/\.txt$/i.test(r.name));
+      for(const record of records){const button=document.createElement('button');button.className='file-item';button.setAttribute('role','option');button.innerHTML=`${record.folder?'<span>▰</span>':'<img src="assets/notepad.svg" alt="">'}<span>${escapeHTML(record.name)}</span>`;button.title=record.name;button.onclick=()=>{selected=record;pendingFile=null;pendingHandle=null;for(const b of list.children)b.classList.remove('selected');button.classList.add('selected');if(!record.folder)dialog.query('#file-name').value=record.name;};button.ondblclick=()=>record.folder?navigate(record.path):confirm();list.append(button);}
+      if(!records.length)list.innerHTML='<div class="empty-folder">No documents in this folder.<br>Choose Browse to open a file from your device.</div>';
+    };
+    const choose=async()=>{
+      try{
+        pendingFile=null;pendingHandle=null;
+        if(window.showOpenFilePicker){try{const [handle]=await showOpenFilePicker({multiple:false,types:[{description:'Text Documents',accept:{'text/plain':['.txt','.log','.ini','.csv','.md']}}],excludeAcceptAllOption:false});pendingHandle=handle;pendingFile=await handle.getFile();}catch(error){if(!['SecurityError','NotSupportedError'].includes(error.name))throw error;}}
+        if(!pendingFile){pendingFile=await new Promise(resolve=>{const input=$('#file-input');input.value='';input.onchange=()=>resolve(input.files[0]||null);input.oncancel=()=>resolve(null);input.click();});pendingHandle=null;}
+        if(!pendingFile)return;dialog.query('#file-name').value=pendingFile.name;selected=null;dialog.query('.file-list').innerHTML=`<button class="file-item selected"><img src="assets/notepad.svg" alt=""><span>${escapeHTML(pendingFile.name)}</span></button>`;dialog.query('.file-item').ondblclick=confirm;
+      }catch(error){if(error.name!=='AbortError')this.error(error);}
+    };
+    const confirm=async()=>{
+      try{
+        if(save){let name=dialog.query('#file-name').value.trim();if(name==='*.txt'||!name){dialog.query('#file-name').focus();dialog.query('#file-name').select();return;}
+          const quoted=name.startsWith('"')&&name.endsWith('"');if(quoted)name=name.slice(1,-1);name=cleanName(name);if(!quoted&&dialog.query('#file-type').value==='text'&&!name.includes('.'))name+='.txt';
+          const encoding=dialog.query('#file-encoding').value,root=this.model.root;let handle=null;
+          if(window.showSaveFilePicker){try{handle=await showSaveFilePicker({suggestedName:name,types:[{description:'Text Documents',accept:{'text/plain':['.txt']}}],excludeAcceptAllOption:false});name=handle.name||name;}catch(error){if(error.name==='AbortError')return;if(!['SecurityError','NotSupportedError'].includes(error.name))throw error;}}
+          if(!handle){const all=await this.files.all();if(all.some(f=>f.path===`${folder}/${name}`)){const result=await this.dialogs.message(`${name} already exists.\nDo you want to replace it?`,{title:'Confirm Save As',buttons:[['yes','Yes'],['no','No']],icon:'?'});if(result!=='yes')return;}}
+          await this.writeSnapshot(root,name,encoding,handle,`${folder==='/Recent Documents'?'/My Documents':folder}/${name}`);dialog.close(true);
+        }else{
+          if(selected?.folder){await navigate(selected.path);return;}
+          if(!pendingFile){const name=dialog.query('#file-name').value;selected=selected||(await this.files.all()).find(r=>!r.folder&&r.path===`${folder}/${name}`);if(selected?.blob)pendingFile=new File([selected.blob],selected.name,{lastModified:selected.modified});}
+          if(!pendingFile){await this.dialogs.message('File not found.\nCheck the file name, or choose Browse to open a file from your device.');return;}
+          const success=await this.openFile(pendingFile,{encoding:dialog.query('#file-encoding').value,handle:pendingHandle,path:selected?.path||null});if(success)dialog.close(true);
+        }
+      }catch(error){if(error.name!=='AbortError')this.error(error);}
+    };
+    dialog.query('[data-action="confirm"]').onclick=confirm;dialog.query('[data-action="cancel"]').onclick=()=>dialog.close(false);dialog.query('[data-action="browse"]').onclick=choose;
+    dialog.query('#file-location').onchange=e=>navigate(e.target.value);dialog.query('#file-type').onchange=refresh;for(const b of dialog.el.querySelectorAll('[data-place]'))b.onclick=()=>b.dataset.place==='browse'?choose():navigate(b.dataset.place);
+    dialog.query('[data-action="up"]').onclick=()=>navigate(folder.includes('/',1)?folder.slice(0,folder.lastIndexOf('/')):'/My Documents');
+    dialog.query('[data-action="folder"]').onclick=()=>{const d=this.dialogs.open('New Folder','<div class="field"><label for="folder-name">Name:</label><input id="folder-name" type="text" value="New Folder"></div><div class="dialog-actions"><button class="xp-button default" data-action="ok">OK</button><button class="xp-button" data-action="cancel">Cancel</button></div>',{width:300,focus:'#folder-name'});d.query('[data-action="cancel"]').onclick=()=>d.close();d.query('[data-action="ok"]').onclick=async()=>{try{const name=cleanName(d.query('#folder-name').value);await this.files.put({path:`${folder}/${name}`,name,folder:true,modified:Date.now()});d.close();refresh();}catch(error){this.error(error);}};};
+    await refresh();return dialog.promise;
+  }
+  async copy(cut=false){
+    if(this.model.start===this.model.end)return false;const start=this.model.start,end=this.model.end,revision=this.model.revision,text=this.model.selectedText.replace(/\n/g,'\r\n');
+    try{await navigator.clipboard.writeText(text);}catch{this.view.focus();if(!document.execCommand('copy')){await this.dialogs.message('Your browser did not allow clipboard access. Select the text and press Ctrl+C (or Command+C).');return false;}}
+    if(cut&&revision===this.model.revision)this.model.edit(start,end,'');this.view.focus();return true;
+  }
+  async paste(){
+    try{const text=await navigator.clipboard.readText();this.model.insert(text);this.view.focus();return true;}catch{
+      const dialog=this.dialogs.open('Paste','<p>Your browser requires a paste gesture. Paste text below, then choose Paste.</p><textarea id="paste-text" rows="6" style="width:100%;resize:vertical" aria-label="Text to paste"></textarea><div class="dialog-actions"><button class="xp-button default" data-action="paste">Paste</button><button class="xp-button" data-action="cancel">Cancel</button></div>',{width:420,focus:'#paste-text'});
+      dialog.query('[data-action="paste"]').onclick=()=>{this.model.insert(dialog.query('#paste-text').value);dialog.close(true);};dialog.query('[data-action="cancel"]').onclick=()=>dialog.close(false);return dialog.promise;
+    }
+  }
+  showFind(replaceMode){
+    if(this.findDialog&&!this.findDialog.closed&&this.findDialog.title===(replaceMode?'Replace':'Find')){this.findDialog.query('#find-query').focus();return;}
+    this.findDialog?.close();
+    const selection=this.model.end-this.model.start<=65536?this.model.selectedText:'';if(selection&&!selection.includes('\n'))this.search.query=selection;

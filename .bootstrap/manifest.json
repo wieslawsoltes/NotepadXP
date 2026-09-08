@@ -1,0 +1,23 @@
+[
+  {
+    "path": "src/app.mjs",
+    "sha256": "0ba17efbce6fed04fb4347d6d119ee64ddc2adbd04216c9777771245734890e9",
+    "parts": [
+      ".bootstrap/app.mjs.00.part",
+      ".bootstrap/app.mjs.01.part",
+      ".bootstrap/app.mjs.02.part",
+      ".bootstrap/app.mjs.03.part",
+      ".bootstrap/app.mjs.04.part",
+      ".bootstrap/app.mjs.05.part",
+      ".bootstrap/app.mjs.06.part"
+    ]
+  },
+  {
+    "path": "src/style.css",
+    "sha256": "4740d20a763dee2e8298f75cc80c48939da40962dd6066266f3844bb3632b576",
+    "parts": [
+      ".bootstrap/style.css.00.part",
+      ".bootstrap/style.css.01.part"
+    ]
+  }
+]

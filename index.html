@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="theme-color" content="#0055ea"><meta name="description" content="A Windows XP-style Notepad with WebGPU text rendering and local MCP agent control."><title>Untitled - Notepad</title><link rel="icon" href="assets/notepad.svg" type="image/svg+xml"><link rel="stylesheet" href="src/style.css"></head>
+<body>
+<main id="window" class="xp-window" aria-label="Notepad window">
+  <header id="titlebar" class="titlebar"><img src="assets/notepad.svg" class="app-icon" alt="" draggable="false"><span id="title">Untitled - Notepad</span><div class="window-controls"><button id="minimize" class="caption-button minimize" aria-label="Minimize" title="Minimize"><i></i></button><button id="maximize" class="caption-button maximize" aria-label="Maximize" title="Maximize"><i></i></button><button id="close-window" class="caption-button close" aria-label="Close" title="Close"><i></i></button></div></header>
+  <nav id="menubar" class="menubar" role="menubar" aria-label="Notepad menu"></nav>
+  <section id="editor-frame" class="editor-frame">
+    <div id="editor" class="editor" role="group" aria-label="Document editing area">
+      <canvas id="gpu-canvas" aria-hidden="true"></canvas><canvas id="fallback-canvas" aria-hidden="true" hidden></canvas>
+      <textarea id="text-input" class="text-input" aria-label="Document text" aria-multiline="true" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off" wrap="off"></textarea><span id="composition" hidden></span>
+    </div>
+    <div id="vscroll" class="scrollbar vertical" aria-label="Vertical scroll bar" role="scrollbar" aria-orientation="vertical" tabindex="-1"><button class="scroll-arrow first" aria-label="Scroll up"><i></i></button><div class="scroll-track"><div class="scroll-thumb"><b></b></div></div><button class="scroll-arrow last" aria-label="Scroll down"><i></i></button></div>
+    <div id="hscroll" class="scrollbar horizontal" aria-label="Horizontal scroll bar" role="scrollbar" aria-orientation="horizontal" tabindex="-1"><button class="scroll-arrow first" aria-label="Scroll left"><i></i></button><div class="scroll-track"><div class="scroll-thumb"><b></b></div></div><button class="scroll-arrow last" aria-label="Scroll right"><i></i></button></div><div class="scroll-corner" id="scroll-corner"></div>
+  </section>
+  <footer id="statusbar" class="statusbar" hidden><span></span><span id="status-position">Ln 1, Col 1</span><i></i></footer><div id="resize-grip" aria-label="Resize window"></div>
+</main>
+<button id="restore-window" class="restore-task" hidden><img src="assets/notepad.svg" alt=""> <span>Untitled - Notepad</span></button>
+<div id="menu-layer"></div><div id="dialog-layer"></div><div id="busy" hidden><div class="busy-box"><span class="busy-icon">⌛</span><span id="busy-label">Opening file…</span></div></div><div id="live-region" class="sr-only" aria-live="polite"></div><input id="file-input" type="file" hidden><iframe id="print-frame" title="Print document" hidden></iframe>
+<script type="module" src="src/app.mjs"></script>
+</body></html>
