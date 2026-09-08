@@ -1,0 +1,1240 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="theme-color" content="#0055ea"><meta name="description" content="A Windows XP-style Notepad with WebGPU text rendering and local MCP agent control."><title>Untitled - Notepad</title><link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgdmlld0JveD0iMCAwIDMyIDMyIj48cGF0aCBkPSJNNyA0aDIwdjI1SDd6IiBmaWxsPSIjNjY2Yzc1Ii8+PHBhdGggZD0iTTUgM2gyMHYyNUg1eiIgZmlsbD0iI2Y3ZjlmZiIgc3Ryb2tlPSIjMjk0NjY4Ii8+PHBhdGggZD0iTTUgM2gyMHY1SDV6IiBmaWxsPSIjN2NhN2M5Ii8+PHBhdGggZD0iTTkgMTFoMTJNOSAxNGgxMk05IDE3aDEyTTkgMjBoMTJNOSAyM2g5IiBzdHJva2U9IiM4ZGE2YmUiLz48cGF0aCBkPSJNOCAxdjVtNC01djVtNC01djVtNC01djUiIHN0cm9rZT0iI2RiZTlmNyIgc3Ryb2tlLXdpZHRoPSIyIi8+PHBhdGggZD0iTTQgMjZoMjF2Mkg1eiIgZmlsbD0iI2JhZDBlMyIvPjwvc3ZnPgo=" type="image/svg+xml"><style>:root{font-family:Tahoma,"Microsoft Sans Serif",Arial,sans-serif;font-size:11px;color:#000;--face:#ece9d8;--blue:#0054e3;--scroll:17px}*{box-sizing:border-box}html,body{width:100%;height:100%;margin:0;overflow:hidden}body{background:#3a6ea5;user-select:none;-webkit-user-select:none;overscroll-behavior:none}button,input,select,textarea{font:inherit;color:inherit}button{cursor:default}button:disabled{color:#aca899;text-shadow:1px 1px #fff}button:focus-visible{outline:1px dotted #000;outline-offset:-4px}[hidden]{display:none!important}.xp-window{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(1080px,calc(100% - 64px));height:min(730px,calc(100% - 76px));min-width:245px;min-height:170px;display:flex;flex-direction:column;background:var(--face);border:3px solid #0055ea;border-top:0;border-radius:8px 8px 0 0;box-shadow:1px 2px 8px #0006;overflow:hidden}.xp-window.maximized{left:0!important;top:0!important;width:100%!important;height:100%!important;transform:none!important;border-radius:0;box-shadow:none}.titlebar{height:30px;min-height:30px;background:linear-gradient(#3d95ff 0,#1783ff 7%,#086cf6 13%,#0055e9 42%,#0055e9 70%,#075ce7 86%,#1268f1 95%,#0341ba);border-top:1px solid #78a6ed;box-shadow:inset 0 1px 0 #ffffff42;display:flex;align-items:center;padding:0 3px 0 3px;color:#fff;font:700 13px "Trebuchet MS",Tahoma,Arial,sans-serif;letter-spacing:.1px;text-shadow:1px 1px #0f3c9c;touch-action:none}.app-icon{width:18px;height:20px;object-fit:contain;margin-right:4px}.titlebar>span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1}.window-controls{display:flex;gap:2px;margin-left:6px}.caption-button{position:relative;width:22px;height:22px;padding:0;border:1px solid #fff;border-radius:3px;box-shadow:inset 1px 1px 1px #c3dcff,inset -1px -1px 1px #0043a7;background:linear-gradient(135deg,#78aeff,#0b5adb 65%);color:white}.caption-button:hover{filter:brightness(1.16)}.caption-button:active{filter:brightness(.88)}.caption-button.close{background:linear-gradient(135deg,#eeac96,#e76b48 32%,#e03b1e 75%,#bd230d);box-shadow:inset 1px 1px 1px #ffd4c7,inset -1px -1px 1px #a9250b}.caption-button.minimize i{position:absolute;left:4px;bottom:4px;width:8px;height:3px;background:white}.caption-button.maximize i{position:absolute;left:4px;top:4px;width:12px;height:11px;border:2px solid white;border-top-width:3px}.maximized .caption-button.maximize i{width:9px;height:9px;left:4px;top:7px;box-shadow:2px -3px 0 -1px #1b69e8,3px -4px 0 0 #fff}.caption-button.close i:before,.caption-button.close i:after{position:absolute;content:"";left:9px;top:3px;width:2px;height:14px;background:#fff;transform:rotate(45deg)}.caption-button.close i:after{transform:rotate(-45deg)}.menubar{display:flex;align-items:center;height:20px;min-height:20px;padding-left:0;background:var(--face);border-bottom:1px solid #d6d2c2;gap:0}.menubar>button{height:19px;padding:1px 7px 2px;background:transparent;border:1px solid transparent;white-space:nowrap}.menubar>button:hover,.menubar>button.open{background:#316ac5;color:#fff;border-color:#316ac5}.menubar u{text-decoration:none}.show-access .menubar u{text-decoration:underline}.editor-frame{flex:1;min-height:0;display:grid;grid-template-columns:minmax(0,1fr) var(--scroll);grid-template-rows:minmax(0,1fr) var(--scroll);margin:0 0 0 0;border-left:1px solid #7f9db9;border-top:1px solid #7f9db9;background:#fff}.editor-frame.wrapped{grid-template-rows:minmax(0,1fr);}.editor{position:relative;overflow:hidden;background:#fff;cursor:text;outline:none;touch-action:none;grid-row:1;grid-column:1;min-width:0;min-height:0}.editor canvas{display:block;position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none}.text-input{position:absolute;z-index:2;width:3px;min-width:3px;height:18px;padding:0;border:0;margin:0;resize:none;opacity:.015;color:transparent;background:transparent;caret-color:transparent;outline:none;overflow:hidden;white-space:pre;touch-action:none;font-size:16px!important}.text-input::selection{background:transparent;color:transparent}#composition{position:absolute;z-index:3;background:#fff;color:#000;border-bottom:1px solid #000;white-space:pre;pointer-events:none}.scrollbar{background:#f3f1e7;display:flex;overflow:hidden;touch-action:none}.vertical{grid-column:2;grid-row:1;flex-direction:column;border-left:1px solid #fff}.horizontal{grid-column:1;grid-row:2;border-top:1px solid #fff}.scroll-arrow{flex-shrink:0;width:16px;height:16px;border:1px solid #fff;border-radius:2px;background:linear-gradient(135deg,#e3e9fa,#c3d4f3);box-shadow:inset 0 0 0 1px #b2c5ec;position:relative;padding:0}.scroll-arrow:hover,.scroll-thumb:hover{filter:brightness(1.035)}.scroll-arrow:active,.scroll-thumb:active{filter:brightness(.95)}.scroll-arrow i{position:absolute;width:5px;height:5px;border-top:2px solid #4d6185;border-left:2px solid #4d6185;left:5px;top:5px;transform:rotate(45deg)}.vertical .last i{transform:rotate(225deg);top:4px}.horizontal .first i{transform:rotate(-45deg);left:6px}.horizontal .last i{transform:rotate(135deg);left:4px}.scroll-track{flex:1;position:relative;min-height:0;min-width:0;background:repeating-linear-gradient(45deg,#f6f4ec 0,#f6f4ec 1px,#efede5 1px,#efede5 2px)}.scroll-thumb{position:absolute;border:1px solid white;border-radius:2px;background:linear-gradient(90deg,#e0e8f9,#bfd1f1);box-shadow:inset 0 0 0 1px #a7bfe8;min-height:17px;min-width:16px}.vertical .scroll-thumb{width:16px;left:0}.horizontal .scroll-thumb{height:16px;top:0;background:linear-gradient(#e0e8f9,#bfd1f1)}.scroll-thumb b{position:absolute;left:5px;top:calc(50% - 3px);width:5px;height:7px;background:repeating-linear-gradient(#97b2dd 0,#97b2dd 1px,#f2f6ff 1px,#f2f6ff 2px)}.horizontal .scroll-thumb b{left:calc(50% - 3px);top:5px;width:7px;height:5px;background:repeating-linear-gradient(90deg,#97b2dd 0,#97b2dd 1px,#f2f6ff 1px,#f2f6ff 2px)}.scrollbar.disabled .scroll-thumb{display:none}.scrollbar.disabled .scroll-arrow i{border-color:#b5c2db}.scroll-corner{grid-row:2;grid-column:2;background:var(--face);border-top:1px solid #fff;border-left:1px solid #fff}.statusbar{height:22px;min-height:22px;display:flex;align-items:stretch;padding:2px 1px 1px;border-top:1px solid #f3f1e6;gap:2px}.statusbar>span{border-left:1px solid #aca899;border-top:1px solid #aca899;border-right:1px solid #fff;border-bottom:1px solid #fff;display:flex;align-items:center;padding:0 5px}.statusbar>span:first-child{flex:1}.statusbar>span:nth-child(2){width:155px}.statusbar i{width:12px;background:repeating-linear-gradient(135deg,transparent 0,transparent 2px,#aaa69a 2px,#aaa69a 3px,#fff 3px,#fff 4px);clip-path:polygon(100% 0,100% 100%,0 100%)}#resize-grip{position:absolute;bottom:0;right:0;width:12px;height:12px;cursor:nwse-resize;touch-action:none}.maximized #resize-grip{display:none}.restore-task{position:absolute;left:12px;bottom:8px;min-width:170px;max-width:300px;height:28px;padding:2px 9px;background:linear-gradient(#3c8eec,#1c62ba);border:1px solid #164d9b;border-radius:3px;box-shadow:inset 1px 1px 1px #87baff;color:white;font-weight:bold;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.restore-task img{width:18px;height:18px;vertical-align:middle;margin-right:4px}.popup-menu{position:fixed;z-index:200;background:#fff;border:1px solid #aca899;box-shadow:2px 2px 2px #0005;padding:2px;min-width:165px}.popup-menu button{display:flex;align-items:center;position:relative;width:100%;height:20px;white-space:nowrap;background:transparent;border:0;padding:2px 15px 2px 21px;text-align:left;gap:28px}.popup-menu button .shortcut{margin-left:auto}.popup-menu button:hover:not(:disabled),.popup-menu button:focus:not(:disabled){background:#316ac5;color:#fff;outline:0}.popup-menu button.checked:before{content:"✓";position:absolute;left:5px;font-size:13px;font-weight:700}.popup-menu hr{height:1px;border:0;background:#d5d2c8;margin:3px 2px}.popup-menu button:disabled{color:#aca899;text-shadow:none}.dialog-shade{position:fixed;inset:0;z-index:300;display:flex;align-items:center;justify-content:center;background:transparent;pointer-events:auto;padding:8px}.dialog-shade.modeless{pointer-events:none}.xp-dialog{background:var(--face);border:3px solid #0055ea;border-top:0;border-radius:8px 8px 0 0;box-shadow:2px 3px 8px #0005;max-width:calc(100vw - 12px);max-height:calc(100dvh - 12px);display:flex;flex-direction:column;overflow:hidden;pointer-events:auto;min-width:230px}.xp-dialog>.titlebar{height:29px;min-height:29px;padding-left:5px;font-size:13px}.xp-dialog>.titlebar .caption-button{width:21px;height:21px}.dialog-content{padding:12px;overflow:auto;font-size:11px;line-height:1.35}.xp-button{background:linear-gradient(#fff 0,#f9f8f4 55%,#efede4 90%,#e4e0d5);border:1px solid #003c74;border-radius:3px;min-width:75px;min-height:23px;padding:3px 12px;box-shadow:inset -1px -1px 0 #d6d0bf,inset 1px 1px 0 #fff}.xp-button:hover{box-shadow:inset 0 0 0 2px #ffce79}.xp-button:active{background:#e5e2d5;box-shadow:inset 1px 1px 1px #9d9d92}.xp-button.default{box-shadow:inset 0 0 0 2px #a8c2e7}.xp-button:disabled{border-color:#c9c7ba;background:#f1efe6;box-shadow:none}.dialog-actions{display:flex;justify-content:flex-end;gap:6px;margin-top:14px}.dialog-content input:not([type=checkbox]):not([type=radio]),.dialog-content select,.dialog-content textarea{background:#fff;border:1px solid #7f9db9;border-radius:0;min-height:21px;padding:2px 3px;user-select:text;-webkit-user-select:text;outline-offset:-2px}.dialog-content select{padding:1px 2px}.dialog-content input[type=checkbox],.dialog-content input[type=radio]{accent-color:#316ac5;width:13px;height:13px;vertical-align:middle;margin:0 5px 0 0}.dialog-content label{white-space:nowrap}.dialog-content fieldset{border:1px solid #d0d0bf;border-radius:3px;padding:10px;margin:0;min-width:0}.dialog-content legend{padding:0 4px}.field{display:flex;align-items:center;gap:8px;margin-bottom:9px}.field>input,.field>select{flex:1;min-width:0}.field>label{min-width:72px}.find-layout{display:grid;grid-template-columns:minmax(0,1fr) 86px;gap:8px 14px}.find-fields .field{margin-bottom:8px}.find-fields input{width:200px}.find-buttons{display:flex;flex-direction:column;gap:6px}.find-options{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:12px}.find-options fieldset{padding:6px 9px;display:flex;gap:10px}.font-lists{display:grid;grid-template-columns:1.5fr 1.1fr .6fr;gap:12px}.font-col{min-width:0;display:flex;flex-direction:column;gap:3px}.font-col input{width:100%;margin-top:2px}.font-col select{width:100%;height:115px;padding:0}.font-col select option{padding:1px 3px}.font-bottom{display:grid;grid-template-columns:1fr 130px;gap:16px;margin-top:16px}.font-sample{height:88px;overflow:hidden;display:flex;justify-content:center;align-items:center;background:transparent}.font-actions{display:flex;flex-direction:column;gap:6px}.file-toolbar{display:flex;align-items:center;gap:7px;margin-bottom:8px}.file-toolbar select{flex:1}.small-tool{background:transparent;border:1px solid transparent;height:25px;min-width:25px;padding:2px 4px;font-size:16px}.small-tool:hover{border-color:#7f9db9;background:#e2ebfa}.file-main{height:230px;display:flex;gap:8px;margin-bottom:9px}.places{width:90px;flex-shrink:0;background:#e9e6d8;display:flex;flex-direction:column}.places button{flex:1;padding:4px 1px;background:transparent;border:1px solid transparent;font-size:10px;white-space:normal}.places button:hover,.places button.selected{border-color:#7f9db9;background:#dfe8f6}.places .place-icon{display:block;font-size:22px;height:27px;line-height:25px}.file-list{flex:1;min-width:0;background:#fff;border:1px solid #7f9db9;overflow:auto;display:flex;align-content:flex-start;flex-wrap:wrap;padding:3px}.file-item{display:flex;align-items:center;gap:4px;min-width:120px;max-width:100%;height:23px;padding:2px 4px;border:1px solid transparent;background:#fff;text-align:left;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}.file-item img{width:17px;height:17px}.file-item.selected{background:#316ac5;color:white}.empty-folder{color:#777;padding:12px;text-align:center;width:100%;line-height:1.7}.file-bottom{display:grid;grid-template-columns:1fr 90px;gap:8px 12px}.file-bottom .field{margin-bottom:7px}.file-bottom .field label{min-width:76px}.file-bottom .field input,.file-bottom .field select{width:100%}.file-buttons{display:flex;flex-direction:column;gap:8px}.file-note{color:#666;font-size:10px;margin:2px 0 0}.message-layout{display:flex;align-items:center;gap:15px;min-height:46px}.message-icon{font:700 30px Georgia,serif;border:2px solid #316ac5;background:#fff;color:#316ac5;border-radius:50%;width:35px;height:35px;flex:0 0 35px;text-align:center;line-height:31px}.message-layout p{margin:0;white-space:pre-wrap;overflow-wrap:anywhere}.about-header{font-family:"Trebuchet MS",Arial,sans-serif;font-size:29px;font-weight:700;letter-spacing:-1px;color:#111;margin:0 0 4px}.about-header sup{color:#ed6d19;font-size:16px;letter-spacing:0;font-weight:normal}.about-sub{font-size:16px;margin-bottom:16px}.about-rule{height:1px;background:#aaa;border:0}.about-layout{display:flex;gap:18px;margin:18px 0}.about-layout img{width:42px;height:42px}.muted{color:#666}.help-content{line-height:1.65;user-select:text;-webkit-user-select:text}.help-content h3{font-size:13px;margin:15px 0 5px;color:#003399}.help-content h3:first-child{margin-top:0}.help-content p{margin:5px 0 10px}.help-content kbd{font:11px Tahoma;border:1px solid #aaa;background:#fff;padding:0 3px;border-radius:2px}.help-content table{width:100%;border-collapse:collapse}.help-content td{padding:3px;border-bottom:1px solid #d8d5c6;vertical-align:top}.agent-status{border:1px solid #b9b6a7;background:#fff;padding:9px;margin-bottom:12px;line-height:1.6;user-select:text;-webkit-user-select:text}.agent-status strong{color:#003399}.agent-log{height:115px;overflow:auto;border:1px solid #7f9db9;background:white;padding:5px;font:10px "Courier New",monospace;white-space:pre-wrap;user-select:text;-webkit-user-select:text}.agent-tools{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}.page-grid{display:grid;grid-template-columns:1fr 140px;gap:14px}.page-preview{display:flex;justify-content:center;align-items:center;height:180px}.paper-preview{background:white;width:95px;height:135px;box-shadow:2px 2px 0 #999;border:1px solid #555;padding:15px 12px}.paper-preview.landscape{width:128px;height:91px}.paper-lines{height:100%;background:repeating-linear-gradient(#aab0b8 0,#aab0b8 1px,transparent 1px,transparent 6px)}.margins-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.margins-grid label{display:flex;align-items:center;gap:5px}.margins-grid input{width:56px;min-width:30px}.selection-handle{position:absolute;z-index:10;width:22px;height:28px;transform:translateX(-50%);touch-action:none;cursor:grab}.selection-handle:before{content:"";position:absolute;left:10px;top:-14px;width:2px;height:17px;background:#316ac5}.selection-handle:after{content:"";position:absolute;left:4px;top:0;width:14px;height:14px;border-radius:50%;background:#316ac5;border:1px solid white}#busy{position:fixed;inset:0;z-index:900;cursor:wait;display:flex;align-items:center;justify-content:center;background:#ffffff0a}.busy-box{background:var(--face);border:1px solid #003c74;box-shadow:2px 2px 7px #0003;padding:12px 20px;display:flex;gap:12px;align-items:center}.busy-icon{font-size:20px}.sr-only{position:absolute;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}.drop-target .editor-frame{outline:3px solid #316ac5;outline-offset:-3px}.closed-message{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);background:var(--face);border:1px solid #003c74;box-shadow:2px 2px 6px #0004;padding:25px;text-align:center}.closed-message img{width:32px;height:32px}.closed-message p{margin:12px 0}
+@media(max-width:600px),(max-height:420px){.xp-window{left:0;top:0;transform:none;width:100%;height:100dvh;max-width:none;max-height:none;border-radius:0}.dialog-content{padding:10px}.xp-dialog{max-height:calc(100dvh - 8px)}.dialog-shade{padding:4px}.find-layout{gap:8px;grid-template-columns:minmax(0,1fr) 80px}.find-fields .field{align-items:flex-start;flex-direction:column;gap:3px}.find-fields input{width:100%}.find-options{flex-wrap:wrap;gap:8px;margin-top:8px}.find-options fieldset{padding:5px}.file-main{height:180px}.places{width:70px}.places button{font-size:9px}.file-bottom{grid-template-columns:minmax(0,1fr) 77px;gap:7px}.file-bottom .field{flex-wrap:wrap;gap:3px}.file-bottom .field label{min-width:60px}.file-bottom .field input,.file-bottom .field select{flex-basis:100%}.file-toolbar{gap:4px}.font-lists{gap:6px}.font-bottom{grid-template-columns:1fr 80px;gap:8px}.page-grid{grid-template-columns:1fr}.page-preview{display:none}.margins-grid{gap:6px}.menubar>button{padding-left:7px;padding-right:7px}}
+@media(pointer:coarse){.popup-menu button{height:29px}.xp-button{min-height:29px}.dialog-content input:not([type=checkbox]):not([type=radio]),.dialog-content select{min-height:25px}.scrollbar{--scroll:17px}.file-item{height:29px}.caption-button:before{content:"";position:absolute;inset:-4px}.selection-handle{width:28px}.selection-handle:before{left:13px}.selection-handle:after{left:7px}}
+@media print{body>*{display:none!important}}
+</style></head>
+<body>
+<main id="window" class="xp-window" aria-label="Notepad window">
+  <header id="titlebar" class="titlebar"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgdmlld0JveD0iMCAwIDMyIDMyIj48cGF0aCBkPSJNNyA0aDIwdjI1SDd6IiBmaWxsPSIjNjY2Yzc1Ii8+PHBhdGggZD0iTTUgM2gyMHYyNUg1eiIgZmlsbD0iI2Y3ZjlmZiIgc3Ryb2tlPSIjMjk0NjY4Ii8+PHBhdGggZD0iTTUgM2gyMHY1SDV6IiBmaWxsPSIjN2NhN2M5Ii8+PHBhdGggZD0iTTkgMTFoMTJNOSAxNGgxMk05IDE3aDEyTTkgMjBoMTJNOSAyM2g5IiBzdHJva2U9IiM4ZGE2YmUiLz48cGF0aCBkPSJNOCAxdjVtNC01djVtNC01djVtNC01djUiIHN0cm9rZT0iI2RiZTlmNyIgc3Ryb2tlLXdpZHRoPSIyIi8+PHBhdGggZD0iTTQgMjZoMjF2Mkg1eiIgZmlsbD0iI2JhZDBlMyIvPjwvc3ZnPgo=" class="app-icon" alt="" draggable="false"><span id="title">Untitled - Notepad</span><div class="window-controls"><button id="minimize" class="caption-button minimize" aria-label="Minimize" title="Minimize"><i></i></button><button id="maximize" class="caption-button maximize" aria-label="Maximize" title="Maximize"><i></i></button><button id="close-window" class="caption-button close" aria-label="Close" title="Close"><i></i></button></div></header>
+  <nav id="menubar" class="menubar" role="menubar" aria-label="Notepad menu"></nav>
+  <section id="editor-frame" class="editor-frame">
+    <div id="editor" class="editor" role="group" aria-label="Document editing area">
+      <canvas id="gpu-canvas" aria-hidden="true"></canvas><canvas id="fallback-canvas" aria-hidden="true" hidden></canvas>
+      <textarea id="text-input" class="text-input" aria-label="Document text" aria-multiline="true" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off" wrap="off"></textarea><span id="composition" hidden></span>
+    </div>
+    <div id="vscroll" class="scrollbar vertical" aria-label="Vertical scroll bar" role="scrollbar" aria-orientation="vertical" tabindex="-1"><button class="scroll-arrow first" aria-label="Scroll up"><i></i></button><div class="scroll-track"><div class="scroll-thumb"><b></b></div></div><button class="scroll-arrow last" aria-label="Scroll down"><i></i></button></div>
+    <div id="hscroll" class="scrollbar horizontal" aria-label="Horizontal scroll bar" role="scrollbar" aria-orientation="horizontal" tabindex="-1"><button class="scroll-arrow first" aria-label="Scroll left"><i></i></button><div class="scroll-track"><div class="scroll-thumb"><b></b></div></div><button class="scroll-arrow last" aria-label="Scroll right"><i></i></button></div><div class="scroll-corner" id="scroll-corner"></div>
+  </section>
+  <footer id="statusbar" class="statusbar" hidden><span></span><span id="status-position">Ln 1, Col 1</span><i></i></footer><div id="resize-grip" aria-label="Resize window"></div>
+</main>
+<button id="restore-window" class="restore-task" hidden><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgdmlld0JveD0iMCAwIDMyIDMyIj48cGF0aCBkPSJNNyA0aDIwdjI1SDd6IiBmaWxsPSIjNjY2Yzc1Ii8+PHBhdGggZD0iTTUgM2gyMHYyNUg1eiIgZmlsbD0iI2Y3ZjlmZiIgc3Ryb2tlPSIjMjk0NjY4Ii8+PHBhdGggZD0iTTUgM2gyMHY1SDV6IiBmaWxsPSIjN2NhN2M5Ii8+PHBhdGggZD0iTTkgMTFoMTJNOSAxNGgxMk05IDE3aDEyTTkgMjBoMTJNOSAyM2g5IiBzdHJva2U9IiM4ZGE2YmUiLz48cGF0aCBkPSJNOCAxdjVtNC01djVtNC01djVtNC01djUiIHN0cm9rZT0iI2RiZTlmNyIgc3Ryb2tlLXdpZHRoPSIyIi8+PHBhdGggZD0iTTQgMjZoMjF2Mkg1eiIgZmlsbD0iI2JhZDBlMyIvPjwvc3ZnPgo=" alt=""> <span>Untitled - Notepad</span></button>
+<div id="menu-layer"></div><div id="dialog-layer"></div><div id="busy" hidden><div class="busy-box"><span class="busy-icon">⌛</span><span id="busy-label">Opening file…</span></div></div><div id="live-region" class="sr-only" aria-live="polite"></div><input id="file-input" type="file" hidden><iframe id="print-frame" title="Print document" hidden></iframe>
+<script>
+globalThis.__NP_WORKER_SOURCE__="const NP_rope=(()=>{\n/* Persistent AVL piece rope. All positions are UTF-16 code-unit offsets.\n * Leaves reference immutable source buffers; edits copy only logarithmic paths.\n * Line metrics make line lookup and horizontal extent independent of file size. */\nconst CHUNK = 32768;\nconst H = n => n?.height || 0;\nconst N = n => n?.length || 0;\nconst B = n => n?.newlines || 0;\nfunction lowerBound(a, x) {\n  let lo = 0, hi = a.length;\n  while (lo < hi) { const m = (lo + hi) >>> 1; if (a[m] < x) lo = m + 1; else hi = m; }\n  return lo;\n}\nfunction source(text) {\n  const found = [];\n  for (let i = text.indexOf('\\n'); i !== -1; i = text.indexOf('\\n', i + 1)) found.push(i);\n  return {text, breaks: new Uint32Array(found)};\n}\nfunction leaf(src, start = 0, length = src.text.length) {\n  if (!length) return null;\n  const lo = lowerBound(src.breaks, start), hi = lowerBound(src.breaks, start + length);\n  const newlines = hi - lo;\n  const prefix = newlines ? src.breaks[lo] - start : length;\n  const suffix = newlines ? start + length - src.breaks[hi - 1] - 1 : length;\n  let maxLine = Math.max(prefix, suffix);\n  for (let i = lo + 1; i < hi; i++) maxLine = Math.max(maxLine, src.breaks[i] - src.breaks[i - 1] - 1);\n  return {source: src, start, length, newlines, prefix, suffix, maxLine, lo, hi, height: 1, simple: /^[\\x20-\\x7e\\n]*$/.test(src.text.slice(start,start+length))};\n}\nfunction branch(left, right) {\n  if (!left) return right;\n  if (!right) return left;\n  return {left, right, simple: left.simple && right.simple, height: 1 + Math.max(H(left), H(right)), length: N(left) + N(right),\n    newlines: B(left) + B(right), prefix: B(left) ? left.prefix : N(left) + right.prefix,\n    suffix: B(right) ? right.suffix : N(right) + left.suffix,\n    maxLine: Math.max(left.maxLine, right.maxLine, left.suffix + right.prefix)};\n}\nfunction balance(left, right) {\n  if (H(left) > H(right) + 1) {\n    if (H(left.left) >= H(left.right)) return branch(left.left, branch(left.right, right));\n    return branch(branch(left.left, left.right.left), branch(left.right.right, right));\n  }\n  if (H(right) > H(left) + 1) {\n    if (H(right.right) >= H(right.left)) return branch(branch(left, right.left), right.right);\n    return branch(branch(left, right.left.left), branch(right.left.right, right.right));\n  }\n  return branch(left, right);\n}\nfunction concat(left, right) {\n  if (!left) return right;\n  if (!right) return left;\n  if (H(left) > H(right) + 1) return balance(left.left, concat(left.right, right));\n  if (H(right) > H(left) + 1) return balance(concat(left, right.left), right.right);\n  return branch(left, right);\n}\nfunction fromText(text) {\n  if (typeof text !== 'string') throw new TypeError('Text must be a string');\n  const leaves = [];\n  for (let i = 0; i < text.length; i += CHUNK) leaves.push(leaf(source(text.slice(i, i + CHUNK))));\n  function build(a, b) { if (b <= a) return null; if (b - a === 1) return leaves[a]; const m = (a + b) >>> 1; return branch(build(a, m), build(m, b)); }\n  return build(0, leaves.length);\n}\nfunction split(root, position) {\n  if (!root) return [null, null];\n  if (position <= 0) return [null, root];\n  if (position >= N(root)) return [root, null];\n  if (root.source) return [leaf(root.source, root.start, position), leaf(root.source, root.start + position, N(root) - position)];\n  if (position < N(root.left)) { const [a, b] = split(root.left, position); return [a, concat(b, root.right)]; }\n  const [a, b] = split(root.right, position - N(root.left));\n  return [concat(root.left, a), b];\n}\nfunction replace(root, start, end, inserted) {\n  const length = N(root);\n  if (!Number.isInteger(start) || !Number.isInteger(end) || start < 0 || end < start || end > length) throw new RangeError('Invalid text range');\n  const [a, tail] = split(root, start); const [, b] = split(tail, end - start);\n  return concat(concat(a, typeof inserted === 'string' ? fromText(inserted) : inserted), b);\n}\nfunction* chunks(root, start = 0, end = N(root), base = 0) {\n  if (!root || start >= end || end <= base || start >= base + N(root)) return;\n  if (root.source) {\n    const a = Math.max(0, start - base), b = Math.min(N(root), end - base);\n    if (b > a) yield root.source.text.slice(root.start + a, root.start + b);\n  } else { yield* chunks(root.left, start, end, base); yield* chunks(root.right, start, end, base + N(root.left)); }\n}\nfunction slice(root, start = 0, end = N(root)) { return [...chunks(root, Math.max(0, start), Math.min(N(root), end))].join(''); }\nfunction subrope(root, start, end) { return split(split(root, end)[0], start)[1]; }\nfunction length(root) { return N(root); }\nfunction lineCount(root) { return B(root) + 1; }\nfunction lineStart(root, line) {\n  if (line <= 0) return 0;\n  if (line > B(root)) return N(root);\n  let node = root, offset = 0, target = line - 1;\n  while (node && !node.source) {\n    if (target < B(node.left)) node = node.left;\n    else { target -= B(node.left); offset += N(node.left); node = node.right; }\n  }\n  return offset + node.source.breaks[node.lo + target] - node.start + 1;\n}\nfunction positionAt(root, offset) {\n  offset = Math.max(0, Math.min(N(root), offset));\n  let node = root, rest = offset, line = 0;\n  while (node && !node.source) {\n    if (rest < N(node.left)) node = node.left;\n    else { rest -= N(node.left); line += B(node.left); node = node.right; }\n  }\n  if (node) line += lowerBound(node.source.breaks, node.start + rest) - node.lo;\n  return {line, column: offset - lineStart(root, line)};\n}\nfunction offsetAt(root, line, column = 0) {\n  line = Math.max(0, Math.min(lineCount(root) - 1, line));\n  const start = lineStart(root, line), end = line < B(root) ? lineStart(root, line + 1) - 1 : N(root);\n  return start + Math.max(0, Math.min(end - start, column));\n}\nfunction charAt(root, offset) { return slice(root, offset, offset + 1); }\nfunction normalize(text) { return text.replace(/\\r\\n?/g, '\\n'); }\nfunction escapeRegex(s) { return s.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\\\$&'); }\n/* Scan bounded windows with query overlap. Match indexes remain UTF-16 offsets,\n * including case-insensitive Unicode matches (unlike lowercasing a whole file). */\nfunction* findMatches(root, query, {from = 0, to = N(root), matchCase = false} = {}) {\n  if (!query) return;\n  if (query.length > 65536) throw new RangeError('Search text is limited to 65,536 code units');\n  const regex = new RegExp(escapeRegex(query), matchCase ? 'g' : 'gi');\n  let accepted = Math.max(0, from); to = Math.min(N(root), to);\n  for (let base = accepted; base < to; base += 65536) {\n    const coreEnd = Math.min(to, base + 65536);\n    const text = slice(root, base, Math.min(to, coreEnd + query.length - 1));\n    regex.lastIndex = Math.max(0, accepted - base);\n    let m;\n    while ((m = regex.exec(text))) {\n      const pos = base + m.index;\n      if (pos >= coreEnd) break;\n      if (pos + m[0].length <= to) { yield {start: pos, end: pos + m[0].length}; accepted = pos + m[0].length; }\n      if (!m[0].length) regex.lastIndex++;\n    }\n  }\n}\nfunction find(root, query, opts = {}) {\n  if (opts.direction === 'up') {\n    if (!query) return null;\n    if (query.length > 65536) throw new RangeError('Search text is limited to 65,536 code units');\n    const to = Math.min(N(root), opts.from ?? N(root));\n    const regex = new RegExp(escapeRegex(query), opts.matchCase ? 'g' : 'gi');\n    for (let end = to; end > 0; end -= 65536) {\n      const start = Math.max(0, end - 65536 - query.length + 1);\n      const text = slice(root, start, end); let found = null, match;\n      regex.lastIndex = 0;\n      while ((match = regex.exec(text))) {found={start:start+match.index,end:start+match.index+match[0].length};regex.lastIndex=match.index+1;}\n      if (found) return found;\n    }\n    return null;\n  }\n  return findMatches(root, query, opts).next().value || null;\n}\nfunction replaceAll(root, query, replacement, opts = {}) {\n  let output = null, cursor = 0, count = 0;\n  const inserted = fromText(normalize(replacement));\n  for (const m of findMatches(root, query, opts)) {\n    output = concat(output, subrope(root, cursor, m.start));\n    output = concat(output, inserted); cursor = m.end; count++;\n  }\n  if (!count) return {root, count: 0};\n  return {root: concat(output, subrope(root, cursor, N(root))), count};\n}\nfunction validate(root) {\n  if (!root) return {length: 0, newlines: 0, height: 0};\n  if (root.source) { if (root.length <= 0) throw new Error('Empty leaf'); return root; }\n  validate(root.left); validate(root.right);\n  const expected = branch(root.left, root.right);\n  for (const key of ['length','newlines','height','prefix','suffix','maxLine']) if (root[key] !== expected[key]) throw new Error(`Bad ${key}`);\n  if (Math.abs(H(root.left) - H(root.right)) > 1) throw new Error('Unbalanced rope');\n  return root;\n}\n\nfunction simpleRange(root,start=0,end=N(root),base=0) {\n  if(!root||end<=base||start>=base+N(root))return true;\n  if(root.simple)return true;\n  if(root.source)return /^[\\x20-\\x7e\\n]*$/.test(root.source.text.slice(root.start+Math.max(0,start-base),root.start+Math.min(root.length,end-base)));\n  return simpleRange(root.left,start,end,base)&&simpleRange(root.right,start,end,base+N(root.left));\n}\n\nreturn {concat,fromText,split,replace,chunks,slice,subrope,length,lineCount,lineStart,positionAt,offsetAt,charAt,normalize,escapeRegex,findMatches,find,replaceAll,validate,simpleRange};\n})();\nconst NP_encoding=(()=>{\nconst Rope=NP_rope;\nconst ENCODINGS = [['ansi','ANSI'],['utf-16le','Unicode'],['utf-16be','Unicode big endian'],['utf-8','UTF-8']];\nconst CODEPAGES = ['windows-1252','windows-1250','windows-1251','windows-1253','windows-1254','windows-1255','windows-1256','windows-1257','windows-1258'];\n// WHATWG Windows-1252 index. A few small-ICU Node builds alias the\n// decoder to Latin-1; keep the same result in those runtimes and browsers.\nconst CP1252 = [0x20ac,0x81,0x201a,0x192,0x201e,0x2026,0x2020,0x2021,\n  0x2c6,0x2030,0x160,0x2039,0x152,0x8d,0x17d,0x8f,\n  0x90,0x2018,0x2019,0x201c,0x201d,0x2022,0x2013,0x2014,\n  0x2dc,0x2122,0x161,0x203a,0x153,0x9d,0x17e,0x178].map(c=>String.fromCharCode(c));\nconst native1252 = new TextDecoder('windows-1252').decode(new Uint8Array([128])) === '€';\nfunction decode(bytes, label) {\n  const text = new TextDecoder(label, {ignoreBOM:true}).decode(bytes);\n  return label === 'windows-1252' && !native1252\n    ? text.replace(/[\\x80-\\x9f]/g, c=>CP1252[c.charCodeAt(0)-128]) : text;\n}\nconst codeMaps = new Map();\nfunction encoderMap(codepage) {\n  if (!CODEPAGES.includes(codepage)) throw new Error('Unsupported ANSI code page');\n  if (codeMaps.has(codepage)) return codeMaps.get(codepage);\n  const map = new Map();\n  for (let i = 0; i < 256; i++) { const char = decode(new Uint8Array([i]), codepage); if (char !== '\\ufffd') map.set(char, i); }\n  codeMaps.set(codepage, map); return map;\n}\nfunction detectEncoding(bytes, requested = 'auto', codepage = 'windows-1252') {\n  if (requested !== 'auto' && !ENCODINGS.some(([v]) => v === requested)) throw new Error('Unsupported encoding');\n  let encoding = requested, bom = 0;\n  if (bytes[0] === 0xff && bytes[1] === 0xfe) { encoding = requested === 'auto' ? 'utf-16le' : requested; bom = encoding === 'utf-16le' ? 2 : 0; }\n  else if (bytes[0] === 0xfe && bytes[1] === 0xff) { encoding = requested === 'auto' ? 'utf-16be' : requested; bom = encoding === 'utf-16be' ? 2 : 0; }\n  else if (bytes[0] === 0xef && bytes[1] === 0xbb && bytes[2] === 0xbf) { encoding = requested === 'auto' ? 'utf-8' : requested; bom = encoding === 'utf-8' ? 3 : 0; }\n  if (encoding === 'auto') {\n    // Conservative BOM-less UTF-16 detection, without XP's destructive heuristic.\n    let even = 0, odd = 0; const n = Math.min(bytes.length, 8192) & ~1;\n    for (let i = 0; i < n; i += 2) { if (!bytes[i]) even++; if (!bytes[i+1]) odd++; }\n    if (n >= 4 && odd > n * .2 && even < n * .02) encoding = 'utf-16le';\n    else if (n >= 4 && even > n * .2 && odd < n * .02) encoding = 'utf-16be';\n    else encoding = 'ansi';\n  }\n  return {encoding, bom, decoder: encoding === 'ansi' ? codepage : encoding};\n}\nfunction decodeBytes(bytes, requested = 'auto', codepage = 'windows-1252') {\n  let info = detectEncoding(bytes, requested, codepage);\n  if (requested === 'auto' && info.encoding === 'ansi') {\n    try {\n      const utf = new TextDecoder('utf-8', {fatal: true}).decode(bytes);\n      if (/[^\\x00-\\x7f]/.test(utf)) info = {encoding:'utf-8', bom:0, decoder:'utf-8'};\n    } catch { /* Legacy single-byte text. */ }\n  }\n  const text = decode(bytes.subarray(info.bom), info.decoder);\n  const first = text.match(/\\r\\n|\\r|\\n/), eol = first ? first[0] === '\\r\\n' ? 'CRLF' : first[0] === '\\r' ? 'CR' : 'LF' : 'CRLF';\n  return {text:Rope.normalize(text), encoding:info.encoding, eol, bom:!!info.bom};\n}\nfunction encodeText(text, encoding = 'utf-8', {codepage='windows-1252', allowLossy=false} = {}) {\n  if (encoding === 'utf-8') return new TextEncoder().encode(text);\n  if (encoding === 'utf-16le' || encoding === 'utf-16be') {\n    const bytes = new Uint8Array(text.length * 2), be = encoding === 'utf-16be';\n    for (let i=0; i<text.length; i++) { const c=text.charCodeAt(i); bytes[i*2+(be?1:0)]=c&255; bytes[i*2+(be?0:1)]=c>>>8; }\n    return bytes;\n  }\n  if (encoding !== 'ansi') throw new Error('Unsupported encoding');\n  const map = encoderMap(codepage), result=[];\n  for (const char of text) { const value=map.get(char); if (value === undefined && !allowLossy) throw new Error(`This file contains characters that cannot be saved in ${codepage}. Choose Unicode or UTF-8 to preserve your text.`); result.push(value ?? 63); }\n  return new Uint8Array(result);\n}\nfunction* encodeChunks(root, encoding='ansi', {eol='CRLF', bom=true, codepage='windows-1252', allowLossy=false} = {}) {\n  if (bom) {\n    if (encoding==='utf-8') yield new Uint8Array([239,187,191]);\n    else if (encoding==='utf-16le') yield new Uint8Array([255,254]);\n    else if (encoding==='utf-16be') yield new Uint8Array([254,255]);\n  }\n  let pending='';\n  for (let text of Rope.chunks(root)) {\n    text=pending+text; pending='';\n    const last=text.charCodeAt(text.length-1);\n    if (last>=0xd800 && last<=0xdbff) { pending=text.slice(-1); text=text.slice(0,-1); }\n    if (eol==='CRLF') text=text.replace(/\\n/g,'\\r\\n'); else if (eol==='CR') text=text.replace(/\\n/g,'\\r');\n    if (text) yield encodeText(text,encoding,{codepage,allowLossy});\n  }\n  if (pending) yield encodeText(pending,encoding,{codepage,allowLossy});\n}\nfunction encodedBlob(root, encoding, options) { return new Blob([...encodeChunks(root,encoding,options)],{type:'text/plain'}); }\n\nreturn {ENCODINGS,CODEPAGES,detectEncoding,decodeBytes,encodeText,encodeChunks,encodedBlob};\n})();\nconst NP_layout=(()=>{\nconst Rope=NP_rope;\nfunction wrapLine(text,start,width,measure,mono,advance) {\n  const result=[];if(!text.length)return result;\n  if(mono && /^[\\x20-\\x7e]*$/.test(text)) {\n    const cols=Math.max(1,Math.floor(width/advance));let p=0;\n    while(p+cols<text.length){let end=p+cols;const blank=text.lastIndexOf(' ',end-1);if(blank>=p)end=blank+1;result.push(start+end);p=end;}\n    return result;\n  }\n  let rowStart=0,i=0,x=0,lastSpace=-1;\n  while(i<text.length){const cp=String.fromCodePoint(text.codePointAt(i));const w=cp==='\\t'?(Math.floor(x/(advance*8))+1)*advance*8-x:measure(cp);\n    if(x+w>width && i>rowStart){const next=lastSpace>rowStart?lastSpace:i;result.push(start+next);rowStart=i=next;x=0;lastSpace=-1;continue;}\n    x+=w;i+=cp.length;if(/\\s/u.test(cp))lastSpace=i;\n  }\n  return result;\n}\nfunction buildWrap(root,width,font,mono,advance) {\n  const ctx=new OffscreenCanvas(1,1).getContext('2d');ctx.font=font;\n  const rows=[0];let offset=0,pending='';\n  for(const part of Rope.chunks(root)){\n    pending+=part;let cursor=0,at;\n    while((at=pending.indexOf('\\n',cursor))!==-1){const text=pending.slice(cursor,at);for(const p of wrapLine(text,offset,width,s=>ctx.measureText(s).width,mono,advance))rows.push(p);offset+=text.length+1;rows.push(offset);cursor=at+1;}\n    pending=pending.slice(cursor);\n  }\n  // Avoid argument-count limits for extremely long wrapped paragraphs.\n  for(const p of wrapLine(pending,offset,width,s=>ctx.measureText(s).width,mono,advance))rows.push(p);\n  return new Float64Array(rows);\n}\n/* Bounded lazy width checkpoints. ASCII fixed-pitch blocks take constant time.\n * Tabs retain eight-character stops; other runs use the browser's font metrics. */\nclass RowMetrics {\n  constructor(model,start,end,renderer){this.model=model;this.root=model.root;this.start=start;this.end=end;this.r=renderer;this.points=[0];this.blocks=new Map();this.simple=renderer.monospace&&Rope.simpleRange(this.root,start,end);}\n  block(index) {\n    if(this.blocks.has(index))return this.blocks.get(index);\n    while(this.points.length<=index)this.block(this.points.length-1);\n    const base=this.start+index*512,end=Math.min(this.end,base+512),text=Rope.slice(this.root,base,end),startX=this.points[index];\n    let x=startX;\n    const simple=this.r.monospace&&/^[\\x20-\\x7e]*$/.test(text);\n    let positions=null;\n    if(simple)x+=text.length*this.r.advance;\n    else {positions=new Float64Array(text.length+1);positions[0]=x;let i=0;\n      for(const cp of text){const w=cp==='\\t'?(Math.floor((x+.001)/(this.r.advance*8))+1)*this.r.advance*8-x:this.r.measure.measureText(cp).width;x+=w;if(cp.length===2)positions[i+1]=positions[i];i+=cp.length;positions[i]=x;}\n    }\n    this.points[index+1]=x;const block={text,base,startX,endX:x,simple,positions};this.blocks.set(index,block);return block;\n  }\n  xAt(offset) {if(this.simple)return Math.max(0,Math.min(this.end-this.start,offset-this.start))*this.r.advance;const rel=Math.max(0,Math.min(this.end-this.start,offset-this.start)),index=Math.floor(rel/512);const b=this.block(index);return b.simple?b.startX+(rel-index*512)*this.r.advance:b.positions[rel-index*512];}\n  offsetAt(x) {\n    if(this.simple)return this.start+Math.max(0,Math.min(this.end-this.start,Math.round(x/this.r.advance)));\n    if(x<=0)return this.start;\n    const count=Math.ceil((this.end-this.start)/512);\n    let i=0;\n    // Width checkpoints are built only as far as a requested viewport/caret.\n    while(i<count){const b=this.block(i);if(b.endX>=x){if(b.simple)return Math.min(this.end,b.base+Math.max(0,Math.min(b.text.length,Math.round((x-b.startX)/this.r.advance))));let lo=0,hi=b.text.length;while(lo<hi){const m=(lo+hi)>>>1;if(b.positions[m]<x)lo=m+1;else hi=m;}let p=lo;if(p&&x-b.positions[p-1]<b.positions[p]-x)p--;if(p>0&&/[\\uDC00-\\uDFFF]/.test(b.text[p]))p--;return b.base+p;}i++;}\n    return this.end;\n  }\n  runs(left,right) {\n    const first=this.offsetAt(Math.max(0,left-20)),last=this.offsetAt(right+20),runs=[];\n    let start=first;\n    // Do not begin in the middle of a surrogate pair.\n    if(start>this.start&&/[\\uDC00-\\uDFFF]/.test(Rope.slice(this.root,start,start+1)))start--;\n    const text=Rope.slice(this.root,start,Math.min(this.end,last+2));let x=this.xAt(start),current='',runX=x;\n    const flush=()=>{if(current){runs.push({text:current,x:runX,width:x-runX});current='';}runX=x;};\n    for(const cp of text){if(cp==='\\t'){flush();x=(Math.floor((x+.001)/(this.r.advance*8))+1)*this.r.advance*8;runX=x;continue;}const w=this.r.monospace&&/^[\\x20-\\x7e]$/.test(cp)?this.r.advance:this.r.measure.measureText(cp).width;if(x-runX>480){flush();}current+=cp;x+=w;}\n    flush();return runs;\n  }\n}\n\nreturn {wrapLine,buildWrap,RowMetrics};\n})();\nconst NP_worker=(()=>{\nconst Rope=NP_rope;\nconst {buildWrap}=NP_layout;\nconst {decodeBytes, encodedBlob}=NP_encoding;\nlet root=null, revision=-1;\nself.onmessage = async ({data:m}) => {\n  try {\n    if (m.type==='sync') {root=m.root; revision=m.revision; return;}\n    if (m.type==='edit') { if (m.before!==revision) throw new Error('Worker revision mismatch'); root=Rope.replace(root,m.start,m.end,m.text); revision=m.revision; return; }\n    if (m.type==='batch') { for(let i=m.edits.length-1;i>=0;i--){const e=m.edits[i];root=Rope.replace(root,e.start,e.end,e.text);} revision=m.revision;return;}\n    let result;\n    if (m.type==='open') {\n      const decoded=decodeBytes(new Uint8Array(await m.file.arrayBuffer()),m.encoding,m.codepage);\n      result={root:Rope.fromText(decoded.text),encoding:decoded.encoding,eol:decoded.eol,bom:decoded.bom};\n    } else if (m.type==='find') {\n      if (m.revision!==revision) throw new Error('Document changed during search. Try again.');\n      result={match:Rope.find(root,m.query,m.options),revision};\n    } else if (m.type==='replaceAll') {\n      if (m.revision!==revision) throw new Error('Document changed during replacement. Try again.');\n      result={...Rope.replaceAll(root,m.query,m.replacement,m.options),revision};\n    } else if (m.type==='wrap') {\n      if(m.revision!==revision) throw new Error('Stale wrap request');\n      result={rows:buildWrap(root,m.width,m.font,m.monospace,m.advance),revision,width:m.width};\n    } else if (m.type==='encode') result={blob:encodedBlob(m.root,m.encoding,m.options)};\n    else throw new Error('Unknown worker command');\n    self.postMessage({id:m.id,result});\n  } catch(error) {self.postMessage({id:m.id,error:error.message});}\n};\n\n\n})();\n";
+const NP_rope=(()=>{
+/* Persistent AVL piece rope. All positions are UTF-16 code-unit offsets.
+ * Leaves reference immutable source buffers; edits copy only logarithmic paths.
+ * Line metrics make line lookup and horizontal extent independent of file size. */
+const CHUNK = 32768;
+const H = n => n?.height || 0;
+const N = n => n?.length || 0;
+const B = n => n?.newlines || 0;
+function lowerBound(a, x) {
+  let lo = 0, hi = a.length;
+  while (lo < hi) { const m = (lo + hi) >>> 1; if (a[m] < x) lo = m + 1; else hi = m; }
+  return lo;
+}
+function source(text) {
+  const found = [];
+  for (let i = text.indexOf('\n'); i !== -1; i = text.indexOf('\n', i + 1)) found.push(i);
+  return {text, breaks: new Uint32Array(found)};
+}
+function leaf(src, start = 0, length = src.text.length) {
+  if (!length) return null;
+  const lo = lowerBound(src.breaks, start), hi = lowerBound(src.breaks, start + length);
+  const newlines = hi - lo;
+  const prefix = newlines ? src.breaks[lo] - start : length;
+  const suffix = newlines ? start + length - src.breaks[hi - 1] - 1 : length;
+  let maxLine = Math.max(prefix, suffix);
+  for (let i = lo + 1; i < hi; i++) maxLine = Math.max(maxLine, src.breaks[i] - src.breaks[i - 1] - 1);
+  return {source: src, start, length, newlines, prefix, suffix, maxLine, lo, hi, height: 1, simple: /^[\x20-\x7e\n]*$/.test(src.text.slice(start,start+length))};
+}
+function branch(left, right) {
+  if (!left) return right;
+  if (!right) return left;
+  return {left, right, simple: left.simple && right.simple, height: 1 + Math.max(H(left), H(right)), length: N(left) + N(right),
+    newlines: B(left) + B(right), prefix: B(left) ? left.prefix : N(left) + right.prefix,
+    suffix: B(right) ? right.suffix : N(right) + left.suffix,
+    maxLine: Math.max(left.maxLine, right.maxLine, left.suffix + right.prefix)};
+}
+function balance(left, right) {
+  if (H(left) > H(right) + 1) {
+    if (H(left.left) >= H(left.right)) return branch(left.left, branch(left.right, right));
+    return branch(branch(left.left, left.right.left), branch(left.right.right, right));
+  }
+  if (H(right) > H(left) + 1) {
+    if (H(right.right) >= H(right.left)) return branch(branch(left, right.left), right.right);
+    return branch(branch(left, right.left.left), branch(right.left.right, right.right));
+  }
+  return branch(left, right);
+}
+function concat(left, right) {
+  if (!left) return right;
+  if (!right) return left;
+  if (H(left) > H(right) + 1) return balance(left.left, concat(left.right, right));
+  if (H(right) > H(left) + 1) return balance(concat(left, right.left), right.right);
+  return branch(left, right);
+}
+function fromText(text) {
+  if (typeof text !== 'string') throw new TypeError('Text must be a string');
+  const leaves = [];
+  for (let i = 0; i < text.length; i += CHUNK) leaves.push(leaf(source(text.slice(i, i + CHUNK))));
+  function build(a, b) { if (b <= a) return null; if (b - a === 1) return leaves[a]; const m = (a + b) >>> 1; return branch(build(a, m), build(m, b)); }
+  return build(0, leaves.length);
+}
+function split(root, position) {
+  if (!root) return [null, null];
+  if (position <= 0) return [null, root];
+  if (position >= N(root)) return [root, null];
+  if (root.source) return [leaf(root.source, root.start, position), leaf(root.source, root.start + position, N(root) - position)];
+  if (position < N(root.left)) { const [a, b] = split(root.left, position); return [a, concat(b, root.right)]; }
+  const [a, b] = split(root.right, position - N(root.left));
+  return [concat(root.left, a), b];
+}
+function replace(root, start, end, inserted) {
+  const length = N(root);
+  if (!Number.isInteger(start) || !Number.isInteger(end) || start < 0 || end < start || end > length) throw new RangeError('Invalid text range');
+  const [a, tail] = split(root, start); const [, b] = split(tail, end - start);
+  return concat(concat(a, typeof inserted === 'string' ? fromText(inserted) : inserted), b);
+}
+function* chunks(root, start = 0, end = N(root), base = 0) {
+  if (!root || start >= end || end <= base || start >= base + N(root)) return;
+  if (root.source) {
+    const a = Math.max(0, start - base), b = Math.min(N(root), end - base);
+    if (b > a) yield root.source.text.slice(root.start + a, root.start + b);
+  } else { yield* chunks(root.left, start, end, base); yield* chunks(root.right, start, end, base + N(root.left)); }
+}
+function slice(root, start = 0, end = N(root)) { return [...chunks(root, Math.max(0, start), Math.min(N(root), end))].join(''); }
+function subrope(root, start, end) { return split(split(root, end)[0], start)[1]; }
+function length(root) { return N(root); }
+function lineCount(root) { return B(root) + 1; }
+function lineStart(root, line) {
+  if (line <= 0) return 0;
+  if (line > B(root)) return N(root);
+  let node = root, offset = 0, target = line - 1;
+  while (node && !node.source) {
+    if (target < B(node.left)) node = node.left;
+    else { target -= B(node.left); offset += N(node.left); node = node.right; }
+  }
+  return offset + node.source.breaks[node.lo + target] - node.start + 1;
+}
+function positionAt(root, offset) {
+  offset = Math.max(0, Math.min(N(root), offset));
+  let node = root, rest = offset, line = 0;
+  while (node && !node.source) {
+    if (rest < N(node.left)) node = node.left;
+    else { rest -= N(node.left); line += B(node.left); node = node.right; }
+  }
+  if (node) line += lowerBound(node.source.breaks, node.start + rest) - node.lo;
+  return {line, column: offset - lineStart(root, line)};
+}
+function offsetAt(root, line, column = 0) {
+  line = Math.max(0, Math.min(lineCount(root) - 1, line));
+  const start = lineStart(root, line), end = line < B(root) ? lineStart(root, line + 1) - 1 : N(root);
+  return start + Math.max(0, Math.min(end - start, column));
+}
+function charAt(root, offset) { return slice(root, offset, offset + 1); }
+function normalize(text) { return text.replace(/\r\n?/g, '\n'); }
+function escapeRegex(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+/* Scan bounded windows with query overlap. Match indexes remain UTF-16 offsets,
+ * including case-insensitive Unicode matches (unlike lowercasing a whole file). */
+function* findMatches(root, query, {from = 0, to = N(root), matchCase = false} = {}) {
+  if (!query) return;
+  if (query.length > 65536) throw new RangeError('Search text is limited to 65,536 code units');
+  const regex = new RegExp(escapeRegex(query), matchCase ? 'g' : 'gi');
+  let accepted = Math.max(0, from); to = Math.min(N(root), to);
+  for (let base = accepted; base < to; base += 65536) {
+    const coreEnd = Math.min(to, base + 65536);
+    const text = slice(root, base, Math.min(to, coreEnd + query.length - 1));
+    regex.lastIndex = Math.max(0, accepted - base);
+    let m;
+    while ((m = regex.exec(text))) {
+      const pos = base + m.index;
+      if (pos >= coreEnd) break;
+      if (pos + m[0].length <= to) { yield {start: pos, end: pos + m[0].length}; accepted = pos + m[0].length; }
+      if (!m[0].length) regex.lastIndex++;
+    }
+  }
+}
+function find(root, query, opts = {}) {
+  if (opts.direction === 'up') {
+    if (!query) return null;
+    if (query.length > 65536) throw new RangeError('Search text is limited to 65,536 code units');
+    const to = Math.min(N(root), opts.from ?? N(root));
+    const regex = new RegExp(escapeRegex(query), opts.matchCase ? 'g' : 'gi');
+    for (let end = to; end > 0; end -= 65536) {
+      const start = Math.max(0, end - 65536 - query.length + 1);
+      const text = slice(root, start, end); let found = null, match;
+      regex.lastIndex = 0;
+      while ((match = regex.exec(text))) {found={start:start+match.index,end:start+match.index+match[0].length};regex.lastIndex=match.index+1;}
+      if (found) return found;
+    }
+    return null;
+  }
+  return findMatches(root, query, opts).next().value || null;
+}
+function replaceAll(root, query, replacement, opts = {}) {
+  let output = null, cursor = 0, count = 0;
+  const inserted = fromText(normalize(replacement));
+  for (const m of findMatches(root, query, opts)) {
+    output = concat(output, subrope(root, cursor, m.start));
+    output = concat(output, inserted); cursor = m.end; count++;
+  }
+  if (!count) return {root, count: 0};
+  return {root: concat(output, subrope(root, cursor, N(root))), count};
+}
+function validate(root) {
+  if (!root) return {length: 0, newlines: 0, height: 0};
+  if (root.source) { if (root.length <= 0) throw new Error('Empty leaf'); return root; }
+  validate(root.left); validate(root.right);
+  const expected = branch(root.left, root.right);
+  for (const key of ['length','newlines','height','prefix','suffix','maxLine']) if (root[key] !== expected[key]) throw new Error(`Bad ${key}`);
+  if (Math.abs(H(root.left) - H(root.right)) > 1) throw new Error('Unbalanced rope');
+  return root;
+}
+
+function simpleRange(root,start=0,end=N(root),base=0) {
+  if(!root||end<=base||start>=base+N(root))return true;
+  if(root.simple)return true;
+  if(root.source)return /^[\x20-\x7e\n]*$/.test(root.source.text.slice(root.start+Math.max(0,start-base),root.start+Math.min(root.length,end-base)));
+  return simpleRange(root.left,start,end,base)&&simpleRange(root.right,start,end,base+N(root.left));
+}
+
+return {concat,fromText,split,replace,chunks,slice,subrope,length,lineCount,lineStart,positionAt,offsetAt,charAt,normalize,escapeRegex,findMatches,find,replaceAll,validate,simpleRange};
+})();
+const NP_model=(()=>{
+const Rope=NP_rope;
+class TextModel {
+  constructor(text = '') {
+    this.root = Rope.fromText(Rope.normalize(text)); this.savedRoot = this.root;
+    this.anchor = 0; this.head = 0; this.revision = 0; this.undoStack = []; this.redoStack = [];
+    this.listeners = new Set(); this.group = null; this.historyLimit = 256;
+  }
+  get length() { return Rope.length(this.root); }
+  get lineCount() { return Rope.lineCount(this.root); }
+  get dirty() { return this.root !== this.savedRoot; }
+  get start() { return Math.min(this.anchor, this.head); }
+  get end() { return Math.max(this.anchor, this.head); }
+  get selectedText() { return this.slice(this.start, this.end); }
+  slice(start = 0, end = this.length) { return Rope.slice(this.root, start, end); }
+  positionAt(offset = this.head) { return Rope.positionAt(this.root, offset); }
+  offsetAt(line, column = 0) { return Rope.offsetAt(this.root, line, column); }
+  lineStart(line) { return Rope.lineStart(this.root, line); }
+  lineEnd(line) { return line < this.lineCount - 1 ? this.lineStart(line + 1) - 1 : this.length; }
+  onChange(fn) { this.listeners.add(fn); return () => this.listeners.delete(fn); }
+  emit(event) { for (const fn of this.listeners) fn(event); }
+  select(anchor, head = anchor) {
+    if (!Number.isFinite(anchor) || !Number.isFinite(head)) throw new TypeError('Selection offsets must be finite');
+    this.anchor = Math.max(0, Math.min(this.length, Math.trunc(anchor)));
+    this.head = Math.max(0, Math.min(this.length, Math.trunc(head)));
+    this.group = null; this.emit({type: 'selection'});
+  }
+  snapshot() { return {root: this.root, anchor: this.anchor, head: this.head}; }
+  remember(kind = 'edit', start = -1) {
+    const now = Date.now();
+    const grouped = kind === 'typing' && this.group?.kind === kind && now - this.group.time < 800 && this.group.end === start;
+    if (!grouped) { this.undoStack.push(this.snapshot()); if (this.undoStack.length > this.historyLimit) this.undoStack.shift(); }
+    this.redoStack.length = 0; this.group = {kind, time: now, end: start};
+  }
+  edit(start, end, text, kind = 'edit') {
+    text = Rope.normalize(text);
+    if (start === end && !text.length) return;
+    const next = Rope.replace(this.root, start, end, text);
+    this.remember(kind, start); this.root = next; this.anchor = this.head = start + text.length;
+    if (this.group) this.group.end = this.head;
+    this.revision++; this.emit({type: 'edit', start, end, text});
+  }
+  insert(text, kind = 'edit') { this.edit(this.start, this.end, text, kind); }
+  applyEdits(edits, expectedRevision = this.revision) {
+    if (expectedRevision !== this.revision) throw new Error(`Revision conflict: expected ${expectedRevision}, current ${this.revision}`);
+    const sorted = edits.map(e => ({...e, text: Rope.normalize(e.text)})).sort((a,b) => a.start - b.start || a.end - b.end);
+    let priorEnd = -1;
+    for (const e of sorted) {
+      if (!Number.isInteger(e.start) || !Number.isInteger(e.end) || e.start < 0 || e.end < e.start || e.end > this.length || e.start < priorEnd) throw new RangeError('Edits must be valid, non-overlapping ranges in the original document');
+      priorEnd = e.end;
+    }
+    if (!sorted.length) return;
+    let next = this.root;
+    for (let i = sorted.length - 1; i >= 0; i--) { const e = sorted[i]; next = Rope.replace(next, e.start, e.end, e.text); }
+    this.remember(); this.root = next; this.head = this.anchor = Math.min(this.head, this.length); this.revision++;
+    this.emit({type: 'batch', edits: sorted});
+  }
+  replaceRoot(root, kind = 'replaceAll') {
+    if (root === this.root) return;
+    this.remember(kind); this.root = root; this.anchor = this.head = Math.min(this.head, this.length);
+    this.revision++; this.emit({type: 'reset'});
+  }
+  load(root, markSaved = true) {
+    this.root = typeof root === 'string' ? Rope.fromText(Rope.normalize(root)) : root;
+    this.savedRoot = markSaved ? this.root : Symbol('unsaved');
+    this.anchor = this.head = 0; this.undoStack = []; this.redoStack = []; this.group = null;
+    this.revision++; this.emit({type: 'reset'});
+  }
+  markSaved(root = this.root) { this.savedRoot = root; this.emit({type: 'saved'}); }
+  undo() {
+    const state = this.undoStack.pop(); if (!state) return false;
+    this.redoStack.push(this.snapshot()); Object.assign(this, state); this.group = null;
+    this.revision++; this.emit({type: 'reset'}); return true;
+  }
+  redo() {
+    const state = this.redoStack.pop(); if (!state) return false;
+    this.undoStack.push(this.snapshot()); Object.assign(this, state); this.group = null;
+    this.revision++; this.emit({type: 'reset'}); return true;
+  }
+  find(query, options = {}) { return Rope.find(this.root, Rope.normalize(query), {from: this.end, ...options}); }
+  replaceAll(query, replacement, options = {}) {
+    const result = Rope.replaceAll(this.root, Rope.normalize(query), replacement, options);
+    if (result.count) this.replaceRoot(result.root); return result.count;
+  }
+}
+
+return {TextModel};
+})();
+const NP_encoding=(()=>{
+const Rope=NP_rope;
+const ENCODINGS = [['ansi','ANSI'],['utf-16le','Unicode'],['utf-16be','Unicode big endian'],['utf-8','UTF-8']];
+const CODEPAGES = ['windows-1252','windows-1250','windows-1251','windows-1253','windows-1254','windows-1255','windows-1256','windows-1257','windows-1258'];
+// WHATWG Windows-1252 index. A few small-ICU Node builds alias the
+// decoder to Latin-1; keep the same result in those runtimes and browsers.
+const CP1252 = [0x20ac,0x81,0x201a,0x192,0x201e,0x2026,0x2020,0x2021,
+  0x2c6,0x2030,0x160,0x2039,0x152,0x8d,0x17d,0x8f,
+  0x90,0x2018,0x2019,0x201c,0x201d,0x2022,0x2013,0x2014,
+  0x2dc,0x2122,0x161,0x203a,0x153,0x9d,0x17e,0x178].map(c=>String.fromCharCode(c));
+const native1252 = new TextDecoder('windows-1252').decode(new Uint8Array([128])) === '€';
+function decode(bytes, label) {
+  const text = new TextDecoder(label, {ignoreBOM:true}).decode(bytes);
+  return label === 'windows-1252' && !native1252
+    ? text.replace(/[\x80-\x9f]/g, c=>CP1252[c.charCodeAt(0)-128]) : text;
+}
+const codeMaps = new Map();
+function encoderMap(codepage) {
+  if (!CODEPAGES.includes(codepage)) throw new Error('Unsupported ANSI code page');
+  if (codeMaps.has(codepage)) return codeMaps.get(codepage);
+  const map = new Map();
+  for (let i = 0; i < 256; i++) { const char = decode(new Uint8Array([i]), codepage); if (char !== '\ufffd') map.set(char, i); }
+  codeMaps.set(codepage, map); return map;
+}
+function detectEncoding(bytes, requested = 'auto', codepage = 'windows-1252') {
+  if (requested !== 'auto' && !ENCODINGS.some(([v]) => v === requested)) throw new Error('Unsupported encoding');
+  let encoding = requested, bom = 0;
+  if (bytes[0] === 0xff && bytes[1] === 0xfe) { encoding = requested === 'auto' ? 'utf-16le' : requested; bom = encoding === 'utf-16le' ? 2 : 0; }
+  else if (bytes[0] === 0xfe && bytes[1] === 0xff) { encoding = requested === 'auto' ? 'utf-16be' : requested; bom = encoding === 'utf-16be' ? 2 : 0; }
+  else if (bytes[0] === 0xef && bytes[1] === 0xbb && bytes[2] === 0xbf) { encoding = requested === 'auto' ? 'utf-8' : requested; bom = encoding === 'utf-8' ? 3 : 0; }
+  if (encoding === 'auto') {
+    // Conservative BOM-less UTF-16 detection, without XP's destructive heuristic.
+    let even = 0, odd = 0; const n = Math.min(bytes.length, 8192) & ~1;
+    for (let i = 0; i < n; i += 2) { if (!bytes[i]) even++; if (!bytes[i+1]) odd++; }
+    if (n >= 4 && odd > n * .2 && even < n * .02) encoding = 'utf-16le';
+    else if (n >= 4 && even > n * .2 && odd < n * .02) encoding = 'utf-16be';
+    else encoding = 'ansi';
+  }
+  return {encoding, bom, decoder: encoding === 'ansi' ? codepage : encoding};
+}
+function decodeBytes(bytes, requested = 'auto', codepage = 'windows-1252') {
+  let info = detectEncoding(bytes, requested, codepage);
+  if (requested === 'auto' && info.encoding === 'ansi') {
+    try {
+      const utf = new TextDecoder('utf-8', {fatal: true}).decode(bytes);
+      if (/[^\x00-\x7f]/.test(utf)) info = {encoding:'utf-8', bom:0, decoder:'utf-8'};
+    } catch { /* Legacy single-byte text. */ }
+  }
+  const text = decode(bytes.subarray(info.bom), info.decoder);
+  const first = text.match(/\r\n|\r|\n/), eol = first ? first[0] === '\r\n' ? 'CRLF' : first[0] === '\r' ? 'CR' : 'LF' : 'CRLF';
+  return {text:Rope.normalize(text), encoding:info.encoding, eol, bom:!!info.bom};
+}
+function encodeText(text, encoding = 'utf-8', {codepage='windows-1252', allowLossy=false} = {}) {
+  if (encoding === 'utf-8') return new TextEncoder().encode(text);
+  if (encoding === 'utf-16le' || encoding === 'utf-16be') {
+    const bytes = new Uint8Array(text.length * 2), be = encoding === 'utf-16be';
+    for (let i=0; i<text.length; i++) { const c=text.charCodeAt(i); bytes[i*2+(be?1:0)]=c&255; bytes[i*2+(be?0:1)]=c>>>8; }
+    return bytes;
+  }
+  if (encoding !== 'ansi') throw new Error('Unsupported encoding');
+  const map = encoderMap(codepage), result=[];
+  for (const char of text) { const value=map.get(char); if (value === undefined && !allowLossy) throw new Error(`This file contains characters that cannot be saved in ${codepage}. Choose Unicode or UTF-8 to preserve your text.`); result.push(value ?? 63); }
+  return new Uint8Array(result);
+}
+function* encodeChunks(root, encoding='ansi', {eol='CRLF', bom=true, codepage='windows-1252', allowLossy=false} = {}) {
+  if (bom) {
+    if (encoding==='utf-8') yield new Uint8Array([239,187,191]);
+    else if (encoding==='utf-16le') yield new Uint8Array([255,254]);
+    else if (encoding==='utf-16be') yield new Uint8Array([254,255]);
+  }
+  let pending='';
+  for (let text of Rope.chunks(root)) {
+    text=pending+text; pending='';
+    const last=text.charCodeAt(text.length-1);
+    if (last>=0xd800 && last<=0xdbff) { pending=text.slice(-1); text=text.slice(0,-1); }
+    if (eol==='CRLF') text=text.replace(/\n/g,'\r\n'); else if (eol==='CR') text=text.replace(/\n/g,'\r');
+    if (text) yield encodeText(text,encoding,{codepage,allowLossy});
+  }
+  if (pending) yield encodeText(pending,encoding,{codepage,allowLossy});
+}
+function encodedBlob(root, encoding, options) { return new Blob([...encodeChunks(root,encoding,options)],{type:'text/plain'}); }
+
+return {ENCODINGS,CODEPAGES,detectEncoding,decodeBytes,encodeText,encodeChunks,encodedBlob};
+})();
+const NP_layout=(()=>{
+const Rope=NP_rope;
+function wrapLine(text,start,width,measure,mono,advance) {
+  const result=[];if(!text.length)return result;
+  if(mono && /^[\x20-\x7e]*$/.test(text)) {
+    const cols=Math.max(1,Math.floor(width/advance));let p=0;
+    while(p+cols<text.length){let end=p+cols;const blank=text.lastIndexOf(' ',end-1);if(blank>=p)end=blank+1;result.push(start+end);p=end;}
+    return result;
+  }
+  let rowStart=0,i=0,x=0,lastSpace=-1;
+  while(i<text.length){const cp=String.fromCodePoint(text.codePointAt(i));const w=cp==='\t'?(Math.floor(x/(advance*8))+1)*advance*8-x:measure(cp);
+    if(x+w>width && i>rowStart){const next=lastSpace>rowStart?lastSpace:i;result.push(start+next);rowStart=i=next;x=0;lastSpace=-1;continue;}
+    x+=w;i+=cp.length;if(/\s/u.test(cp))lastSpace=i;
+  }
+  return result;
+}
+function buildWrap(root,width,font,mono,advance) {
+  const ctx=new OffscreenCanvas(1,1).getContext('2d');ctx.font=font;
+  const rows=[0];let offset=0,pending='';
+  for(const part of Rope.chunks(root)){
+    pending+=part;let cursor=0,at;
+    while((at=pending.indexOf('\n',cursor))!==-1){const text=pending.slice(cursor,at);for(const p of wrapLine(text,offset,width,s=>ctx.measureText(s).width,mono,advance))rows.push(p);offset+=text.length+1;rows.push(offset);cursor=at+1;}
+    pending=pending.slice(cursor);
+  }
+  // Avoid argument-count limits for extremely long wrapped paragraphs.
+  for(const p of wrapLine(pending,offset,width,s=>ctx.measureText(s).width,mono,advance))rows.push(p);
+  return new Float64Array(rows);
+}
+/* Bounded lazy width checkpoints. ASCII fixed-pitch blocks take constant time.
+ * Tabs retain eight-character stops; other runs use the browser's font metrics. */
+class RowMetrics {
+  constructor(model,start,end,renderer){this.model=model;this.root=model.root;this.start=start;this.end=end;this.r=renderer;this.points=[0];this.blocks=new Map();this.simple=renderer.monospace&&Rope.simpleRange(this.root,start,end);}
+  block(index) {
+    if(this.blocks.has(index))return this.blocks.get(index);
+    while(this.points.length<=index)this.block(this.points.length-1);
+    const base=this.start+index*512,end=Math.min(this.end,base+512),text=Rope.slice(this.root,base,end),startX=this.points[index];
+    let x=startX;
+    const simple=this.r.monospace&&/^[\x20-\x7e]*$/.test(text);
+    let positions=null;
+    if(simple)x+=text.length*this.r.advance;
+    else {positions=new Float64Array(text.length+1);positions[0]=x;let i=0;
+      for(const cp of text){const w=cp==='\t'?(Math.floor((x+.001)/(this.r.advance*8))+1)*this.r.advance*8-x:this.r.measure.measureText(cp).width;x+=w;if(cp.length===2)positions[i+1]=positions[i];i+=cp.length;positions[i]=x;}
+    }
+    this.points[index+1]=x;const block={text,base,startX,endX:x,simple,positions};this.blocks.set(index,block);return block;
+  }
+  xAt(offset) {if(this.simple)return Math.max(0,Math.min(this.end-this.start,offset-this.start))*this.r.advance;const rel=Math.max(0,Math.min(this.end-this.start,offset-this.start)),index=Math.floor(rel/512);const b=this.block(index);return b.simple?b.startX+(rel-index*512)*this.r.advance:b.positions[rel-index*512];}
+  offsetAt(x) {
+    if(this.simple)return this.start+Math.max(0,Math.min(this.end-this.start,Math.round(x/this.r.advance)));
+    if(x<=0)return this.start;
+    const count=Math.ceil((this.end-this.start)/512);
+    let i=0;
+    // Width checkpoints are built only as far as a requested viewport/caret.
+    while(i<count){const b=this.block(i);if(b.endX>=x){if(b.simple)return Math.min(this.end,b.base+Math.max(0,Math.min(b.text.length,Math.round((x-b.startX)/this.r.advance))));let lo=0,hi=b.text.length;while(lo<hi){const m=(lo+hi)>>>1;if(b.positions[m]<x)lo=m+1;else hi=m;}let p=lo;if(p&&x-b.positions[p-1]<b.positions[p]-x)p--;if(p>0&&/[\uDC00-\uDFFF]/.test(b.text[p]))p--;return b.base+p;}i++;}
+    return this.end;
+  }
+  runs(left,right) {
+    const first=this.offsetAt(Math.max(0,left-20)),last=this.offsetAt(right+20),runs=[];
+    let start=first;
+    // Do not begin in the middle of a surrogate pair.
+    if(start>this.start&&/[\uDC00-\uDFFF]/.test(Rope.slice(this.root,start,start+1)))start--;
+    const text=Rope.slice(this.root,start,Math.min(this.end,last+2));let x=this.xAt(start),current='',runX=x;
+    const flush=()=>{if(current){runs.push({text:current,x:runX,width:x-runX});current='';}runX=x;};
+    for(const cp of text){if(cp==='\t'){flush();x=(Math.floor((x+.001)/(this.r.advance*8))+1)*this.r.advance*8;runX=x;continue;}const w=this.r.monospace&&/^[\x20-\x7e]$/.test(cp)?this.r.advance:this.r.measure.measureText(cp).width;if(x-runX>480){flush();}current+=cp;x+=w;}
+    flush();return runs;
+  }
+}
+
+return {wrapLine,buildWrap,RowMetrics};
+})();
+const NP_renderer=(()=>{
+/* WebGPU run-atlas renderer. Canvas supplies native font shaping/rasterization
+ * only on atlas misses. WebGPU composes cached runs, selection and caret in one
+ * instanced draw; document size never determines canvas or DOM size. */
+const SHADER = `
+struct View { size: vec2f, pad: vec2f };
+@group(0) @binding(0) var<uniform> view: View;
+@group(0) @binding(1) var atlas: texture_2d<f32>;
+@group(0) @binding(2) var atlasSampler: sampler;
+struct In { @location(0) rect: vec4f, @location(1) uv: vec4f,
+            @location(2) color: vec4f, @location(3) clip: vec4f };
+struct Out { @builtin(position) position: vec4f, @location(0) uv: vec2f,
+             @location(1) color: vec4f, @location(2) point: vec2f,
+             @location(3) @interpolate(flat) clip: vec4f };
+@vertex fn vs(v: In, @builtin(vertex_index) index: u32) -> Out {
+  var corners = array<vec2f,6>(vec2f(0,0),vec2f(1,0),vec2f(0,1),vec2f(0,1),vec2f(1,0),vec2f(1,1));
+  let corner=corners[index]; let p=v.rect.xy+corner*v.rect.zw;
+  var o:Out; o.position=vec4f(p/view.size*vec2f(2,-2)+vec2f(-1,1),0,1);
+  o.uv=v.uv.xy+corner*v.uv.zw; o.color=v.color; o.point=p; o.clip=v.clip; return o;
+}
+@fragment fn fs(v:Out) -> @location(0) vec4f {
+  // Sample before conditional discard so implicit derivatives stay uniform.
+  let a=textureSample(atlas,atlasSampler,v.uv).a*v.color.a;
+  if(v.point.x<v.clip.x || v.point.y<v.clip.y || v.point.x>=v.clip.z || v.point.y>=v.clip.w){discard;}
+  return vec4f(v.color.rgb*a,a);
+}`;
+class TextRenderer {
+  constructor(canvas, fallback) {
+    this.canvas=canvas; this.fallback=fallback; this.mode='initializing'; this.reason='';
+    this.dpr=Math.min(devicePixelRatio||1,2); this.width=1; this.height=1;
+    this.cache=new Map(); this.clock=0; this.entries=[]; this.uploads=0; this.frames=0;
+    this.metrics={frameMs:0,drawCalls:0,instances:0,atlasEntries:0}; this.lastScene=null;
+    this.tile=document.createElement('canvas'); this.tileCtx=this.tile.getContext('2d',{alpha:true});
+    this.measure=document.createElement('canvas').getContext('2d');
+  }
+  async init() {
+    try {
+      if(!navigator.gpu) throw new Error('WebGPU is not available in this browser or context.');
+      const adapter=await navigator.gpu.requestAdapter({powerPreference:'low-power'});
+      if(!adapter) throw new Error('No WebGPU adapter was available.');
+      this.adapterInfo=adapter.info ? {vendor:adapter.info.vendor,architecture:adapter.info.architecture,device:adapter.info.device,description:adapter.info.description} : {};
+      this.device=await adapter.requestDevice();
+      this.context=this.canvas.getContext('webgpu'); if(!this.context) throw new Error('Cannot create WebGPU canvas.');
+      this.format=navigator.gpu.getPreferredCanvasFormat();
+      this.context.configure({device:this.device,format:this.format,alphaMode:'opaque'});
+      const module=this.device.createShaderModule({code:SHADER});
+      const compilation=await module.getCompilationInfo();
+      const errors=compilation.messages.filter(x=>x.type==='error'); if(errors.length) throw new Error(errors.map(e=>e.message).join('\n'));
+      this.pipeline=await this.device.createRenderPipelineAsync({layout:'auto',vertex:{module,entryPoint:'vs',buffers:[{arrayStride:64,stepMode:'instance',attributes:[0,1,2,3].map(i=>({shaderLocation:i,offset:i*16,format:'float32x4'}))}]},fragment:{module,entryPoint:'fs',targets:[{format:this.format,blend:{color:{srcFactor:'one',dstFactor:'one-minus-src-alpha'},alpha:{srcFactor:'one',dstFactor:'one-minus-src-alpha'}}}]},primitive:{topology:'triangle-list'}});
+      this.uniform=this.device.createBuffer({size:16,usage:GPUBufferUsage.UNIFORM|GPUBufferUsage.COPY_DST});
+      this.sampler=this.device.createSampler({magFilter:'nearest',minFilter:'nearest'});
+      this.atlasSize=Math.min(4096,this.device.limits.maxTextureDimension2D);
+      this.texture=this.device.createTexture({size:[this.atlasSize,this.atlasSize],format:'rgba8unorm',usage:GPUTextureUsage.TEXTURE_BINDING|GPUTextureUsage.COPY_DST|GPUTextureUsage.RENDER_ATTACHMENT});
+      this.bindGroup=this.device.createBindGroup({layout:this.pipeline.getBindGroupLayout(0),entries:[{binding:0,resource:{buffer:this.uniform}},{binding:1,resource:this.texture.createView()},{binding:2,resource:this.sampler}]});
+      this.device.queue.writeTexture({texture:this.texture,origin:[0,0]},new Uint8Array([255,255,255,255]),{bytesPerRow:4},{width:1,height:1});
+      this.atlasX=2;this.atlasY=2;this.shelfH=0;
+      this.mode='WebGPU'; this.canvas.hidden=false; this.fallback.hidden=true;
+      this.device.lost.then(info=>{this.useFallback(`GPU device lost: ${info.message}`);this.onInvalidate?.();});
+      this.device.addEventListener('uncapturederror',e=>{this.reason=e.error.message;console.error('WebGPU:',e.error.message);});
+    } catch(error) {this.useFallback(error.message);}
+    this.onInvalidate?.(); return this.mode;
+  }
+  useFallback(reason) {this.mode='Canvas 2D';this.reason=reason;this.canvas.hidden=true;this.fallback.hidden=false;}
+  setFont(family='Lucida Console',size=10,style='Regular') {
+    const px=size*96/72;
+    const fallback=family==='Lucida Console'?'"Courier New",monospace':'Arial,sans-serif';
+    this.font=`${style.includes('Italic')?'italic ':''}${style.includes('Bold')?'bold ':''}${px}px "${family.replace(/["\\]/g,'')}",${fallback}`;
+    this.measure.font=this.font; this.advance=this.measure.measureText('M').width;
+    this.monospace=Math.abs(this.measure.measureText('iiii').width-this.measure.measureText('MMMM').width)<.05;
+    this.lineHeight=Math.ceil(px*1.2); const m=this.measure.measureText('Mg');
+    this.baseline=Math.round((this.lineHeight-(m.actualBoundingBoxAscent+m.actualBoundingBoxDescent))/2+m.actualBoundingBoxAscent);
+    this.fontSize=px; this.cache.clear(); this.entries=[];this.atlasX=2;this.atlasY=2;this.shelfH=0;
+  }
+  resize(width,height) {
+    this.width=Math.max(1,Math.floor(width));this.height=Math.max(1,Math.floor(height));
+    const dpr=Math.min(devicePixelRatio||1,2);if(dpr!==this.dpr){this.dpr=dpr;this.cache.clear();this.entries=[];this.atlasX=2;this.atlasY=2;this.shelfH=0;}
+    for(const c of [this.canvas,this.fallback]){const w=Math.ceil(this.width*this.dpr),h=Math.ceil(this.height*this.dpr);if(c.width!==w)c.width=w;if(c.height!==h)c.height=h;}
+  }
+  getRun(text,width) {
+    const key=text; let entry=this.cache.get(key);
+    if(entry){entry.tick=this.clock;return entry;}
+    const w=Math.min(this.atlasSize-4,Math.max(2,Math.ceil((width+4)*this.dpr))),h=Math.ceil((this.lineHeight+2)*this.dpr);
+    let x,y;
+    if(this.atlasX+w>=this.atlasSize){this.atlasX=2;this.atlasY+=this.shelfH+2;this.shelfH=0;}
+    if(this.atlasY+h>=this.atlasSize) {
+      // Recycle only slots not referenced by this frame; never overwrite a live quad.
+      entry=this.entries.filter(e=>e.tick!==this.clock && e.slotW>=w && e.slotH>=h).sort((a,b)=>a.tick-b.tick)[0];
+      if(!entry) return null;
+      this.cache.delete(entry.key);x=entry.x;y=entry.y;
+    } else {x=this.atlasX;y=this.atlasY;this.atlasX+=w+2;this.shelfH=Math.max(this.shelfH,h);entry={slotW:w,slotH:h};this.entries.push(entry);}
+    this.tile.width=w;this.tile.height=h;
+    const ctx=this.tileCtx;ctx.setTransform(this.dpr,0,0,this.dpr,0,0);ctx.clearRect(0,0,w/this.dpr,h/this.dpr);
+    ctx.font=this.font;ctx.textBaseline='alphabetic';ctx.fillStyle='#ffffff';ctx.fillText(text,2,this.baseline);
+    this.device.queue.copyExternalImageToTexture({source:this.tile},{texture:this.texture,origin:[x,y]},[w,h]);
+    Object.assign(entry,{key,text,x,y,w,h,width:w/this.dpr,height:h/this.dpr,tick:this.clock});this.cache.set(key,entry);this.uploads++;
+    return entry;
+  }
+  render(scene) {
+    const started=performance.now();this.lastScene=scene;this.clock++;this.frames++;
+    if(this.mode!=='WebGPU'){this.draw2D(this.fallback.getContext('2d'),scene,this.dpr);this.metrics={frameMs:performance.now()-started,drawCalls:scene.runs.length,instances:scene.runs.length,atlasEntries:0};return;}
+    try {
+      const data=[],W=this.width,H=this.height;
+      const push=(x,y,w,h,uv,color,clip=[0,0,W,H])=>{if(w<=0||h<=0)return;data.push(x,y,w,h,...uv,...color,...clip);};
+      const solid=(r,color)=>push(r.x,r.y,r.width,r.height,[.5/this.atlasSize,.5/this.atlasSize,0,0],color);
+      for(const r of scene.selections) solid(r,scene.active?[.192,.416,.773,1]:[.80,.80,.80,1]);
+      let overflow=false;
+      for(const r of scene.runs) {
+        const entry=this.getRun(r.text,r.width);if(!entry){overflow=true;break;}
+        const uv=[entry.x/this.atlasSize,entry.y/this.atlasSize,entry.w/this.atlasSize,entry.h/this.atlasSize];
+        push(r.x-2,r.y,entry.width,entry.height,uv,[0,0,0,1]);
+        if(r.selection && scene.active)push(r.x-2,r.y,entry.width,entry.height,uv,[1,1,1,1],[r.selection[0],Math.max(0,r.y),r.selection[1],Math.min(H,r.y+this.lineHeight)]);
+      }
+      if(overflow){this.draw2D(this.fallback.getContext('2d'),scene,this.dpr);this.fallback.hidden=false;this.canvas.hidden=true;this.metrics.temporaryFallback=true;return;}
+      this.fallback.hidden=true;this.canvas.hidden=false;
+      if(scene.caret)solid(scene.caret,[0,0,0,1]);
+      const bytes=new Float32Array(data);
+      if(!this.instanceBuffer||this.instanceCapacity<bytes.byteLength){this.instanceBuffer?.destroy();this.instanceCapacity=Math.max(65536,2**Math.ceil(Math.log2(Math.max(1,bytes.byteLength))));this.instanceBuffer=this.device.createBuffer({size:this.instanceCapacity,usage:GPUBufferUsage.VERTEX|GPUBufferUsage.COPY_DST});}
+      this.device.queue.writeBuffer(this.uniform,0,new Float32Array([W,H,0,0]));
+      if(bytes.byteLength)this.device.queue.writeBuffer(this.instanceBuffer,0,bytes);
+      const encoder=this.device.createCommandEncoder(),pass=encoder.beginRenderPass({colorAttachments:[{view:this.context.getCurrentTexture().createView(),clearValue:{r:1,g:1,b:1,a:1},loadOp:'clear',storeOp:'store'}]});
+      if(data.length){pass.setPipeline(this.pipeline);pass.setBindGroup(0,this.bindGroup);pass.setVertexBuffer(0,this.instanceBuffer);pass.draw(6,data.length/16);}
+      pass.end();this.device.queue.submit([encoder.finish()]);
+      this.metrics={frameMs:performance.now()-started,drawCalls:data.length?1:0,instances:data.length/16,atlasEntries:this.cache.size,atlasUploads:this.uploads};
+    } catch(error){this.useFallback(error.message);this.draw2D(this.fallback.getContext('2d'),scene,this.dpr);}
+  }
+  draw2D(ctx,scene,dpr=1) {
+    ctx.setTransform(dpr,0,0,dpr,0,0);ctx.fillStyle='#fff';ctx.fillRect(0,0,this.width,this.height);ctx.font=this.font;ctx.textBaseline='alphabetic';
+    ctx.fillStyle=scene.active?'#316ac5':'#ccc';for(const r of scene.selections)ctx.fillRect(r.x,r.y,r.width,r.height);
+    for(const r of scene.runs){ctx.fillStyle='#000';ctx.fillText(r.text,r.x,r.y+this.baseline);if(r.selection&&scene.active){ctx.save();ctx.beginPath();ctx.rect(r.selection[0],r.y,r.selection[1]-r.selection[0],this.lineHeight);ctx.clip();ctx.fillStyle='#fff';ctx.fillText(r.text,r.x,r.y+this.baseline);ctx.restore();}}
+    if(scene.caret){const r=scene.caret;ctx.fillStyle='#000';ctx.fillRect(r.x,r.y,r.width,r.height);}
+  }
+  screenshot() {const c=document.createElement('canvas');c.width=this.width;c.height=this.height;this.draw2D(c.getContext('2d'),this.lastScene||{runs:[],selections:[]});return c.toDataURL('image/png');}
+}
+
+return {TextRenderer};
+})();
+const NP_editor=(()=>{
+const Rope=NP_rope;
+const {RowMetrics,buildWrap}=NP_layout;
+class EditorView {
+  constructor(model,renderer,host,input,worker) {
+    this.model=model;this.r=renderer;this.host=host;this.input=input;this.worker=worker;
+    this.scrollX=0;this.scrollY=0;this.wrap=false;this.wrapRows=null;this.rowCache=new Map();this.active=false;this.caretOn=true;this.padding=2;
+    this.pending=false;this.goalX=null;this.composing=false;this.touchMode=false;
+    this.graphemes=typeof Intl.Segmenter==='function'?new Intl.Segmenter(undefined,{granularity:'grapheme'}):null;
+    this.bind();this.syncInput();
+    model.onChange(e=>this.changed(e));
+    new ResizeObserver(()=>this.resize()).observe(host);
+    document.fonts?.ready.then(()=>this.resize());
+    this.blink=setInterval(()=>{if(this.active&&!this.composing&&this.model.start===this.model.end){this.caretOn=!this.caretOn;this.schedule();}},530);
+  }
+  resize() {const rect=this.host.getBoundingClientRect();this.r.resize(rect.width,rect.height);this.rowCache.clear();if(this.wrap)this.reflow();this.clamp();this.schedule();}
+  get rows(){return this.wrap&&this.wrapRows?this.wrapRows.length:this.model.lineCount;}
+  get height(){return this.rows*this.r.lineHeight;}
+  get width(){return this.wrap?this.r.width:Math.max(this.r.width,(this.model.root?.maxLine||0)*this.r.advance+this.padding*2+30,this.measuredWidth||0);}
+  clamp(){this.scrollY=Math.max(0,Math.min(this.scrollY,Math.max(0,this.height-this.r.height)));this.scrollX=this.wrap?0:Math.max(0,Math.min(this.scrollX,Math.max(0,this.width-this.r.width)));}
+  rowStart(row){row=Math.max(0,Math.min(this.rows-1,row));return this.wrap&&this.wrapRows?Math.min(this.model.length,this.wrapRows[row]):this.model.lineStart(row);}
+  rowEnd(row){let end=row+1<this.rows?this.rowStart(row+1):this.model.length;if(Rope.charAt(this.model.root,end-1)==='\n')end--;return Math.max(this.rowStart(row),end);}
+  rowForOffset(offset){if(!this.wrap||!this.wrapRows)return this.model.positionAt(offset).line;let lo=0,hi=this.wrapRows.length;while(lo<hi){const mid=(lo+hi)>>>1;if(this.wrapRows[mid]<=offset)lo=mid+1;else hi=mid;}return Math.max(0,lo-1);}
+  metrics(row){const start=this.rowStart(row),end=this.rowEnd(row),key=`${start}:${end}`;let m=this.rowCache.get(key);if(!m){m=new RowMetrics(this.model,start,end,this.r);this.rowCache.set(key,m);if(this.rowCache.size>180)this.rowCache.delete(this.rowCache.keys().next().value);}return m;}
+  changed(event){
+    if(!['selection','saved'].includes(event.type)){
+      this.rowCache.clear();this.measuredWidth=0;
+      if(this.wrap){
+        if(event.type==='edit'&&this.wrapRows){const delta=event.text.length-(event.end-event.start);this.wrapRows=this.wrapRows.map(p=>p<=event.start?p:p>=event.end?p+delta:event.start);}
+        this.reflow();
+      }
+    }
+    this.caretOn=true;this.syncInput();this.ensureVisible();this.schedule();this.onChange?.(event);
+  }
+  async reflow(){
+    clearTimeout(this.wrapTimer);if(!this.wrap){this.wrapRows=null;this.schedule();return;}
+    const width=Math.max(this.r.advance,this.r.width-this.padding*2),revision=this.model.revision;
+    if(this.model.length<180000){this.wrapRows=buildWrap(this.model.root,width,this.r.font,this.r.monospace,this.r.advance);this.rowCache.clear();this.clamp();this.schedule();return;}
+    this.wrapTimer=setTimeout(async()=>{try{const result=await this.worker.request('wrap',{width,font:this.r.font,monospace:this.r.monospace,advance:this.r.advance,revision});if(this.wrap&&result.revision===this.model.revision&&Math.abs(result.width-(this.r.width-this.padding*2))<1){this.wrapRows=result.rows;this.rowCache.clear();this.clamp();this.ensureVisible();this.schedule();}}catch(e){if(!e.message.includes('Stale'))this.onError?.(e);}},100);
+  }
+  setWrap(value){this.wrap=!!value;this.scrollX=0;this.wrapRows=null;this.rowCache.clear();this.reflow();this.ensureVisible();this.schedule();}
+  schedule(){if(this.pending)return;this.pending=true;requestAnimationFrame(()=>{this.pending=false;this.render();});}
+  render(){
+    if(!this.r.font)return;this.clamp();const lineHeight=this.r.lineHeight,first=Math.floor(this.scrollY/lineHeight),last=Math.min(this.rows,Math.ceil((this.scrollY+this.r.height)/lineHeight)+1);
+    const runs=[],selections=[],m=this.model;let caret=null;
+    for(let row=first;row<last;row++){
+      const metrics=this.metrics(row),start=metrics.start,end=metrics.end,y=row*lineHeight-this.scrollY;
+      let selection=null;
+      if(m.start!==m.end&&m.start<=end&&m.end>start){
+        const x0=metrics.xAt(Math.max(start,m.start))+this.padding-this.scrollX;
+        let x1=metrics.xAt(Math.min(end,m.end))+this.padding-this.scrollX;
+        if(m.end>end)x1+=this.r.advance;
+        const left=Math.max(0,x0),right=Math.min(this.r.width,x1);
+        if(right>left){selections.push({x:left,y,width:right-left,height:lineHeight});selection=[left,right];}
+      }
+      for(const run of metrics.runs(this.scrollX-this.padding,this.scrollX+this.r.width))runs.push({...run,x:run.x+this.padding-this.scrollX,y,selection});
+      if(!this.wrap&&metrics.points.length>1)this.measuredWidth=Math.max(this.measuredWidth||0,metrics.points.at(-1)+30);
+    }
+    const p=this.caretRect();
+    if(this.active&&this.caretOn&&m.start===m.end&&!this.composing&&p.y>=-lineHeight&&p.y<this.r.height)caret={x:Math.round(p.x),y:p.y+1,width:1,height:lineHeight-2};
+    this.r.render({runs,selections,caret,active:this.active});this.updateInputPosition(p);this.updateHandles();this.onScroll?.();
+  }
+  caretRect(offset=this.model.head){const row=this.rowForOffset(offset),metrics=this.metrics(row);return{x:this.padding+metrics.xAt(Math.min(offset,metrics.end))-this.scrollX,y:row*this.r.lineHeight-this.scrollY,width:1,height:this.r.lineHeight};}
+  ensureVisible(){if(!this.r.font||this.composing)return;const p=this.caretRect(),h=this.r.lineHeight;this.measuredWidth=Math.max(this.measuredWidth||0,p.x+this.scrollX+this.r.advance+4);if(p.y<0)this.scrollY+=p.y;else if(p.y+h>this.r.height)this.scrollY+=p.y+h-this.r.height;if(!this.wrap){if(p.x<2)this.scrollX=Math.max(0,this.scrollX+p.x-2);else if(p.x>this.r.width-5)this.scrollX+=p.x-this.r.width+5;}this.clamp();}
+  scroll(dx,dy){this.scrollX+=dx;this.scrollY+=dy;this.clamp();this.schedule();}
+  hit(clientX,clientY){const rect=this.host.getBoundingClientRect(),row=Math.max(0,Math.min(this.rows-1,Math.floor((clientY-rect.top+this.scrollY)/this.r.lineHeight)));return this.metrics(row).offsetAt(clientX-rect.left+this.scrollX-this.padding);}
+  focus(){this.input.focus({preventScroll:true});this.active=true;this.caretOn=true;this.schedule();}
+  syncInput(){if(this.composing)return;const m=this.model;let start=Math.max(0,m.start-1024),end=Math.min(m.length,m.end+1024);this.largeSelection=end-start>32768;if(this.largeSelection){start=m.start;end=Math.min(m.start+1024,m.length);}const value=m.slice(start,end);this.proxyStart=start;this.proxyValue=value;this.input.value=value;try{this.input.setSelectionRange(Math.min(value.length,m.start-start),Math.min(value.length,m.end-start),m.anchor>m.head?'backward':'forward');}catch{} }
+  updateInputPosition(p){this.input.style.left=`${Math.max(0,Math.min(this.r.width-5,p.x))}px`;this.input.style.top=`${Math.max(0,Math.min(this.r.height-this.r.lineHeight,p.y))}px`;this.input.style.height=`${this.r.lineHeight}px`;this.input.style.font=this.r.font;}
+  applyProxy(){const old=this.proxyValue??'',value=this.input.value;if(old===value)return;let a=0,b=0;while(a<old.length&&a<value.length&&old[a]===value[a])a++;while(b<old.length-a&&b<value.length-a&&old[old.length-1-b]===value[value.length-1-b])b++;this.model.edit(this.proxyStart+a,this.proxyStart+old.length-b,value.slice(a,value.length-b),'typing');}
+  step(position,direction){
+    if(direction<0&&position<=0)return 0;if(direction>0&&position>=this.model.length)return this.model.length;
+    const start=Math.max(0,position-128),end=Math.min(this.model.length,position+128),text=this.model.slice(start,end);
+    if(this.graphemes){const boundaries=[...this.graphemes.segment(text)].map(s=>s.index+start);boundaries.push(end);if(direction<0){for(let i=boundaries.length-1;i>=0;i--)if(boundaries[i]<position)return boundaries[i];}else for(const b of boundaries)if(b>position)return b;}
+    return Math.max(0,Math.min(this.model.length,position+direction));
+  }
+  word(position,direction){const m=this.model,isWord=c=>/[\p{L}\p{N}_]/u.test(c);let p=position;
+    if(direction<0){while(p>0&&/\s/u.test(m.slice(p-1,p)))p--;if(p>0){const kind=isWord(m.slice(p-1,p));while(p>0&&!/\s/u.test(m.slice(p-1,p))&&isWord(m.slice(p-1,p))===kind)p=this.step(p,-1);}}
+    else {if(p<m.length){const kind=isWord(m.slice(p,p+1));while(p<m.length&&!/\s/u.test(m.slice(p,p+1))&&isWord(m.slice(p,p+1))===kind)p=this.step(p,1);}while(p<m.length&&/\s/u.test(m.slice(p,p+1)))p=this.step(p,1);}return p;}
+  selectWord(p){const m=this.model,isWord=c=>/[\p{L}\p{N}_]/u.test(c);const kind=isWord(m.slice(p,p+1));let a=p,b=p;while(a>0&&m.slice(a-1,a)!=='\n'&&isWord(m.slice(a-1,a))===kind)a=this.step(a,-1);while(b<m.length&&m.slice(b,b+1)!=='\n'&&isWord(m.slice(b,b+1))===kind)b=this.step(b,1);m.select(a,b);}
+  keydown(e){
+    if(this.composing||e.isComposing)return;const m=this.model,ctrl=e.ctrlKey||e.metaKey,key=e.key;let next=null;
+    if(key==='ArrowLeft'||key==='ArrowRight') {const dir=key==='ArrowLeft'?-1:1;next=!e.shiftKey&&m.start!==m.end&&!ctrl?(dir<0?m.start:m.end):ctrl?this.word(m.head,dir):this.step(m.head,dir);this.goalX=null;}
+    else if(['ArrowUp','ArrowDown','PageUp','PageDown'].includes(key)){
+      if(ctrl&&(key==='ArrowUp'||key==='ArrowDown')){this.scroll(0,(key==='ArrowUp'?-1:1)*this.r.lineHeight);e.preventDefault();return;}
+      const row=this.rowForOffset(m.head),x=this.goalX??this.metrics(row).xAt(m.head);this.goalX=x;
+      const delta=(key.includes('Up')?-1:1)*(key.startsWith('Page')?Math.max(1,Math.floor(this.r.height/this.r.lineHeight)-1):1);
+      const target=row+delta;next=target<0?0:target>=this.rows?m.length:this.metrics(target).offsetAt(x);
+    } else if(key==='Home'||key==='End'){const row=this.rowForOffset(m.head);next=ctrl?(key==='Home'?0:m.length):(key==='Home'?this.rowStart(row):this.rowEnd(row));this.goalX=null;}
+    else if(key==='Backspace'||key==='Delete'){
+      e.preventDefault();if(e.shiftKey&&key==='Delete'&&m.start!==m.end){this.onCommand?.('cut');return;}
+      if(m.start!==m.end)m.insert('');else {const dir=key==='Backspace'?-1:1,p=ctrl?this.word(m.head,dir):this.step(m.head,dir);m.edit(Math.min(p,m.head),Math.max(p,m.head),'');}return;
+    } else if(key==='Tab'&&!ctrl&&!e.altKey){e.preventDefault();m.insert('\t','typing');return;}
+    else if(ctrl&&key==='Insert'){e.preventDefault();this.onCommand?.('copy');return;}
+    else if(e.shiftKey&&key==='Insert'){e.preventDefault();this.onCommand?.('paste');return;}
+    if(next!==null){e.preventDefault();m.select(e.shiftKey?m.anchor:next,next);}
+  }
+  bind(){
+    const input=this.input,m=this.model;
+    input.addEventListener('keydown',e=>this.keydown(e));
+    input.addEventListener('focus',()=>{this.active=true;this.caretOn=true;this.schedule();});
+    input.addEventListener('blur',()=>{this.active=false;this.schedule();});
+    input.addEventListener('beforeinput',e=>{
+      if(this.composing||e.isComposing)return;
+      const type=e.inputType;
+      if(type==='insertText'&&e.data!==null){e.preventDefault();m.insert(e.data,'typing');}
+      else if(type==='insertLineBreak'||type==='insertParagraph'){e.preventDefault();m.insert('\n','typing');}
+      else if(type==='historyUndo'||type==='historyRedo'){e.preventDefault();type==='historyUndo'?m.undo():m.redo();}
+      else if(type.startsWith('delete')){e.preventDefault();if(m.start!==m.end)m.insert('');else{const dir=type.includes('Backward')?-1:1,p=type.includes('Word')?this.word(m.head,dir):this.step(m.head,dir);m.edit(Math.min(p,m.head),Math.max(p,m.head),'');}}
+    });
+    input.addEventListener('input',()=>{if(this.composing){const el=document.getElementById('composition');el.textContent=input.value.slice(input.selectionStart??0);return;}this.applyProxy();});
+    input.addEventListener('compositionstart',()=>{this.composing=true;this.compositionSelection=[m.start,m.end];document.getElementById('composition').hidden=false;});
+    input.addEventListener('compositionupdate',e=>{const el=document.getElementById('composition'),p=this.caretRect();el.textContent=e.data;el.style.cssText=`left:${p.x}px;top:${p.y}px;font:${this.r.font};height:${this.r.lineHeight}px`;});
+    input.addEventListener('compositionend',()=>{this.composing=false;document.getElementById('composition').hidden=true;this.applyProxy();this.syncInput();this.schedule();});
+    input.addEventListener('copy',e=>{if(m.start===m.end)return;e.preventDefault();e.clipboardData.setData('text/plain',m.selectedText.replace(/\n/g,'\r\n'));});
+    input.addEventListener('cut',e=>{if(m.start===m.end)return;e.preventDefault();e.clipboardData.setData('text/plain',m.selectedText.replace(/\n/g,'\r\n'));m.insert('');});
+    input.addEventListener('paste',e=>{e.preventDefault();m.insert(e.clipboardData.getData('text/plain'));});
+    this.host.addEventListener('wheel',e=>{e.preventDefault();const scale=e.deltaMode===1?this.r.lineHeight:e.deltaMode===2?this.r.height:1;this.scroll(e.shiftKey?e.deltaY*scale:e.deltaX*scale,e.shiftKey?0:e.deltaY*scale);},{passive:false});
+    this.host.addEventListener('contextmenu',e=>{e.preventDefault();this.onContextMenu?.(e.clientX,e.clientY);});
+    this.host.addEventListener('pointerdown',e=>{
+      if(e.target.classList.contains('selection-handle'))return;if(e.button!==0)return;
+      const p=this.hit(e.clientX,e.clientY);this.touchMode=e.pointerType==='touch';
+      this.drag={id:e.pointerId,x:e.clientX,y:e.clientY,lastX:e.clientX,lastY:e.clientY,offset:p,anchor:e.shiftKey?m.anchor:p,touch:this.touchMode,moving:false,selecting:!this.touchMode};
+      this.host.setPointerCapture(e.pointerId);
+      if(this.touchMode){this.longPress=setTimeout(()=>{if(this.drag&&!this.drag.moving){this.selectWord(p);this.drag.selecting=true;this.drag.anchor=m.anchor;this.focus();navigator.vibrate?.(20);}},480);}
+      else {e.preventDefault();if(e.detail===3){const line=m.positionAt(p).line;m.select(m.lineStart(line),Math.min(m.length,m.lineEnd(line)+1));this.drag.anchor=m.anchor;}
+        else if(e.detail===2){this.selectWord(p);this.drag.anchor=m.anchor;}else m.select(this.drag.anchor,p);this.focus();}
+    });
+    this.host.addEventListener('pointermove',e=>{const d=this.drag;if(!d||d.id!==e.pointerId)return;const dx=e.clientX-d.lastX,dy=e.clientY-d.lastY;if(Math.hypot(e.clientX-d.x,e.clientY-d.y)>6){d.moving=true;clearTimeout(this.longPress);}if(d.touch&&!d.selecting){this.scroll(-dx,-dy);}else if(d.moving){const rect=this.host.getBoundingClientRect();if(e.clientY<rect.top)this.scroll(0,e.clientY-rect.top);if(e.clientY>rect.bottom)this.scroll(0,e.clientY-rect.bottom);if(!this.wrap&&e.clientX>rect.right)this.scroll(e.clientX-rect.right,0);m.select(d.anchor,this.hit(e.clientX,e.clientY));}d.lastX=e.clientX;d.lastY=e.clientY;});
+    const end=e=>{const d=this.drag;if(!d||d.id!==e.pointerId)return;clearTimeout(this.longPress);if(d.touch&&!d.moving&&!d.selecting){m.select(d.offset);this.focus();}this.drag=null;this.updateHandles();};
+    this.host.addEventListener('pointerup',end);this.host.addEventListener('pointercancel',end);
+    for(const role of ['start','end']){
+      const handle=document.createElement('div');handle.className='selection-handle';handle.dataset.role=role;handle.hidden=true;this.host.append(handle);
+      handle.addEventListener('pointerdown',e=>{e.stopPropagation();e.preventDefault();handle.setPointerCapture(e.pointerId);handle.dragging=true;});
+      handle.addEventListener('pointermove',e=>{if(!handle.dragging)return;const p=this.hit(e.clientX,e.clientY-this.r.lineHeight);m.select(role==='start'?p:m.start,role==='end'?p:m.end);});
+      handle.addEventListener('pointerup',()=>{handle.dragging=false;this.focus();});
+    }
+  }
+  updateHandles(){for(const h of this.host.querySelectorAll('.selection-handle')){const show=this.touchMode&&this.model.start!==this.model.end;h.hidden=!show;if(show){const p=this.caretRect(h.dataset.role==='start'?this.model.start:this.model.end);h.style.left=`${p.x}px`;h.style.top=`${p.y+this.r.lineHeight}px`;}}}
+}
+
+return {EditorView};
+})();
+const NP_ui=(()=>{
+const $ = (selector, root=document) => root.querySelector(selector);
+function escapeHTML(value) {return String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function accessLabel(text){return escapeHTML(text).replace(/&amp;([^&])/,'<u>$1</u>');}
+function accessKey(text){return text.match(/&([^&])/)?.[1].toLowerCase();}
+class Dialogs {
+  constructor(onFocus){this.stack=[];this.onFocus=onFocus;}
+  open(title,html,{width=380,modeless=false,focus,onClose}={}){
+    const shade=document.createElement('div');shade.className=`dialog-shade${modeless?' modeless':''}`;
+    const el=document.createElement('section');el.className='xp-dialog';el.style.width=`${width}px`;el.setAttribute('role','dialog');el.setAttribute('aria-modal',String(!modeless));el.setAttribute('aria-label',title);
+    el.innerHTML=`<header class="titlebar"><span>${escapeHTML(title)}</span><div class="window-controls"><button class="caption-button close" aria-label="Close dialog"><i></i></button></div></header><div class="dialog-content">${html}</div>`;
+    shade.append(el);$('#dialog-layer').append(shade);let resolve;
+    const dialog={el,shade,modeless,title,query:s=>$(s,el),promise:new Promise(r=>{resolve=r;}),closed:false};
+    dialog.close=(value=null)=>{if(dialog.closed)return;dialog.closed=true;shade.remove();this.stack=this.stack.filter(d=>d!==dialog);this.updateModal();onClose?.(value);resolve(value);if(!this.stack.length)this.onFocus?.();else this.stack.at(-1).el.querySelector('input,button')?.focus({preventScroll:true});};
+    $('.caption-button.close',el).onclick=()=>dialog.close();
+    el.addEventListener('keydown',e=>{
+      if(e.key==='Escape'){e.preventDefault();e.stopPropagation();dialog.close();}
+      if(e.key==='Tab'){const list=[...el.querySelectorAll('button:not(:disabled),input:not(:disabled),select:not(:disabled),textarea:not(:disabled),[tabindex="0"]')].filter(x=>!x.hidden&&x.offsetParent!==null);const index=list.indexOf(document.activeElement);if(e.shiftKey&&index<=0){e.preventDefault();list.at(-1)?.focus();}else if(!e.shiftKey&&index===list.length-1){e.preventDefault();list[0]?.focus();}}
+      if(e.key==='Enter'&&e.target.tagName!=='TEXTAREA'&&e.target.tagName!=='BUTTON'&&e.target.tagName!=='SELECT'){const button=$('.xp-button.default',el);if(button&&!button.disabled){e.preventDefault();button.click();}}
+    });
+    this.stack.push(dialog);this.updateModal();makeDraggable(el,$('.titlebar',el));
+    queueMicrotask(()=>{const target=focus?$(focus,el):$('input:not([type=radio]):not([type=checkbox]),.xp-button.default,button',el);target?.focus({preventScroll:true});if(target?.tagName==='INPUT'&&target.type==='text')target.select();});return dialog;
+  }
+  updateModal(){const modal=this.stack.findLast(d=>!d.modeless);$('#window').inert=!!modal;for(const d of this.stack){d.el.inert=!!modal&&d!==modal&&this.stack.indexOf(d)<this.stack.indexOf(modal);}}
+  async message(text,{title='Notepad',buttons=[['ok','OK']],icon='i',width=410}={}){
+    const dialog=this.open(title,`<div class="message-layout"><span class="message-icon">${escapeHTML(icon)}</span><p>${escapeHTML(text)}</p></div><div class="dialog-actions">${buttons.map(([id,label],i)=>`<button class="xp-button ${i===0?'default':''}" data-result="${escapeHTML(id)}">${escapeHTML(label)}</button>`).join('')}</div>`,{width});
+    for(const button of dialog.el.querySelectorAll('[data-result]'))button.onclick=()=>dialog.close(button.dataset.result);return dialog.promise;
+  }
+  closeAll(){for(const d of [...this.stack])d.close();}
+}
+function makeDraggable(el,handle,{isWindow=false}={}){
+  let drag=null;
+  handle.addEventListener('pointerdown',e=>{if(e.button!==0||e.target.closest('button')||(isWindow&&(el.classList.contains('maximized')||innerWidth<=600)))return;const r=el.getBoundingClientRect();drag={x:e.clientX,y:e.clientY,left:r.left,top:r.top};handle.setPointerCapture(e.pointerId);el.style.position='absolute';el.style.left=`${r.left}px`;el.style.top=`${r.top}px`;el.style.transform='none';e.preventDefault();});
+  handle.addEventListener('pointermove',e=>{if(!drag)return;el.style.left=`${Math.max(-el.offsetWidth+70,Math.min(innerWidth-70,drag.left+e.clientX-drag.x))}px`;el.style.top=`${Math.max(0,Math.min(innerHeight-30,drag.top+e.clientY-drag.y))}px`;});
+  handle.addEventListener('pointerup',()=>{drag=null;});handle.addEventListener('pointercancel',()=>{drag=null;});
+}
+class MenuBar {
+  constructor(definitions,onCommand,enabled,checked){this.definitions=definitions;this.onCommand=onCommand;this.enabled=enabled;this.checked=checked;this.current=-1;this.popup=null;
+    definitions.forEach((def,index)=>{const button=document.createElement('button');button.innerHTML=accessLabel(def.label);button.setAttribute('role','menuitem');button.setAttribute('aria-haspopup','menu');button.setAttribute('aria-expanded','false');button.tabIndex=-1;button.onclick=e=>{e.stopPropagation();if(this.current===index)this.close();else this.open(index);};button.onpointerenter=()=>{if(this.current!==-1&&this.current!==index)this.open(index);};$('#menubar').append(button);});
+    document.addEventListener('pointerdown',e=>{if(!e.target.closest('.popup-menu')&&!e.target.closest('#menubar'))this.close();});
+    document.addEventListener('keydown',e=>this.keydown(e),true);
+  }
+  close(focus=false){this.popup?.remove();this.popup=null;this.current=-1;for(const b of $('#menubar').children){b.classList.remove('open');b.setAttribute('aria-expanded','false');}if(focus)this.onCommand('focus');}
+  open(index){this.close();this.current=index;const button=$('#menubar').children[index];button.classList.add('open');button.setAttribute('aria-expanded','true');const r=button.getBoundingClientRect();this.show(this.definitions[index].items,r.left,r.bottom,index);}
+  show(items,x,y,index=-2){this.popup?.remove();this.current=index;const menu=document.createElement('div');menu.className='popup-menu';menu.setAttribute('role','menu');
+    for(const item of items){if(!item){menu.append(document.createElement('hr'));continue;}const [label,command,shortcut]=item;const b=document.createElement('button');b.innerHTML=`<span>${accessLabel(label)}</span>${shortcut?`<span class="shortcut">${escapeHTML(shortcut)}</span>`:''}`;b.dataset.command=command;b.dataset.access=accessKey(label)||'';b.setAttribute('role','menuitem');b.disabled=!this.enabled(command);if(this.checked(command)){b.classList.add('checked');b.setAttribute('role','menuitemcheckbox');b.setAttribute('aria-checked','true');}b.onclick=()=>{this.close();this.onCommand(command);};menu.append(b);}
+    $('#menu-layer').append(menu);this.popup=menu;menu.style.left=`${Math.max(0,Math.min(x,innerWidth-menu.offsetWidth-2))}px`;menu.style.top=`${Math.max(0,Math.min(y,innerHeight-menu.offsetHeight-2))}px`;
+  }
+  keydown(e){
+    if($('#dialog-layer').querySelector('.dialog-shade:not(.modeless)'))return;
+    if(e.key==='Alt'){document.body.classList.add('show-access');return;}
+    if(e.altKey&&!e.ctrlKey&&!e.metaKey){const i=this.definitions.findIndex(d=>accessKey(d.label)===e.key.toLowerCase());if(i!==-1){e.preventDefault();e.stopPropagation();this.open(i);this.popup.querySelector('button:not(:disabled)')?.focus();return;}}
+    if(e.key==='F10'&&!e.shiftKey){e.preventDefault();this.open(0);this.popup.querySelector('button:not(:disabled)')?.focus();return;}
+    if(!this.popup)return;
+    const buttons=[...this.popup.querySelectorAll('button:not(:disabled)')],index=buttons.indexOf(document.activeElement);
+    if(e.key==='Escape'){e.preventDefault();e.stopPropagation();this.close(true);}
+    else if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();e.stopPropagation();const step=e.key==='ArrowDown'?1:-1;buttons[(index+step+buttons.length)%buttons.length]?.focus();}
+    else if((e.key==='ArrowLeft'||e.key==='ArrowRight')&&this.current>=0){e.preventDefault();e.stopPropagation();this.open((this.current+(e.key==='ArrowRight'?1:-1)+this.definitions.length)%this.definitions.length);this.popup.querySelector('button:not(:disabled)')?.focus();}
+    else if(e.key==='Home'||e.key==='End'){e.preventDefault();(e.key==='Home'?buttons[0]:buttons.at(-1))?.focus();}
+    else if(e.key.length===1&&!e.ctrlKey&&!e.metaKey){const button=buttons.find(b=>b.dataset.access===e.key.toLowerCase());if(button){e.preventDefault();e.stopPropagation();button.click();}}
+  }
+}
+function wireScrollbar(element,view,vertical){
+  const track=$('.scroll-track',element),thumb=$('.scroll-thumb',element);let drag=null,timer=null;
+  const dimension=()=>vertical?track.clientHeight:track.clientWidth;
+  const extent=()=>vertical?view.height:view.width;
+  const viewport=()=>vertical?view.r.height:view.r.width;
+  const current=()=>vertical?view.scrollY:view.scrollX;
+  const set=value=>{if(vertical)view.scrollY=value;else view.scrollX=value;view.clamp();view.schedule();};
+  const scroll=direction=>view.scroll(vertical?0:direction*view.r.advance*3,vertical?direction*view.r.lineHeight:0);
+  for(const [i,button] of [...element.querySelectorAll('.scroll-arrow')].entries())button.addEventListener('pointerdown',e=>{e.preventDefault();const dir=i?1:-1;scroll(dir);clearTimeout(timer);timer=setTimeout(()=>{timer=setInterval(()=>scroll(dir),45);},350);});
+  const stop=()=>{clearTimeout(timer);clearInterval(timer);timer=null;drag=null;};document.addEventListener('pointerup',stop);document.addEventListener('pointercancel',stop);
+  thumb.addEventListener('pointerdown',e=>{e.preventDefault();e.stopPropagation();drag={position:vertical?e.clientY:e.clientX,start:current()};thumb.setPointerCapture(e.pointerId);});
+  thumb.addEventListener('pointermove',e=>{if(!drag)return;const size=vertical?thumb.offsetHeight:thumb.offsetWidth,travel=dimension()-size;if(travel>0)set(drag.start+((vertical?e.clientY:e.clientX)-drag.position)/travel*Math.max(0,extent()-viewport()));});
+  track.addEventListener('pointerdown',e=>{if(e.target.closest('.scroll-thumb'))return;const r=thumb.getBoundingClientRect(),before=vertical?e.clientY<r.top:e.clientX<r.left;set(current()+(before?-1:1)*viewport()*.9);});
+  return ()=>{const total=extent(),visible=viewport(),trackSize=dimension(),disabled=total<=visible+.5;const size=Math.max(17,Math.min(trackSize,trackSize*visible/Math.max(total,1))),position=disabled?0:(trackSize-size)*current()/(total-visible);element.classList.toggle('disabled',disabled);thumb.style[vertical?'height':'width']=`${size}px`;thumb.style[vertical?'top':'left']=`${position}px`;element.setAttribute('aria-valuemin','0');element.setAttribute('aria-valuemax',String(Math.max(0,Math.round(total-visible))));element.setAttribute('aria-valuenow',String(Math.round(current())));};
+}
+class BrowserFiles {
+  constructor(){this.memory=new Map();this.dbPromise=null;}
+  async db(){if(!this.dbPromise)this.dbPromise=new Promise(resolve=>{try{const r=indexedDB.open('NotepadXP-documents',1);r.onupgradeneeded=()=>{r.result.createObjectStore('files',{keyPath:'path'});};r.onsuccess=()=>resolve(r.result);r.onerror=()=>resolve(null);}catch{resolve(null);}});return this.dbPromise;}
+  async all(){const db=await this.db();if(!db)return [...this.memory.values()];return new Promise((resolve,reject)=>{const request=db.transaction('files').objectStore('files').getAll();request.onsuccess=()=>resolve(request.result);request.onerror=()=>reject(request.error);});}
+  async put(record){const db=await this.db();if(!db){this.memory.set(record.path,record);return;}await new Promise((resolve,reject)=>{const tx=db.transaction('files','readwrite');tx.objectStore('files').put(record);tx.oncomplete=()=>resolve();tx.onerror=()=>reject(tx.error);});}
+  async remove(path){const db=await this.db();if(!db){this.memory.delete(path);return;}await new Promise((resolve,reject)=>{const tx=db.transaction('files','readwrite');tx.objectStore('files').delete(path);tx.oncomplete=()=>resolve();tx.onerror=()=>reject(tx.error);});}
+}
+
+return {$,escapeHTML,accessLabel,accessKey,Dialogs,makeDraggable,MenuBar,wireScrollbar,BrowserFiles};
+})();
+const NP_worker_client=(()=>{
+const Rope=NP_rope;
+const {decodeBytes,encodedBlob}=NP_encoding;
+const {buildWrap}=NP_layout;
+class WorkerClient {
+  constructor(model){this.model=model;this.pending=new Map();this.sequence=0;this.worker=null;
+    try{
+      this.url=globalThis.__NP_WORKER_SOURCE__?URL.createObjectURL(new Blob([globalThis.__NP_WORKER_SOURCE__],{type:'text/javascript'})):new URL('src/worker.mjs',location.href);
+      this.worker=new Worker(this.url,{type:'module'});
+      this.worker.onmessage=({data})=>{const task=this.pending.get(data.id);if(!task)return;this.pending.delete(data.id);clearTimeout(task.timer);data.error?task.reject(new Error(data.error)):task.resolve(data.result);};
+      this.worker.onerror=e=>{this.worker?.terminate();this.worker=null;for(const task of this.pending.values()){clearTimeout(task.timer);task.reject(new Error(e.message||'Background worker failed.'));}this.pending.clear();};
+      this.sync();
+    }catch{this.worker=null;}
+    model.onChange(e=>{if(!this.worker)return;if(e.type==='edit')this.worker.postMessage({...e,before:model.revision-1,revision:model.revision});else if(e.type==='batch')this.worker.postMessage({...e,revision:model.revision});else if(e.type==='reset')this.sync();});
+  }
+  sync(){this.worker?.postMessage({type:'sync',root:this.model.root,revision:this.model.revision});}
+  request(type,args={}){
+    if(!this.worker)return this.fallback(type,args);
+    return new Promise((resolve,reject)=>{const id=++this.sequence;const timer=setTimeout(()=>{this.pending.delete(id);reject(new Error('The operation took too long. The document has not been changed.'));},120000);this.pending.set(id,{resolve,reject,timer});this.worker.postMessage({type,id,...args});});
+  }
+  async fallback(type,m){await new Promise(r=>setTimeout(r,0));
+    if(type==='open'){const d=decodeBytes(new Uint8Array(await m.file.arrayBuffer()),m.encoding,m.codepage);return{root:Rope.fromText(d.text),encoding:d.encoding,eol:d.eol,bom:d.bom};}
+    if(type==='encode')return{blob:encodedBlob(m.root,m.encoding,m.options)};
+    if(type==='find')return{match:Rope.find(this.model.root,m.query,m.options),revision:this.model.revision};
+    if(type==='replaceAll')return{...Rope.replaceAll(this.model.root,m.query,m.replacement,m.options),revision:this.model.revision};
+    if(type==='wrap')return{rows:buildWrap(this.model.root,m.width,m.font,m.monospace,m.advance),revision:this.model.revision,width:m.width};
+    throw new Error('Unknown background operation');
+  }
+}
+
+return {WorkerClient};
+})();
+const NP_printing=(()=>{
+const Rope=NP_rope;
+const {buildWrap}=NP_layout;
+const {escapeHTML}=NP_ui;
+const DEFAULT_PAGE={paper:'Letter',orientation:'Portrait',left:.75,right:.75,top:.75,bottom:.75,header:'&f',footer:'Page &p',source:'Automatically Select'};
+function expandHeader(template,{name,page,date=new Date()}){
+  const result={left:'',center:'',right:''};let alignment='center';
+  for(let i=0;i<template.length;i++){
+    if(template[i]!=='&'){result[alignment]+=template[i];continue;}
+    const key=template[++i];if(!key){result[alignment]+='&';break;}
+    if('lcr'.includes(key.toLowerCase())){alignment={l:'left',c:'center',r:'right'}[key.toLowerCase()];continue;}
+    const value={f:name,p:String(page),d:date.toLocaleDateString(),t:date.toLocaleTimeString(), '&':'&'}[key.toLowerCase()];result[alignment]+=value===undefined?'&'+key:value;
+  }
+  return result;
+}
+function validatePage(page){
+  if(!['Letter','A4','Legal','A5'].includes(page.paper)||!['Portrait','Landscape'].includes(page.orientation))throw new Error('Invalid paper size or orientation.');
+  for(const k of ['left','right','top','bottom'])if(!Number.isFinite(page[k])||page[k]<0||page[k]>10)throw new Error('Margins must be between 0 and 10 inches.');
+  let [w,h]=({Letter:[8.5,11],A4:[210/25.4,297/25.4],Legal:[8.5,14],A5:[148/25.4,210/25.4]})[page.paper];if(page.orientation==='Landscape')[w,h]=[h,w];
+  if(w-page.left-page.right<.5||h-page.top-page.bottom<.5)throw new Error('The margins leave too little room for text.');
+  return{width:w,height:h};
+}
+async function preparePrint(model,renderer,page,name,frame){
+  const dimensions=validatePage(page),root=model.root,width=(dimensions.width-page.left-page.right)*96;
+  const rows=buildWrap(root,width,renderer.font,renderer.monospace,renderer.advance);
+  const reserve=(page.header?renderer.lineHeight*2:0)+(page.footer?renderer.lineHeight*2:0);
+  const perPage=Math.max(1,Math.floor(((dimensions.height-page.top-page.bottom)*96-reserve)/renderer.lineHeight));
+  const count=Math.max(1,Math.ceil(rows.length/perPage));
+  if(count>2000)throw new Error(`This document would print ${count.toLocaleString()} pages. Print a smaller document (maximum 2,000 pages per job).`);
+  const now=new Date();let pages=[];
+  const headerHTML=(template,index)=>{const h=expandHeader(template,{name,page:index,date:now});return`<div class="hf"><span>${escapeHTML(h.left)}</span><span>${escapeHTML(h.center)}</span><span>${escapeHTML(h.right)}</span></div>`;};
+  for(let p=0;p<count;p++){
+    let lines=[];for(let row=p*perPage;row<Math.min(rows.length,(p+1)*perPage);row++){let end=row+1<rows.length?rows[row+1]:Rope.length(root);if(Rope.charAt(root,end-1)==='\n')end--;lines.push(escapeHTML(Rope.slice(root,rows[row],end)));}
+    pages.push(`<section class="page">${page.header?headerHTML(page.header,p+1):''}<pre>${lines.join('\n')}</pre>${page.footer?headerHTML(page.footer,p+1):''}</section>`);
+    if(p%30===29)await new Promise(r=>setTimeout(r,0));
+  }
+  const doc=frame.contentDocument;doc.open();doc.write(`<!doctype html><html><head><meta charset="utf-8"><title>${escapeHTML(name)}</title><style>@page{size:${dimensions.width}in ${dimensions.height}in;margin:0}*{box-sizing:border-box}html,body{margin:0;padding:0}body{color:#000;background:#fff;font:${renderer.font};line-height:${renderer.lineHeight}px}.page{width:${dimensions.width}in;height:${dimensions.height}in;padding:${page.top}in ${page.right}in ${page.bottom}in ${page.left}in;display:flex;flex-direction:column;break-after:page;overflow:hidden}.page:last-child{break-after:auto}pre{font:inherit;line-height:inherit;white-space:pre;tab-size:8;margin:0;flex:1}.hf{height:${renderer.lineHeight*2}px;display:grid;grid-template-columns:1fr 1fr 1fr;flex-shrink:0;white-space:pre}.hf span:nth-child(2){text-align:center}.hf span:nth-child(3){text-align:right}</style></head><body>${pages.join('')}</body></html>`);doc.close();await doc.fonts.ready;return{pages:count,rows:rows.length};
+}
+
+return {DEFAULT_PAGE,expandHeader,validatePage,preparePrint};
+})();
+const NP_tools=(()=>{
+const string={type:'string'},integer={type:'integer'},boolean={type:'boolean'};
+const range={start:{...integer,minimum:0},end:{...integer,minimum:0}};
+function tool(name,description,properties={},required=[],readOnly=false){return{name,description,inputSchema:{type:'object',properties:{...properties,tabId:{type:'string',description:'Optional authorized browser tab ID; omit when exactly one tab is connected.'}},required,additionalProperties:false},annotations:{title:name.replaceAll('_',' '),readOnlyHint:readOnly,destructiveHint:!readOnly,idempotentHint:readOnly,openWorldHint:false}};}
+const TOOLS=[
+  tool('app_list_tabs','List browser tabs that the user has explicitly authorized for MCP control.',{},[],true),
+  tool('app_get_state','Read document metadata, selection, cursor, font, viewport, dialogs, and renderer state. Does not include document text.',{},[],true),
+  tool('document_read','Read a bounded text range. Offsets and lengths are UTF-16 code units; internal newlines are LF.',{offset:{...integer,minimum:0,default:0},length:{...integer,minimum:0,maximum:262144,default:65536}},[],true),
+  tool('document_set_text','Replace the document with supplied text. Requires discardChanges=true when the existing document has unsaved changes. Marks the new text unsaved.',{text:{...string,maxLength:8388608},name:{...string,maxLength:255},discardChanges:boolean},['text']),
+  tool('document_new','Create an empty Untitled document. Requires discardChanges=true when the existing document is modified.',{discardChanges:boolean}),
+  tool('document_open_base64','Open text-file bytes supplied as base64. Supports ANSI, UTF-8, and UTF-16 LE/BE. No arbitrary filesystem access.',{data:{...string,maxLength:12582912},name:{...string,maxLength:255},encoding:{type:'string',enum:['auto','ansi','utf-8','utf-16le','utf-16be']},discardChanges:boolean},['data','name']),
+  tool('document_insert','Insert text at a specified UTF-16 offset, or replace the current selection when position is omitted.',{text:{...string,maxLength:8388608},position:{...integer,minimum:0},expectedRevision:integer},['text']),
+  tool('document_apply_edits','Atomically apply non-overlapping edits using offsets in the original revision. All edits form one undo step.',{edits:{type:'array',maxItems:1000,items:{type:'object',properties:{...range,text:{...string,maxLength:8388608}},required:['start','end','text'],additionalProperties:false}},expectedRevision:integer},['edits','expectedRevision']),
+  tool('document_export','Export current document as base64 bytes. Does not mark it saved or write to disk. Limited to 8 MiB; use document_read for larger files.',{encoding:{type:'string',enum:['ansi','utf-8','utf-16le','utf-16be']},eol:{type:'string',enum:['CRLF','LF','CR']},bom:boolean},[],true),
+  tool('document_save','Save through an already user-authorized writable file handle, or open Save As for the user. A browser file picker cannot be bypassed.',{saveAs:boolean}),
+  tool('edit_select','Set the selection. start is the anchor, end is the active cursor. A reversed range selects backward.',range,['start','end']),
+  tool('edit_find','Find literal text without wrapping. Returns a match and selects it unless select=false.',{query:{...string,minLength:1,maxLength:65536},matchCase:boolean,direction:{type:'string',enum:['up','down']},from:{...integer,minimum:0},select:boolean},['query']),
+  tool('edit_replace','Replace the selected matching occurrence, find the next occurrence, or replace all literal matches in one undo step.',{query:{...string,minLength:1,maxLength:65536},replacement:{...string,maxLength:8388608},all:boolean,matchCase:boolean},['query','replacement']),
+  tool('edit_undo','Undo the most recent edit or grouped typing.'),
+  tool('edit_redo','Redo the most recently undone edit.'),
+  tool('edit_time_date','Insert the current local time and date, equivalent to F5.'),
+  tool('view_goto','Place the caret at a 1-based logical line and column. Works independently of the classic Go To dialog.',{line:{...integer,minimum:1},column:{...integer,minimum:1}},['line']),
+  tool('view_scroll','Scroll to an absolute visual line (1-based) and/or pixel coordinates. Does not change the selection.',{line:{...integer,minimum:1},x:{type:'number',minimum:0},y:{type:'number',minimum:0}}),
+  tool('view_set_options','Set wrapping, status bar preference, and font. Like XP, the status bar is hidden while Word Wrap is on.',{wordWrap:boolean,statusBar:boolean,fontFamily:{...string,maxLength:100},fontSize:{type:'number',minimum:1,maximum:200},fontStyle:{type:'string',enum:['Regular','Bold','Italic','Bold Italic']}}),
+  tool('file_page_setup','Read or set paper, orientation, margins in inches, and Notepad header/footer commands.',{paper:{type:'string',enum:['Letter','A4','Legal','A5']},orientation:{type:'string',enum:['Portrait','Landscape']},left:{type:'number',minimum:0},right:{type:'number',minimum:0},top:{type:'number',minimum:0},bottom:{type:'number',minimum:0},header:{...string,maxLength:1024},footer:{...string,maxLength:1024}}),
+  tool('ui_command','Invoke a named menu/window command. Commands that need user interaction open the corresponding dialog and return immediately.',{command:{type:'string',enum:['new','open','save','saveAs','pageSetup','print','exit','undo','redo','cut','copy','paste','delete','find','findNext','replace','goto','selectAll','timeDate','wordWrap','font','statusBar','help','about','agent','minimize','maximize','restore','focus']}},['command']),
+  tool('ui_dialog','Inspect, fill, or activate controls in the frontmost application dialog. Native browser/OS dialogs remain user-controlled. Controls are addressed by their returned IDs, names, or data-action values.',{action:{type:'string',enum:['inspect','set','click','close']},control:string,value:{type:['string','number','boolean']}},['action']),
+  tool('app_get_metrics','Read renderer timing, visible instance count, rope size, worker status, and document revision.',{},[],true),
+  tool('app_capture_viewport','Capture the text viewport as a PNG image. The capture is reproduced from the same render scene; it does not include native dialogs.',{},[],true)
+];
+const READ_ONLY_TOOLS=new Set(TOOLS.filter(t=>t.annotations.readOnlyHint).map(t=>t.name));
+function validateArguments(name,args){
+  const definition=TOOLS.find(t=>t.name===name);if(!definition)throw new Error(`Unknown tool: ${name}`);
+  function check(schema,value,path){
+    if(schema.type){const types=Array.isArray(schema.type)?schema.type:[schema.type];const ok=types.some(type=>type==='integer'?Number.isInteger(value):type==='array'?Array.isArray(value):type==='object'?value!==null&&typeof value==='object'&&!Array.isArray(value):type==='number'?typeof value==='number'&&Number.isFinite(value):typeof value===type);if(!ok)throw new TypeError(`${path} has the wrong type`);}
+    if(schema.enum&&!schema.enum.includes(value))throw new Error(`${path} has an unsupported value`);
+    if(typeof value==='number'&&((schema.minimum!==undefined&&value<schema.minimum)||(schema.maximum!==undefined&&value>schema.maximum)))throw new RangeError(`${path} is outside the allowed range`);
+    if(typeof value==='string'&&((schema.minLength!==undefined&&value.length<schema.minLength)||(schema.maxLength!==undefined&&value.length>schema.maxLength)))throw new RangeError(`${path} has an invalid length`);
+    if(Array.isArray(value)){if(schema.maxItems!==undefined&&value.length>schema.maxItems)throw new RangeError(`${path} has too many items`);value.forEach((v,i)=>check(schema.items,v,`${path}[${i}]`));}
+    if(schema.type==='object'){for(const key of schema.required||[])if(value[key]===undefined)throw new Error(`Missing ${path}.${key}`);for(const [key,v]of Object.entries(value)){if(!schema.properties?.[key]){if(schema.additionalProperties===false)throw new Error(`Unknown ${path}.${key}`);}else check(schema.properties[key],v,`${path}.${key}`);}}
+  }
+  check(definition.inputSchema,args??{},'arguments');return definition;
+}
+
+return {TOOLS,READ_ONLY_TOOLS,validateArguments};
+})();
+const NP_app=(()=>{
+const Rope=NP_rope;
+const {TextModel}=NP_model;
+const {TextRenderer}=NP_renderer;
+const {EditorView}=NP_editor;
+const {WorkerClient}=NP_worker_client;
+const {ENCODINGS,CODEPAGES,decodeBytes,encodedBlob}=NP_encoding;
+const {$,escapeHTML,Dialogs,MenuBar,makeDraggable,wireScrollbar,BrowserFiles}=NP_ui;
+const {DEFAULT_PAGE,validatePage,preparePrint}=NP_printing;
+const {TOOLS,READ_ONLY_TOOLS,validateArguments}=NP_tools;
+const MENUS=[
+ {label:'&File',items:[['&New','new','Ctrl+N'],['&Open…','open','Ctrl+O'],['&Save','save','Ctrl+S'],['Save &As…','saveAs'],null,['Page Set&up…','pageSetup'],['&Print…','print','Ctrl+P'],null,['E&xit','exit']]},
+ {label:'&Edit',items:[['&Undo','undo','Ctrl+Z'],null,['Cu&t','cut','Ctrl+X'],['&Copy','copy','Ctrl+C'],['&Paste','paste','Ctrl+V'],['De&lete','delete','Del'],null,['&Find…','find','Ctrl+F'],['Find &Next','findNext','F3'],['&Replace…','replace','Ctrl+H'],['&Go To…','goto','Ctrl+G'],null,['Select &All','selectAll','Ctrl+A'],['Time/&Date','timeDate','F5']]},
+ {label:'F&ormat',items:[['&Word Wrap','wordWrap'],['&Font…','font']]},
+ {label:'&View',items:[['&Status Bar','statusBar']]},
+ {label:'&Help',items:[['&Help Topics','help'],null,['&About Notepad','about'],null,['AI A&gent Control…','agent','Ctrl+Alt+M']]}
+];
+const FONT_FAMILIES=['Arial','Arial Black','Comic Sans MS','Courier New','Fixedsys','Georgia','Impact','Lucida Console','Lucida Sans Unicode','Microsoft Sans Serif','Tahoma','Terminal','Times New Roman','Trebuchet MS','Verdana'];
+const FONT_STYLES=['Regular','Bold','Italic','Bold Italic'];
+const FONT_SIZES=[8,9,10,11,12,14,16,18,20,22,24,26,28,36,48,72];
+function timeDate(){const now=new Date();return`${now.toLocaleTimeString(undefined,{hour:'2-digit',minute:'2-digit'})} ${now.toLocaleDateString()}`;}
+function cleanName(name){name=String(name||'Untitled').trim();if(!name||/[\x00-\x1f\\/]/.test(name)||name.length>255)throw new Error('Please enter a valid file name (no slashes or control characters).');return name;}
+// Small original vector icons; no extracted Windows artwork or font assets.
+function placeIcon(kind){
+  const folder='<path d="M3 8h10l3 3h13v17H3z" fill="#d49d27" stroke="#8c6b29"/><path d="M4 10h10l3 3h11v14H4z" fill="#ffdf78"/><path d="M2 15h28l-4 13H4z" fill="#f8cf64" stroke="#ba8a24"/><path d="M4 16h23" stroke="#fff4b8"/>';
+  const monitor='<path d="M13 24h7v4h5v2H8v-2h5z" fill="#c1c1c5" stroke="#747889"/><rect x="3" y="3" width="26" height="21" rx="2" fill="#dddfe8" stroke="#737989"/><rect x="5" y="5" width="22" height="16" fill="#3985d4"/><path d="M5 16q7-9 13-3t9-1v9H5z" fill="#57a038"/><path d="M6 7h20" stroke="#91c8ff"/><circle cx="25" cy="22" r=".8" fill="#39871a"/>';
+  const paper='<path d="M8 2h15l5 5v22H8z" fill="#fafcff" stroke="#7890ab"/><path d="M23 2v6h5" fill="#d0e6f8" stroke="#7890ab"/><path d="M11 11h13m-13 4h13m-13 4h10m-10 4h10" stroke="#8ba8cb"/>';
+  const body=kind==='desktop'?monitor:kind==='computer'?'<rect x="1" y="5" width="10" height="24" fill="#e5e6e9" stroke="#737989"/><path d="M3 9h6m-6 3h6m-6 3h6" stroke="#838991"/><circle cx="6" cy="24" r="1" fill="#54a53d"/><g transform="translate(8 2) scale(.8)">'+monitor+'</g>':kind==='recent'?paper+'<circle cx="9" cy="23" r="8" fill="#f3f7ff" stroke="#777faf" stroke-width="2"/><path d="M9 18v5l4 2" fill="none" stroke="#566590" stroke-width="1.5"/>':kind==='documents'?folder+'<g transform="translate(4 0) scale(.65)">'+paper+'</g>':folder;
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="27" height="27" aria-hidden="true">${body}</svg>`;
+}
+function encodingOptions(includeAuto=false){return`${includeAuto?'<option value="auto">Auto-detect</option>':''}${ENCODINGS.map(([v,n])=>`<option value="${v}">${n}</option>`).join('')}`;}
+function base64Bytes(bytes){let output='';for(let i=0;i<bytes.length;i+=24576)output+=btoa(String.fromCharCode(...bytes.subarray(i,i+24576)));return output;}
+function bytesFromBase64(data){if(!/^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/.test(data))throw new Error('Invalid base64');const raw=atob(data),bytes=new Uint8Array(raw.length);for(let i=0;i<raw.length;i++)bytes[i]=raw.charCodeAt(i);return bytes;}
+class NotepadApp {
+  constructor(){
+    let stored={};try{stored=JSON.parse(localStorage.getItem('NotepadXP-settings')||'{}');}catch{}
+    this.options={wordWrap:false,statusBar:false,fontFamily:'Lucida Console',fontSize:10,fontStyle:'Regular',codepage:'windows-1252',...stored};
+    if(!Number.isFinite(this.options.fontSize)||this.options.fontSize<1||this.options.fontSize>200)this.options.fontSize=10;
+    if(typeof this.options.fontFamily!=='string')this.options.fontFamily='Lucida Console';if(!FONT_STYLES.includes(this.options.fontStyle))this.options.fontStyle='Regular';if(!CODEPAGES.includes(this.options.codepage))this.options.codepage='windows-1252';
+    this.page={...DEFAULT_PAGE};this.name='Untitled';this.encoding='ansi';this.eol='CRLF';this.bom=true;this.fileHandle=null;this.writableHandle=false;this.virtualPath=null;
+    this.model=new TextModel();this.worker=new WorkerClient(this.model);this.renderer=new TextRenderer($('#gpu-canvas'),$('#fallback-canvas'));
+    this.renderer.setFont(this.options.fontFamily,this.options.fontSize,this.options.fontStyle);
+    this.view=new EditorView(this.model,this.renderer,$('#editor'),$('#text-input'),this.worker);
+    this.dialogs=new Dialogs(()=>this.view.focus());this.files=new BrowserFiles();this.menu=new MenuBar(MENUS,c=>this.run(c),c=>this.enabled(c),c=>this.checked(c));
+    this.search={query:'',replacement:'',matchCase:false,direction:'down'};this.findDialog=null;this.busyCount=0;this.log=[];this.tabId=crypto.randomUUID?.()||Math.random().toString(36).slice(2);
+    this.agentEnabled=false;this.agentReadOnly=false;this.agentAbort=null;this.agentToken='';
+    try{const fragment=new URLSearchParams(location.hash.slice(1));this.agentToken=fragment.get('token')||sessionStorage.getItem('NotepadXP-bridge-token')||'';if(fragment.has('token')){sessionStorage.setItem('NotepadXP-bridge-token',this.agentToken);history.replaceState(null,'',location.pathname+location.search);}}catch{}
+    this.view.onCommand=c=>this.run(c);this.view.onError=e=>this.error(e);this.view.onContextMenu=(x,y)=>{this.menu.close();this.menu.show([['&Undo','undo'],null,['Cu&t','cut'],['&Copy','copy'],['&Paste','paste'],['&Delete','delete'],null,['Select &All','selectAll']],x,y);};
+    const v=wireScrollbar($('#vscroll'),this.view,true),h=wireScrollbar($('#hscroll'),this.view,false);this.view.onScroll=()=>{v();h();};
+    this.model.onChange(e=>{this.updateTitle();this.updateStatus();if(this.agentEnabled&&!['selection','saved'].includes(e.type))this.pushAgentState();});
+    this.bindWindow();this.bindKeys();this.bindFiles();this.applyOptions();this.updateTitle();
+    this.renderer.onInvalidate=()=>this.view.schedule();this.ready=this.renderer.init().then(()=>{this.view.resize();this.view.focus();return this.state();});
+    window.addEventListener('beforeunload',e=>{if(this.model.dirty){e.preventDefault();e.returnValue='';}});
+  }
+  async run(command){try{return await this.command(command);}catch(error){await this.error(error);return false;}}
+  async error(error){console.error(error);return this.dialogs.message(error?.message||String(error),{icon:'!'});}
+  async busy(label,fn){this.busyCount++;$('#busy-label').textContent=label;$('#busy').hidden=false;try{return await fn();}finally{this.busyCount--;$('#busy').hidden=this.busyCount===0;}}
+  updateTitle(){const title=`${this.name} - Notepad`;$('#title').textContent=title;document.title=title;$('#restore-window span').textContent=title;}
+  updateStatus(){const p=this.model.positionAt();$('#status-position').textContent=`Ln ${(p.line+1).toLocaleString()}, Col ${(p.column+1).toLocaleString()}`;}
+  applyOptions(){const o=this.options;this.renderer.setFont(o.fontFamily,o.fontSize,o.fontStyle);this.view.rowCache.clear();this.view.setWrap(o.wordWrap);$('#editor-frame').classList.toggle('wrapped',!!o.wordWrap);$('#hscroll').hidden=!!o.wordWrap;$('#scroll-corner').hidden=!!o.wordWrap;$('#statusbar').hidden=!!o.wordWrap||!o.statusBar;this.view.resize();try{localStorage.setItem('NotepadXP-settings',JSON.stringify(o));}catch{}this.updateStatus();}
+  checked(c){return c==='wordWrap'?this.options.wordWrap:c==='statusBar'?this.options.statusBar:false;}
+  enabled(c){const selection=this.model.start!==this.model.end;if(c==='undo')return !!this.model.undoStack.length;if(c==='redo')return !!this.model.redoStack.length;if(['cut','copy','delete'].includes(c))return selection;if(['goto','statusBar'].includes(c))return !this.options.wordWrap;if(['find','findNext'].includes(c))return this.model.length>0;return true;}
+  async command(command){
+    if(!this.enabled(command)&&!['focus','restore'].includes(command))return false;
+    switch(command){
+      case'focus':this.view.focus();return true;
+      case'new':if(await this.confirmDiscard()){this.newDocument();return true;}return false;
+      case'open':if(await this.confirmDiscard())return this.fileDialog(false);return false;
+      case'save':return this.save();case'saveAs':return this.fileDialog(true);
+      case'pageSetup':return this.pageSetupDialog();case'print':return this.print();
+      case'exit':if(await this.confirmDiscard())this.exit();return true;
+      case'undo':this.model.undo();this.view.focus();return true;case'redo':this.model.redo();this.view.focus();return true;
+      case'cut':return this.copy(true);case'copy':return this.copy(false);case'paste':return this.paste();
+      case'delete':this.model.insert('');this.view.focus();return true;
+      case'find':this.showFind(false);return true;case'replace':this.showFind(true);return true;
+      case'findNext':if(!this.search.query){this.showFind(false);return true;}return this.findNext(true);
+      case'goto':return this.gotoDialog();case'selectAll':this.model.select(0,this.model.length);this.view.focus();return true;
+      case'timeDate':this.model.insert(timeDate());this.view.focus();return true;
+      case'wordWrap':this.options.wordWrap=!this.options.wordWrap;this.applyOptions();this.view.focus();return true;
+      case'font':return this.fontDialog();case'statusBar':this.options.statusBar=!this.options.statusBar;this.applyOptions();this.view.focus();return true;
+      case'help':return this.helpDialog();case'about':return this.aboutDialog();case'agent':return this.agentDialog();
+      case'minimize':$('#window').hidden=true;$('#restore-window').hidden=false;return true;
+      case'maximize':this.toggleMaximize();return true;
+      case'restore':if(!$('#window').hidden&&$('#window').classList.contains('maximized'))this.toggleMaximize();$('#window').hidden=false;$('#restore-window').hidden=true;$('.closed-message')?.remove();this.view.resize();this.view.focus();return true;
+      default:throw new Error(`Unknown command: ${command}`);
+    }
+  }
+  async confirmDiscard(){if(!this.model.dirty)return true;const result=await this.dialogs.message(`The text in the ${this.name} file has changed.\n\nDo you want to save the changes?`,{buttons:[['yes','Yes'],['no','No'],['cancel','Cancel']],icon:'?',width:410});if(result==='yes')return !!(await this.save());return result==='no';}
+  newDocument(){this.findDialog?.close();this.name='Untitled';this.encoding='ansi';this.eol='CRLF';this.bom=true;this.fileHandle=null;this.writableHandle=false;this.virtualPath=null;this.view.scrollX=this.view.scrollY=0;this.model.load(null);this.view.focus();}
+  exit(){this.dialogs.closeAll();this.menu.close();$('#window').hidden=true;$('#restore-window').hidden=true;const panel=document.createElement('section');panel.className='closed-message';panel.innerHTML='<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgdmlld0JveD0iMCAwIDMyIDMyIj48cGF0aCBkPSJNNyA0aDIwdjI1SDd6IiBmaWxsPSIjNjY2Yzc1Ii8+PHBhdGggZD0iTTUgM2gyMHYyNUg1eiIgZmlsbD0iI2Y3ZjlmZiIgc3Ryb2tlPSIjMjk0NjY4Ii8+PHBhdGggZD0iTTUgM2gyMHY1SDV6IiBmaWxsPSIjN2NhN2M5Ii8+PHBhdGggZD0iTTkgMTFoMTJNOSAxNGgxMk05IDE3aDEyTTkgMjBoMTJNOSAyM2g5IiBzdHJva2U9IiM4ZGE2YmUiLz48cGF0aCBkPSJNOCAxdjVtNC01djVtNC01djVtNC01djUiIHN0cm9rZT0iI2RiZTlmNyIgc3Ryb2tlLXdpZHRoPSIyIi8+PHBhdGggZD0iTTQgMjZoMjF2Mkg1eiIgZmlsbD0iI2JhZDBlMyIvPjwvc3ZnPgo=" alt=""><p>Notepad is closed.</p><button class="xp-button default">Open Notepad</button>';panel.querySelector('button').onclick=()=>{this.newDocument();this.run('restore');};document.body.append(panel);}
+  toggleMaximize(){const el=$('#window');el.classList.toggle('maximized');$('#maximize').title=el.classList.contains('maximized')?'Restore Down':'Maximize';$('#maximize').setAttribute('aria-label',$('#maximize').title);this.view.resize();}
+  bindWindow(){makeDraggable($('#window'),$('#titlebar'),{isWindow:true});$('#titlebar').ondblclick=e=>{if(!e.target.closest('button'))this.toggleMaximize();};$('#minimize').onclick=()=>this.run('minimize');$('#maximize').onclick=()=>this.run('maximize');$('#close-window').onclick=()=>this.run('exit');$('#restore-window').onclick=()=>this.run('restore');
+    $('.app-icon').onclick=e=>{e.stopPropagation();this.systemMenu();};
+    let resize=null;const grip=$('#resize-grip');grip.onpointerdown=e=>{const r=$('#window').getBoundingClientRect();resize={x:e.clientX,y:e.clientY,width:r.width,height:r.height};$('#window').style.left=`${r.left}px`;$('#window').style.top=`${r.top}px`;$('#window').style.transform='none';grip.setPointerCapture(e.pointerId);e.preventDefault();};grip.onpointermove=e=>{if(!resize)return;$('#window').style.width=`${Math.max(245,resize.width+e.clientX-resize.x)}px`;$('#window').style.height=`${Math.max(170,resize.height+e.clientY-resize.y)}px`;};grip.onpointerup=()=>{resize=null;};
+    window.addEventListener('resize',()=>this.view.resize());visualViewport?.addEventListener('resize',()=>{if(innerWidth<=600){$('#window').style.height=`${visualViewport.height}px`;this.view.resize();}});
+  }
+  systemMenu(){const r=$('#titlebar').getBoundingClientRect();this.menu.close();this.menu.show([['&Restore','restore'],['Mi&nimize','minimize'],['Ma&ximize','maximize'],null,['&Close','exit','Alt+F4']],r.left,r.bottom);}
+  bindKeys(){document.addEventListener('keydown',e=>{
+    const ctrl=e.ctrlKey||e.metaKey,key=e.key.toLowerCase();if(e.ctrlKey&&e.altKey&&key==='m'){e.preventDefault();this.agentDialog();return;}
+    if(e.altKey&&e.key===' '){e.preventDefault();this.systemMenu();return;}
+    if(e.target.closest('.xp-dialog')||this.menu.popup)return;
+    let command=null;
+    if(ctrl&&!e.altKey){command={n:'new',o:'open',s:e.shiftKey?'saveAs':'save',p:'print',a:'selectAll',f:'find',h:'replace',g:'goto',z:e.shiftKey?'redo':'undo',y:'redo'}[key];}
+    else if(e.key==='F3'){if(e.shiftKey){this.search.direction=this.search.direction==='down'?'up':'down';}command='findNext';}
+    else if(e.key==='F5')command='timeDate';else if(e.key==='F1')command='help';else if(e.altKey&&e.key==='F4')command='exit';else if(e.shiftKey&&e.key==='F10'){const p=this.view.caretRect(),r=$('#editor').getBoundingClientRect();this.view.onContextMenu(r.left+p.x,r.top+p.y+this.renderer.lineHeight);e.preventDefault();}
+    if(command){e.preventDefault();this.run(command);}
+  });}
+  bindFiles(){const win=$('#window');win.addEventListener('dragover',e=>{if(e.dataTransfer.types.includes('Files')){e.preventDefault();e.dataTransfer.dropEffect='copy';win.classList.add('drop-target');}});win.addEventListener('dragleave',e=>{if(!win.contains(e.relatedTarget))win.classList.remove('drop-target');});win.addEventListener('drop',async e=>{e.preventDefault();win.classList.remove('drop-target');const file=e.dataTransfer.files[0];if(file&&await this.confirmDiscard())try{await this.openFile(file);}catch(error){this.error(error);}});}
+  async openFile(file,{encoding='auto',handle=null,path=null}={}){
+    if(file.size>512*1024*1024){const result=await this.dialogs.message('This file is larger than 512 MiB and may exceed the memory available to this browser. Continue?',{buttons:[['yes','Yes'],['no','No']],icon:'?'});if(result!=='yes')return false;}
+    const revision=this.model.revision;
+    const result=await this.busy('Opening file…',()=>this.worker.request('open',{file,encoding,codepage:this.options.codepage}));
+    const writable=!!handle&&await handle.queryPermission?.({mode:'readwrite'})==='granted';
+    if(revision!==this.model.revision)throw new Error('The document changed while the file was opening. Your edits were not overwritten.');
+    this.name=cleanName(file.name||'Untitled.txt');this.encoding=result.encoding;this.eol=result.eol;this.bom=result.bom;this.fileHandle=handle;this.writableHandle=writable;this.virtualPath=path;this.view.scrollX=this.view.scrollY=0;this.model.load(result.root);
+    if(this.model.slice(0,5).split('\n')[0]==='.LOG'){this.model.select(this.model.length);this.model.insert(`\n${timeDate()}\n`);}
+    this.updateTitle();this.view.focus();return true;
+  }
+  async save(){
+    if(this.fileHandle){
+      let permission=await this.fileHandle.queryPermission?.({mode:'readwrite'});
+      if(permission!=='granted')permission=await this.fileHandle.requestPermission?.({mode:'readwrite'});
+      this.writableHandle=permission==='granted';
+      if(!this.writableHandle)throw new Error('Write permission was not granted. Use Save As to save a separate copy.');
+      return this.writeSnapshot(this.model.root,this.name,this.encoding,this.fileHandle,this.virtualPath);
+    }
+    return this.fileDialog(true);
+  }
+  async writeSnapshot(root,name,encoding,handle=null,path=null){
+    const options={eol:this.eol,bom:encoding!=='ansi',codepage:this.options.codepage};
+    const {blob}=await this.busy('Saving file…',()=>this.worker.request('encode',{root,encoding,options}));
+    if(handle){const writable=await handle.createWritable();try{await writable.write(blob);await writable.close();}catch(error){try{await writable.abort();}catch{}throw error;}}
+    else {const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),30000);}
+    this.name=name;this.encoding=encoding;this.bom=encoding!=='ansi';this.fileHandle=handle;this.writableHandle=!!handle;this.virtualPath=path||`/My Documents/${name}`;this.model.markSaved(root);this.updateTitle();
+    try{await this.files.put({path:this.virtualPath,name,blob,modified:Date.now(),folder:false});}catch(error){await this.dialogs.message('The file was saved, but the browser could not retain a copy in Browser Documents.\n\n'+error.message);}
+    return true;
+  }
+  async fileDialog(save){
+    const existing=this.dialogs.stack.find(d=>d.title===(save?'Save As':'Open'));if(existing)return existing.promise;
+    let folder='/My Documents',selected=null,pendingFile=null,pendingHandle=null;
+    const dialog=this.dialogs.open(save?'Save As':'Open',`<div class="file-toolbar"><label for="file-location">${save?'Save in:':'Look in:'}</label><select id="file-location"><option>/My Documents</option><option>/Desktop</option><option>/Recent Documents</option></select><button class="small-tool" data-action="up" title="Up One Level" aria-label="Up One Level">↰</button><button class="small-tool" data-action="folder" title="Create New Folder" aria-label="Create New Folder">▣</button><button class="xp-button" data-action="browse">Browse…</button></div><div class="file-main"><aside class="places"><button data-place="/Recent Documents"><span class="place-icon">${placeIcon('recent')}</span>My Recent<br>Documents</button><button data-place="/Desktop"><span class="place-icon">${placeIcon('desktop')}</span>Desktop</button><button data-place="/My Documents" class="selected"><span class="place-icon">${placeIcon('documents')}</span>My Documents</button><button data-place="browse"><span class="place-icon">${placeIcon('computer')}</span>My Computer</button></aside><div class="file-list" role="listbox" aria-label="Files"></div></div><div class="file-bottom"><div><div class="field"><label for="file-name">File name:</label><input id="file-name" type="text" autocomplete="off"></div><div class="field"><label for="file-type">${save?'Save as type:':'Files of type:'}</label><select id="file-type"><option value="text">Text Documents (*.txt)</option><option value="all">All Files</option></select></div><div class="field"><label for="file-encoding">Encoding:</label><select id="file-encoding">${encodingOptions(!save)}</select></div></div><div class="file-buttons"><button class="xp-button default" data-action="confirm">${save?'Save':'Open'}</button><button class="xp-button" data-action="cancel">Cancel</button></div></div><p class="file-note">Folders shown here are browser storage. Browse opens files on your device.</p>`,{width:560,focus:'#file-name'});
+    dialog.query('#file-name').value=save?(this.name==='Untitled'?'*.txt':this.name):'';dialog.query('#file-encoding').value=save?this.encoding:'auto';
+    const navigate=async path=>{folder=path;selected=null;pendingFile=null;pendingHandle=null;const select=dialog.query('#file-location');if(![...select.options].some(o=>o.value===path))select.add(new Option(path,path));select.value=path;for(const b of dialog.el.querySelectorAll('[data-place]'))b.classList.toggle('selected',b.dataset.place===path);await refresh();};
+    const refresh=async()=>{const all=await this.files.all();const list=dialog.query('.file-list');if(dialog.closed)return;list.replaceChildren();let records=folder==='/Recent Documents'?all.filter(r=>!r.folder).sort((a,b)=>b.modified-a.modified).slice(0,30):all.filter(r=>r.path.slice(0,r.path.lastIndexOf('/'))===folder);if(dialog.query('#file-type').value==='text')records=records.filter(r=>r.folder||/\.txt$/i.test(r.name));
+      for(const record of records){const button=document.createElement('button');button.className='file-item';button.setAttribute('role','option');button.innerHTML=`${record.folder?'<span>▰</span>':'<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgdmlld0JveD0iMCAwIDMyIDMyIj48cGF0aCBkPSJNNyA0aDIwdjI1SDd6IiBmaWxsPSIjNjY2Yzc1Ii8+PHBhdGggZD0iTTUgM2gyMHYyNUg1eiIgZmlsbD0iI2Y3ZjlmZiIgc3Ryb2tlPSIjMjk0NjY4Ii8+PHBhdGggZD0iTTUgM2gyMHY1SDV6IiBmaWxsPSIjN2NhN2M5Ii8+PHBhdGggZD0iTTkgMTFoMTJNOSAxNGgxMk05IDE3aDEyTTkgMjBoMTJNOSAyM2g5IiBzdHJva2U9IiM4ZGE2YmUiLz48cGF0aCBkPSJNOCAxdjVtNC01djVtNC01djVtNC01djUiIHN0cm9rZT0iI2RiZTlmNyIgc3Ryb2tlLXdpZHRoPSIyIi8+PHBhdGggZD0iTTQgMjZoMjF2Mkg1eiIgZmlsbD0iI2JhZDBlMyIvPjwvc3ZnPgo=" alt="">'}<span>${escapeHTML(record.name)}</span>`;button.title=record.name;button.onclick=()=>{selected=record;pendingFile=null;pendingHandle=null;for(const b of list.children)b.classList.remove('selected');button.classList.add('selected');if(!record.folder)dialog.query('#file-name').value=record.name;};button.ondblclick=()=>record.folder?navigate(record.path):confirm();list.append(button);}
+      if(!records.length)list.innerHTML='<div class="empty-folder">No documents in this folder.<br>Choose Browse to open a file from your device.</div>';
+    };
+    const choose=async()=>{
+      try{
+        pendingFile=null;pendingHandle=null;
+        if(window.showOpenFilePicker){try{const [handle]=await showOpenFilePicker({multiple:false,types:[{description:'Text Documents',accept:{'text/plain':['.txt','.log','.ini','.csv','.md']}}],excludeAcceptAllOption:false});pendingHandle=handle;pendingFile=await handle.getFile();}catch(error){if(!['SecurityError','NotSupportedError'].includes(error.name))throw error;}}
+        if(!pendingFile){pendingFile=await new Promise(resolve=>{const input=$('#file-input');input.value='';input.onchange=()=>resolve(input.files[0]||null);input.oncancel=()=>resolve(null);input.click();});pendingHandle=null;}
+        if(!pendingFile)return;dialog.query('#file-name').value=pendingFile.name;selected=null;dialog.query('.file-list').innerHTML=`<button class="file-item selected"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgdmlld0JveD0iMCAwIDMyIDMyIj48cGF0aCBkPSJNNyA0aDIwdjI1SDd6IiBmaWxsPSIjNjY2Yzc1Ii8+PHBhdGggZD0iTTUgM2gyMHYyNUg1eiIgZmlsbD0iI2Y3ZjlmZiIgc3Ryb2tlPSIjMjk0NjY4Ii8+PHBhdGggZD0iTTUgM2gyMHY1SDV6IiBmaWxsPSIjN2NhN2M5Ii8+PHBhdGggZD0iTTkgMTFoMTJNOSAxNGgxMk05IDE3aDEyTTkgMjBoMTJNOSAyM2g5IiBzdHJva2U9IiM4ZGE2YmUiLz48cGF0aCBkPSJNOCAxdjVtNC01djVtNC01djVtNC01djUiIHN0cm9rZT0iI2RiZTlmNyIgc3Ryb2tlLXdpZHRoPSIyIi8+PHBhdGggZD0iTTQgMjZoMjF2Mkg1eiIgZmlsbD0iI2JhZDBlMyIvPjwvc3ZnPgo=" alt=""><span>${escapeHTML(pendingFile.name)}</span></button>`;dialog.query('.file-item').ondblclick=confirm;
+      }catch(error){if(error.name!=='AbortError')this.error(error);}
+    };
+    const confirm=async()=>{
+      try{
+        if(save){let name=dialog.query('#file-name').value.trim();if(name==='*.txt'||!name){dialog.query('#file-name').focus();dialog.query('#file-name').select();return;}
+          const quoted=name.startsWith('"')&&name.endsWith('"');if(quoted)name=name.slice(1,-1);name=cleanName(name);if(!quoted&&dialog.query('#file-type').value==='text'&&!name.includes('.'))name+='.txt';
+          const encoding=dialog.query('#file-encoding').value,root=this.model.root;let handle=null;
+          if(window.showSaveFilePicker){try{handle=await showSaveFilePicker({suggestedName:name,types:[{description:'Text Documents',accept:{'text/plain':['.txt']}}],excludeAcceptAllOption:false});name=handle.name||name;}catch(error){if(error.name==='AbortError')return;if(!['SecurityError','NotSupportedError'].includes(error.name))throw error;}}
+          if(!handle){const all=await this.files.all();if(all.some(f=>f.path===`${folder}/${name}`)){const result=await this.dialogs.message(`${name} already exists.\nDo you want to replace it?`,{title:'Confirm Save As',buttons:[['yes','Yes'],['no','No']],icon:'?'});if(result!=='yes')return;}}
+          await this.writeSnapshot(root,name,encoding,handle,`${folder==='/Recent Documents'?'/My Documents':folder}/${name}`);dialog.close(true);
+        }else{
+          if(selected?.folder){await navigate(selected.path);return;}
+          if(!pendingFile){const name=dialog.query('#file-name').value;selected=selected||(await this.files.all()).find(r=>!r.folder&&r.path===`${folder}/${name}`);if(selected?.blob)pendingFile=new File([selected.blob],selected.name,{lastModified:selected.modified});}
+          if(!pendingFile){await this.dialogs.message('File not found.\nCheck the file name, or choose Browse to open a file from your device.');return;}
+          const success=await this.openFile(pendingFile,{encoding:dialog.query('#file-encoding').value,handle:pendingHandle,path:selected?.path||null});if(success)dialog.close(true);
+        }
+      }catch(error){if(error.name!=='AbortError')this.error(error);}
+    };
+    dialog.query('[data-action="confirm"]').onclick=confirm;dialog.query('[data-action="cancel"]').onclick=()=>dialog.close(false);dialog.query('[data-action="browse"]').onclick=choose;
+    dialog.query('#file-location').onchange=e=>navigate(e.target.value);dialog.query('#file-type').onchange=refresh;for(const b of dialog.el.querySelectorAll('[data-place]'))b.onclick=()=>b.dataset.place==='browse'?choose():navigate(b.dataset.place);
+    dialog.query('[data-action="up"]').onclick=()=>navigate(folder.includes('/',1)?folder.slice(0,folder.lastIndexOf('/')):'/My Documents');
+    dialog.query('[data-action="folder"]').onclick=()=>{const d=this.dialogs.open('New Folder','<div class="field"><label for="folder-name">Name:</label><input id="folder-name" type="text" value="New Folder"></div><div class="dialog-actions"><button class="xp-button default" data-action="ok">OK</button><button class="xp-button" data-action="cancel">Cancel</button></div>',{width:300,focus:'#folder-name'});d.query('[data-action="cancel"]').onclick=()=>d.close();d.query('[data-action="ok"]').onclick=async()=>{try{const name=cleanName(d.query('#folder-name').value);await this.files.put({path:`${folder}/${name}`,name,folder:true,modified:Date.now()});d.close();refresh();}catch(error){this.error(error);}};};
+    await refresh();return dialog.promise;
+  }
+  async copy(cut=false){
+    if(this.model.start===this.model.end)return false;const start=this.model.start,end=this.model.end,revision=this.model.revision,text=this.model.selectedText.replace(/\n/g,'\r\n');
+    try{await navigator.clipboard.writeText(text);}catch{this.view.focus();if(!document.execCommand('copy')){await this.dialogs.message('Your browser did not allow clipboard access. Select the text and press Ctrl+C (or Command+C).');return false;}}
+    if(cut&&revision===this.model.revision)this.model.edit(start,end,'');this.view.focus();return true;
+  }
+  async paste(){
+    try{const text=await navigator.clipboard.readText();this.model.insert(text);this.view.focus();return true;}catch{
+      const dialog=this.dialogs.open('Paste','<p>Your browser requires a paste gesture. Paste text below, then choose Paste.</p><textarea id="paste-text" rows="6" style="width:100%;resize:vertical" aria-label="Text to paste"></textarea><div class="dialog-actions"><button class="xp-button default" data-action="paste">Paste</button><button class="xp-button" data-action="cancel">Cancel</button></div>',{width:420,focus:'#paste-text'});
+      dialog.query('[data-action="paste"]').onclick=()=>{this.model.insert(dialog.query('#paste-text').value);dialog.close(true);};dialog.query('[data-action="cancel"]').onclick=()=>dialog.close(false);return dialog.promise;
+    }
+  }
+  showFind(replaceMode){
+    if(this.findDialog&&!this.findDialog.closed&&this.findDialog.title===(replaceMode?'Replace':'Find')){this.findDialog.query('#find-query').focus();return;}
+    this.findDialog?.close();
+    const selection=this.model.end-this.model.start<=65536?this.model.selectedText:'';if(selection&&!selection.includes('\n'))this.search.query=selection;
+    const dialog=this.dialogs.open(replaceMode?'Replace':'Find',`<div class="find-layout"><div class="find-fields"><div class="field"><label for="find-query">Find what:</label><input id="find-query" type="text"></div>${replaceMode?'<div class="field"><label for="replace-text">Replace with:</label><input id="replace-text" type="text"></div>':''}<div class="find-options"><label><input id="match-case" type="checkbox">Match case</label>${replaceMode?'':'<fieldset><legend>Direction</legend><label><input type="radio" name="direction" value="up">Up</label><label><input type="radio" name="direction" value="down">Down</label></fieldset>'}</div></div><div class="find-buttons"><button class="xp-button default" data-action="findNext">Find Next</button>${replaceMode?'<button class="xp-button" data-action="replace">Replace</button><button class="xp-button" data-action="replaceAll">Replace All</button>':''}<button class="xp-button" data-action="cancel">Cancel</button></div></div>`,{width:replaceMode?430:410,modeless:true,focus:'#find-query',onClose:()=>{if(this.findDialog===dialog)this.findDialog=null;}});
+    this.findDialog=dialog;dialog.query('#find-query').value=this.search.query;dialog.query('#match-case').checked=this.search.matchCase;if(replaceMode)dialog.query('#replace-text').value=this.search.replacement;else dialog.query(`input[name="direction"][value="${this.search.direction}"]`).checked=true;
+    const read=()=>{this.search.query=dialog.query('#find-query').value;this.search.matchCase=dialog.query('#match-case').checked;if(replaceMode){this.search.replacement=dialog.query('#replace-text').value;this.search.direction='down';}else this.search.direction=dialog.query('input[name="direction"]:checked').value;for(const b of dialog.el.querySelectorAll('[data-action="findNext"],[data-action="replace"],[data-action="replaceAll"]'))b.disabled=!this.search.query;};
+    for(const input of dialog.el.querySelectorAll('input'))input.addEventListener('input',read);read();
+    dialog.query('[data-action="findNext"]').onclick=()=>{read();this.findNext(true).catch(e=>this.error(e));};
+    if(replaceMode){dialog.query('[data-action="replace"]').onclick=()=>{read();this.replaceCurrent(true).catch(e=>this.error(e));};dialog.query('[data-action="replaceAll"]').onclick=()=>{read();this.replaceAll().catch(e=>this.error(e));};}
+    dialog.query('[data-action="cancel"]').onclick=()=>dialog.close();
+  }
+  async findNext(showFailure=false,options={}){
+    const query=options.query??this.search.query;if(!query)return null;
+    const direction=options.direction??this.search.direction,from=options.from??(direction==='up'?this.model.start:this.model.end),revision=this.model.revision;
+    const result=await this.worker.request('find',{query:Rope.normalize(query),options:{direction,from,matchCase:options.matchCase??this.search.matchCase},revision});
+    if(result.revision!==this.model.revision)throw new Error('The document changed during search. Try again.');
+    if(result.match){if(options.select!==false){this.model.select(result.match.start,result.match.end);this.view.active=true;this.view.schedule();}return result.match;}
+    if(showFailure)await this.dialogs.message(`Cannot find "${query}"`,{icon:'i',width:330});return null;
+  }
+  async replaceCurrent(showFailure=false){
+    const{query,replacement,matchCase}=this.search;if(!query)return false;
+    const selected=this.model.selectedText;const matches=matchCase?selected===query:new RegExp(`^${Rope.escapeRegex(query)}$`,'i').test(selected);
+    if(matches)this.model.insert(replacement);return this.findNext(showFailure,{direction:'down'});
+  }
+  async replaceAll(options={}){
+    const query=options.query??this.search.query,replacement=options.replacement??this.search.replacement;if(!query)return 0;const revision=this.model.revision;
+    const result=await this.busy('Replacing text…',()=>this.worker.request('replaceAll',{query:Rope.normalize(query),replacement:Rope.normalize(replacement),options:{matchCase:options.matchCase??this.search.matchCase},revision}));
+    if(result.revision!==this.model.revision)throw new Error('The document changed during replacement. Your edits were not overwritten.');
+    if(result.count)this.model.replaceRoot(result.root);$('#live-region').textContent=`Replaced ${result.count.toLocaleString()} occurrence${result.count===1?'':'s'}.`;return result.count;
+  }
+  gotoDialog(){
+    const dialog=this.dialogs.open('Go To Line','<label for="goto-line">Line number:</label><input id="goto-line" type="text" inputmode="numeric" style="display:block;width:100%;margin-top:5px"><div class="dialog-actions"><button class="xp-button default" data-action="go">Go To</button><button class="xp-button" data-action="cancel">Cancel</button></div>',{width:255,focus:'#goto-line'});
+    dialog.query('#goto-line').value=this.model.positionAt().line+1;dialog.query('[data-action="cancel"]').onclick=()=>dialog.close();dialog.query('[data-action="go"]').onclick=async()=>{const line=Number(dialog.query('#goto-line').value);if(!Number.isInteger(line)||line<1||line>this.model.lineCount){await this.dialogs.message(`The line number is beyond the total number of lines.\nEnter a number from 1 to ${this.model.lineCount.toLocaleString()}.`,{icon:'!'});return;}this.model.select(this.model.lineStart(line-1));dialog.close(true);};return dialog.promise;
+  }
+  fontDialog(){
+    const dialog=this.dialogs.open('Font',`<div class="font-lists"><div class="font-col"><label for="font-family">Font:</label><input id="font-family" type="text"><select id="font-family-list" size="7" aria-label="Font list">${FONT_FAMILIES.map(f=>`<option>${f}</option>`).join('')}</select></div><div class="font-col"><label for="font-style">Font style:</label><input id="font-style" type="text"><select id="font-style-list" size="7" aria-label="Font style list">${FONT_STYLES.map(f=>`<option>${f}</option>`).join('')}</select></div><div class="font-col"><label for="font-size">Size:</label><input id="font-size" type="text" inputmode="decimal"><select id="font-size-list" size="7" aria-label="Font size list">${FONT_SIZES.map(f=>`<option>${f}</option>`).join('')}</select></div></div><div class="font-bottom"><div><fieldset><legend>Sample</legend><div class="font-sample">AaBbYyZz</div></fieldset><div class="field" style="margin-top:13px"><label for="font-script" style="min-width:36px">Script:</label><select id="font-script"><option>Western</option><option>Central European</option><option>Cyrillic</option><option>Greek</option><option>Hebrew</option><option>Arabic</option><option>Japanese</option></select></div></div><div class="font-actions"><button class="xp-button default" data-action="ok">OK</button><button class="xp-button" data-action="cancel">Cancel</button></div></div>`,{width:435,focus:'#font-family'});
+    for(const [id,value] of [['font-family',this.options.fontFamily],['font-style',this.options.fontStyle],['font-size',this.options.fontSize]]){dialog.query(`#${id}`).value=value;dialog.query(`#${id}-list`).value=value;dialog.query(`#${id}-list`).onchange=e=>{dialog.query(`#${id}`).value=e.target.value;sample();};dialog.query(`#${id}`).oninput=()=>sample();}
+    const sample=()=>{const family=dialog.query('#font-family').value.replace(/["\\;]/g,''),style=dialog.query('#font-style').value,size=Number(dialog.query('#font-size').value)||10;const preview=dialog.query('.font-sample');preview.style.fontFamily=`"${family}",monospace`;preview.style.fontSize=`${Math.min(100,Math.max(1,size))}pt`;preview.style.fontStyle=style.includes('Italic')?'italic':'normal';preview.style.fontWeight=style.includes('Bold')?'bold':'normal';preview.textContent={Western:'AaBbYyZz','Central European':'ĄąĆćŁłŽž',Cyrillic:'АаБбВвЯя',Greek:'ΑαΒβΩω',Hebrew:'אבגד שלום',Arabic:'مرحبا بالعالم',Japanese:'あいうえお漢字'}[dialog.query('#font-script').value];};
+    dialog.query('#font-script').onchange=sample;sample();dialog.query('[data-action="cancel"]').onclick=()=>dialog.close(false);
+    dialog.query('[data-action="ok"]').onclick=async()=>{const family=dialog.query('#font-family').value.trim(),size=Number(dialog.query('#font-size').value),style=dialog.query('#font-style').value;if(!family||family.length>100||!Number.isFinite(size)||size<1||size>200||!FONT_STYLES.includes(style)){await this.dialogs.message('Choose a font, a listed style, and a size between 1 and 200 points.',{icon:'!'});return;}Object.assign(this.options,{fontFamily:family,fontStyle:style,fontSize:size});this.applyOptions();dialog.close(true);};return dialog.promise;
+  }
+  pageSetupDialog(){
+    const dialog=this.dialogs.open('Page Setup',`<div class="page-grid"><div><fieldset><legend>Paper</legend><div class="field"><label for="page-paper" style="min-width:42px">Size:</label><select id="page-paper"><option>Letter</option><option>A4</option><option>Legal</option><option>A5</option></select></div><div class="field" style="margin-bottom:0"><label for="page-source" style="min-width:42px">Source:</label><select id="page-source"><option>Automatically Select</option></select></div></fieldset><div style="display:flex;gap:12px;margin:12px 0"><fieldset><legend>Orientation</legend><label style="display:block;margin-bottom:7px"><input type="radio" name="orientation" value="Portrait">Portrait</label><label><input type="radio" name="orientation" value="Landscape">Landscape</label></fieldset><fieldset style="flex:1"><legend>Margins (inches)</legend><div class="margins-grid">${['left','right','top','bottom'].map(k=>`<label>${k[0].toUpperCase()+k.slice(1)}:<input id="page-${k}" type="text" inputmode="decimal" aria-label="${k} margin"></label>`).join('')}</div></fieldset></div></div><fieldset><legend>Preview</legend><div class="page-preview"><div class="paper-preview"><div class="paper-lines"></div></div></div></fieldset></div><div class="field"><label for="page-header" style="min-width:46px">Header:</label><input id="page-header" type="text"></div><div class="field"><label for="page-footer" style="min-width:46px">Footer:</label><input id="page-footer" type="text"></div><div class="dialog-actions"><button class="xp-button default" data-action="ok">OK</button><button class="xp-button" data-action="cancel">Cancel</button><button class="xp-button" data-action="help">Help</button></div>`,{width:535,focus:'#page-paper'});
+    for(const key of ['paper','left','right','top','bottom','header','footer'])dialog.query(`#page-${key}`).value=this.page[key];dialog.query(`input[name="orientation"][value="${this.page.orientation}"]`).checked=true;
+    const preview=()=>dialog.query('.paper-preview').classList.toggle('landscape',dialog.query('input[name="orientation"]:checked').value==='Landscape');for(const r of dialog.el.querySelectorAll('input[name="orientation"]'))r.onchange=preview;preview();
+    dialog.query('[data-action="cancel"]').onclick=()=>dialog.close(false);dialog.query('[data-action="help"]').onclick=()=>this.dialogs.message('Header and footer commands:\n\n&f  File name    &p  Page number\n&d  Date             &t  Time\n&l  Align left       &c  Center\n&r  Align right     &&  Print an ampersand\n\nTurn off the browser’s own headers and footers in its print dialog to avoid duplicates.',{title:'Page Setup Help',width:430});
+    dialog.query('[data-action="ok"]').onclick=async()=>{try{const page={...this.page};for(const key of ['paper','header','footer'])page[key]=dialog.query(`#page-${key}`).value;for(const key of ['left','right','top','bottom'])page[key]=Number(dialog.query(`#page-${key}`).value);page.orientation=dialog.query('input[name="orientation"]:checked').value;validatePage(page);this.page=page;dialog.close(true);}catch(error){this.error(error);}};return dialog.promise;
+  }
+  async print(){
+    const frame=$('#print-frame');frame.hidden=false;frame.style.cssText='position:fixed;width:1px;height:1px;left:-10000px;top:0;border:0';
+    const result=await this.busy('Preparing pages…',()=>preparePrint(this.model,this.renderer,this.page,this.name,frame));this.lastPrint=result;frame.contentWindow.focus();frame.contentWindow.print();this.view.focus();return result;
+  }
+  aboutDialog(){
+    const dialog=this.dialogs.open('About Notepad',`<div style="padding:5px 9px"><div class="about-header">Notepad <sup>xp</sup></div><div class="about-sub">Web edition</div><hr class="about-rule"><div class="about-layout"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgdmlld0JveD0iMCAwIDMyIDMyIj48cGF0aCBkPSJNNyA0aDIwdjI1SDd6IiBmaWxsPSIjNjY2Yzc1Ii8+PHBhdGggZD0iTTUgM2gyMHYyNUg1eiIgZmlsbD0iI2Y3ZjlmZiIgc3Ryb2tlPSIjMjk0NjY4Ii8+PHBhdGggZD0iTTUgM2gyMHY1SDV6IiBmaWxsPSIjN2NhN2M5Ii8+PHBhdGggZD0iTTkgMTFoMTJNOSAxNGgxMk05IDE3aDEyTTkgMjBoMTJNOSAyM2g5IiBzdHJva2U9IiM4ZGE2YmUiLz48cGF0aCBkPSJNOCAxdjVtNC01djVtNC01djVtNC01djUiIHN0cm9rZT0iI2RiZTlmNyIgc3Ryb2tlLXdpZHRoPSIyIi8+PHBhdGggZD0iTTQgMjZoMjF2Mkg1eiIgZmlsbD0iI2JhZDBlMyIvPjwvc3ZnPgo=" alt="Notepad"><div>Notepad XP Web Edition<br>Version 1.0.0<br><br>Windows XP Service Pack 3-style interface<br>Original HTML, JavaScript, and WebGPU implementation.<br><br>This application is not affiliated with Microsoft.<br>Windows and Notepad are Microsoft trademarks.</div></div><hr class="about-rule"><p>Renderer: <strong>${escapeHTML(this.renderer.mode)}</strong><br>Worker: ${this.worker.worker?'Active':'Main-thread fallback'} · Local files stay on your device.</p><div class="dialog-actions"><button class="xp-button default" data-action="ok">OK</button></div></div>`,{width:440});dialog.query('[data-action="ok"]').onclick=()=>dialog.close();return dialog.promise;
+  }
+  helpDialog(){
+    const dialog=this.dialogs.open('Notepad Help',`<div class="help-content"><h3>Using Notepad</h3><p>Type plain text in the editing area. Use File to create, open, save, set up a page, or print a document. Drop a text file onto the window to open it.</p><h3>Editing and searching</h3><p>Use the Edit menu to undo, cut, copy, paste, delete, find, replace, go to a line, select all, or insert the time and date. Find searches in the selected direction and does not wrap around the document. Replace All is a single undo operation.</p><table><tr><td><kbd>Ctrl+N / O / S</kbd></td><td>New / Open / Save</td></tr><tr><td><kbd>Ctrl+F / H / G</kbd></td><td>Find / Replace / Go To</td></tr><tr><td><kbd>F3</kbd> / <kbd>F5</kbd></td><td>Find Next / Time and Date</td></tr><tr><td><kbd>Ctrl+Z / Y</kbd></td><td>Undo / Redo</td></tr><tr><td><kbd>Ctrl+P</kbd></td><td>Print</td></tr><tr><td><kbd>Alt</kbd> + underlined letter</td><td>Open a menu; use arrows and Enter</td></tr><tr><td><kbd>Ctrl+Home / End</kbd></td><td>Start / end of document</td></tr></table><h3>Word Wrap, font, and status bar</h3><p>Word Wrap fits text to the window without inserting line breaks. Following classic Notepad behavior, Go To and Status Bar are disabled while wrapping is enabled. Font changes the entire document’s display, not its plain-text contents.</p><h3>Files and encodings</h3><p>Save As supports ANSI, Unicode (UTF-16 little endian), Unicode big endian, and UTF-8. Unicode saves include a byte-order mark. Existing line-ending style is retained; new documents use Windows CRLF. Saving text that cannot be represented in the chosen ANSI code page is blocked rather than silently losing characters.</p><p>A file whose first line is <kbd>.LOG</kbd> receives a time/date entry when opened. Browser Documents are local copies stored by this site, not your operating system’s folders. A real device file picker or download completes disk operations.</p><h3>Touch and mobile</h3><p>Tap to place the caret and open the keyboard. Drag to scroll. Hold a word to select it; drag the selection handles to adjust the range. Menus and dialogs remain in the XP style, with larger touch targets where needed.</p><h3>Printing</h3><p>Page Setup controls paper, orientation, margins, header, and footer. Use &amp;f, &amp;p, &amp;d, &amp;t, and &amp;l/&amp;c/&amp;r. Disable the browser’s own headers and footers for clean output.</p><h3>Agent control</h3><p>AI Agent Control is available from Help or <kbd>Ctrl+Alt+M</kbd>. External MCP clients require the included local server and your explicit tab authorization. No arbitrary system-file or shell access is exposed.</p><h3>Renderer and compatibility</h3><p>WebGPU batches cached text runs and selections. A Canvas 2D renderer is used when WebGPU is unavailable. Font rasterization, native file/print dialogs, and operating-system keyboard shortcuts depend on your browser and installed fonts.</p></div><div class="dialog-actions"><button class="xp-button" data-action="agent">Agent Control…</button><button class="xp-button default" data-action="close">Close</button></div>`,{width:610});dialog.query('[data-action="close"]').onclick=()=>dialog.close();dialog.query('[data-action="agent"]').onclick=()=>{dialog.close();this.agentDialog();};return dialog.promise;
+  }
+  agentDialog(){
+    const existing=this.dialogs.stack.find(d=>d.title==='AI Agent Control');if(existing){existing.el.focus();return existing.promise;}
+    const dialog=this.dialogs.open('AI Agent Control',`<div class="agent-status"><strong id="agent-status-label"></strong><br><span id="agent-status-detail"></span></div><p>External agents connect through the included local MCP server. Only explicitly authorized tabs can be controlled. Text remains local unless your connected agent reads it.</p><div class="field"><label for="agent-token">Access token:</label><input id="agent-token" type="password" autocomplete="off" placeholder="Token printed by the local server"></div><div class="field"><label for="agent-permission">Permission:</label><select id="agent-permission"><option value="full">Full document and app control</option><option value="read">Read-only document inspection</option></select></div><div class="field"><label for="ansi-codepage">ANSI code page:</label><select id="ansi-codepage">${CODEPAGES.map(c=>`<option>${c}</option>`).join('')}</select></div><div class="agent-tools"><button class="xp-button default" data-action="connect">Enable Control</button><button class="xp-button" data-action="disconnect">Disable Control</button><button class="xp-button" data-action="refresh">Refresh</button></div><div class="agent-log" id="agent-log" aria-label="Agent activity"></div><p class="muted">Start: <code>node mcp/server.mjs</code><br>Stdio MCP: <code>node mcp/server.mjs --stdio</code><br>Open the localhost URL printed by that process, then enable control here.</p><div class="dialog-actions"><button class="xp-button" data-action="tools">Available Tools…</button><button class="xp-button" data-action="close">Close</button></div>`,{width:540,focus:'#agent-token'});
+    dialog.query('#agent-token').value=this.agentToken;dialog.query('#agent-permission').value=this.agentReadOnly?'read':'full';dialog.query('#ansi-codepage').value=this.options.codepage;
+    const refresh=()=>{if(dialog.closed)return;dialog.query('#agent-status-label').textContent=this.agentEnabled?'Agent control enabled':'Agent control disabled';dialog.query('#agent-status-detail').textContent=`${this.renderer.mode} · ${this.model.length.toLocaleString()} characters · ${this.model.lineCount.toLocaleString()} lines · Tab ${this.tabId.slice(0,8)}`;dialog.query('#agent-log').textContent=this.log.join('\n')||'No agent activity in this tab.';dialog.query('[data-action="connect"]').disabled=this.agentEnabled;dialog.query('[data-action="disconnect"]').disabled=!this.agentEnabled;};this.refreshAgentDialog=refresh;refresh();
+    dialog.query('[data-action="connect"]').onclick=async()=>{try{this.agentToken=dialog.query('#agent-token').value.trim();this.agentReadOnly=dialog.query('#agent-permission').value==='read';await this.enableAgent();refresh();}catch(error){this.error(error);}};
+    dialog.query('[data-action="disconnect"]').onclick=()=>{this.disableAgent();refresh();};dialog.query('[data-action="refresh"]').onclick=refresh;dialog.query('[data-action="close"]').onclick=()=>dialog.close();dialog.query('#ansi-codepage').onchange=e=>{this.options.codepage=e.target.value;try{localStorage.setItem('NotepadXP-settings',JSON.stringify(this.options));}catch{}};
+    dialog.query('[data-action="tools"]').onclick=()=>{const d=this.dialogs.open('MCP Tools',`<div class="help-content">${TOOLS.map(t=>`<h3>${escapeHTML(t.name)}</h3><p>${escapeHTML(t.description)}</p>`).join('')}</div><div class="dialog-actions"><button class="xp-button default" data-action="ok">OK</button></div>`,{width:570});d.query('[data-action="ok"]').onclick=()=>d.close();};return dialog.promise;
+  }
+  addLog(message){this.log.push(`${new Date().toLocaleTimeString()}  ${message}`);if(this.log.length>100)this.log.shift();this.refreshAgentDialog?.();}
+  async bridgeFetch(path,body,signal){const response=await fetch(path,{method:body===undefined?'GET':'POST',headers:{Authorization:`Bearer ${this.agentToken}`,...(this.agentTabKey?{'X-Notepad-Tab-Key':this.agentTabKey}:{}),...(body!==undefined?{'Content-Type':'application/json'}:{})},body:body===undefined?undefined:JSON.stringify(body),signal,cache:'no-store'});if(!response.ok){let message;try{message=(await response.json()).error;}catch{}throw new Error(message||`Local MCP bridge returned HTTP ${response.status}.`);}return response.status===204?{}:response.json();}
+  async enableAgent(){
+    if(!['127.0.0.1','localhost','[::1]'].includes(location.hostname)||!/^https?:$/.test(location.protocol))throw new Error('External MCP control requires this page to be opened from the included localhost server. Run node mcp/server.mjs and open the URL it prints.');
+    if(this.agentToken.length<16)throw new Error('Enter the access token printed by the local MCP server.');
+    const paired=await this.bridgeFetch('/bridge/connect',{tabId:this.tabId,readOnly:this.agentReadOnly,state:this.state()});this.agentTabKey=paired.tabKey;this.agentEnabled=true;this.agentAbort=new AbortController();try{sessionStorage.setItem('NotepadXP-bridge-token',this.agentToken);}catch{}this.addLog(`Control enabled (${this.agentReadOnly?'read-only':'full control'}).`);this.pollAgent(this.agentAbort.signal);
+  }
+  disableAgent(){this.agentEnabled=false;this.agentAbort?.abort();this.bridgeFetch('/bridge/disconnect',{tabId:this.tabId}).catch(()=>{});this.addLog('Control disabled.');}
+  async pushAgentState(){clearTimeout(this.agentStateTimer);this.agentStateTimer=setTimeout(()=>{if(this.agentEnabled)this.bridgeFetch('/bridge/state',{tabId:this.tabId,state:this.state()}).catch(()=>{});},250);}
+  async pollAgent(signal){let failures=0;while(this.agentEnabled&&!signal.aborted){try{const reply=await this.bridgeFetch(`/bridge/poll?tabId=${encodeURIComponent(this.tabId)}`,undefined,signal);failures=0;for(const job of reply.commands||[]){if(!this.agentEnabled)break;let result,error;try{if(this.agentReadOnly&&!READ_ONLY_TOOLS.has(job.name))throw new Error('This tab is authorized for read-only inspection.');result=await this.execute(job.name,job.arguments||{});this.addLog(`${job.name} ✓`);}catch(e){error=e.message;this.addLog(`${job.name} — ${error}`);}await this.bridgeFetch('/bridge/result',{tabId:this.tabId,id:job.id,result,error},signal);}}catch(error){if(signal.aborted)break;failures++;this.addLog(error.message);if(failures>=3){this.agentEnabled=false;this.refreshAgentDialog?.();break;}await new Promise(r=>setTimeout(r,1500));}}}
+  dialogState(){const dialog=this.dialogs.stack.at(-1);if(!dialog)return null;const controls=[...dialog.el.querySelectorAll('input,select,textarea,button')].map((el,index)=>({id:el.id||el.dataset.action||el.dataset.result||`${el.name?el.name+'-':''}control-${index}`,tag:el.tagName.toLowerCase(),type:el.type||'',label:el.getAttribute('aria-label')||el.textContent.trim().slice(0,150),value:el.type==='password'?'[redacted]':el.type==='checkbox'||el.type==='radio'?el.checked:el.value??null,disabled:el.disabled,options:el.tagName==='SELECT'?[...el.options].map(o=>({value:o.value,label:o.textContent})):undefined}));return{title:dialog.title,modeless:dialog.modeless,controls};}
+  state(){const m=this.model,p=m.positionAt();return{app:'Notepad XP',version:'1.0.0',name:this.name,modified:m.dirty,revision:m.revision,length:m.length,lineCount:m.lineCount,encoding:this.encoding,ansiCodepage:this.options.codepage,eol:this.eol,bom:this.bom,hasWritableHandle:!!this.writableHandle,selection:{anchor:m.anchor,head:m.head,start:m.start,end:m.end,length:m.end-m.start},cursor:{line:p.line+1,column:p.column+1,offset:m.head},undoAvailable:!!m.undoStack.length,redoAvailable:!!m.redoStack.length,view:{...this.options,statusBarVisible:!this.options.wordWrap&&this.options.statusBar,scrollX:this.view.scrollX,scrollY:this.view.scrollY,width:this.renderer.width,height:this.renderer.height,visualRows:this.view.rows,maximized:$('#window').classList.contains('maximized'),minimized:$('#window').hidden},renderer:this.renderer.mode,rendererFallbackReason:this.renderer.reason||null,worker:!!this.worker.worker,agent:{enabled:this.agentEnabled,readOnly:this.agentReadOnly,tabId:this.tabId},dialog:this.dialogState(),pageSetup:{...this.page}};}
+  metrics(){let leaves=0;const walk=n=>{if(!n)return;if(n.source)leaves++;else{walk(n.left);walk(n.right);}};walk(this.model.root);return{...this.renderer.metrics,renderer:this.renderer.mode,frames:this.renderer.frames,adapter:this.renderer.adapterInfo||{},document:{length:this.model.length,lines:this.model.lineCount,revision:this.model.revision,ropeHeight:this.model.root?.height||0,ropeLeaves:leaves,undoDepth:this.model.undoStack.length,redoDepth:this.model.redoStack.length},worker:!!this.worker.worker,wrapIndexRows:this.view.wrapRows?.length||0,viewport:{width:this.renderer.width,height:this.renderer.height,dpr:this.renderer.dpr},memory:performance.memory?{usedJSHeapSize:performance.memory.usedJSHeapSize,totalJSHeapSize:performance.memory.totalJSHeapSize}:null};}
+  async execute(name,args={}){
+    validateArguments(name,args);const m=this.model;
+    const requireDiscard=()=>{if(m.dirty&&!args.discardChanges)throw new Error('The current document has unsaved changes. Save it first or explicitly pass discardChanges=true.');};
+    const revision=()=>{if(args.expectedRevision!==undefined&&args.expectedRevision!==m.revision)throw new Error(`Revision conflict: expected ${args.expectedRevision}, current ${m.revision}`);};
+    switch(name){
+      case'app_list_tabs':return[{tabId:this.tabId,name:this.name,readOnly:this.agentReadOnly,enabled:this.agentEnabled}];
+      case'app_get_state':return this.state();
+      case'document_read':{const offset=args.offset??0,length=args.length??65536;if(offset>m.length)throw new RangeError('Offset exceeds document length');const end=Math.min(m.length,offset+length);return{text:m.slice(offset,end),offset,end,length:end-offset,totalLength:m.length,revision:m.revision,hasMore:end<m.length};}
+      case'document_new':requireDiscard();this.newDocument();return this.state();
+      case'document_set_text':requireDiscard();this.name=cleanName(args.name||'Untitled');this.fileHandle=null;this.writableHandle=false;this.virtualPath=null;this.encoding='utf-8';this.bom=true;this.eol='CRLF';this.view.scrollX=this.view.scrollY=0;m.load(args.text,false);return this.state();
+      case'document_open_base64':{requireDiscard();const bytes=bytesFromBase64(args.data);await this.openFile(new File([bytes],cleanName(args.name)),{encoding:args.encoding||'auto'});return this.state();}
+      case'document_insert':revision();if(args.position!==undefined)m.edit(args.position,args.position,args.text);else m.insert(args.text);return this.state();
+      case'document_apply_edits':m.applyEdits(args.edits,args.expectedRevision);return this.state();
+      case'document_export':{if(m.length>8*1024*1024)throw new Error('Use document_read in chunks for documents larger than 8 MiB.');const encoding=args.encoding||this.encoding,blob=encodedBlob(m.root,encoding,{eol:args.eol||this.eol,bom:args.bom??(encoding!=='ansi'),codepage:this.options.codepage});if(blob.size>8*1024*1024)throw new Error('Encoded output exceeds the 8 MiB export limit. Use document_read in chunks.');return{name:this.name,encoding,eol:args.eol||this.eol,byteLength:blob.size,data:base64Bytes(new Uint8Array(await blob.arrayBuffer())),mimeType:'text/plain',revision:m.revision};}
+      case'document_save':if(this.fileHandle&&this.writableHandle&&!args.saveAs){await this.save();return{saved:true,state:this.state()};}this.fileDialog(true).catch(e=>this.error(e));return{saved:false,requiresUserInteraction:true,dialog:'Save As'};
+      case'edit_select':if(args.start>m.length||args.end>m.length)throw new RangeError('Selection exceeds document length');m.select(args.start,args.end);return this.state();
+      case'edit_find':{const match=await this.findNext(false,args);return{match,revision:m.revision,cursor:this.state().cursor};}
+      case'edit_replace':{if(args.all)return{count:await this.replaceAll(args),revision:m.revision};this.search={...this.search,query:args.query,replacement:args.replacement,matchCase:!!args.matchCase,direction:'down'};const before=m.revision,match=await this.replaceCurrent(false);return{replaced:m.revision!==before,nextMatch:match,revision:m.revision};}
+      case'edit_undo':return{changed:m.undo(),state:this.state()};case'edit_redo':return{changed:m.redo(),state:this.state()};
+      case'edit_time_date':m.insert(timeDate());return this.state();
+      case'view_goto':if(args.line>m.lineCount)throw new RangeError('Line exceeds document line count');m.select(m.offsetAt(args.line-1,(args.column??1)-1));return this.state();
+      case'view_scroll':if(args.line!==undefined)this.view.scrollY=(args.line-1)*this.renderer.lineHeight;if(args.x!==undefined)this.view.scrollX=args.x;if(args.y!==undefined)this.view.scrollY=args.y;this.view.clamp();this.view.schedule();return this.state();
+      case'view_set_options':for(const k of ['wordWrap','statusBar','fontFamily','fontSize','fontStyle'])if(args[k]!==undefined)this.options[k]=args[k];this.applyOptions();return this.state();
+      case'file_page_setup':{const page={...this.page};for(const k of ['paper','orientation','left','right','top','bottom','header','footer'])if(args[k]!==undefined)page[k]=args[k];validatePage(page);this.page=page;return page;}
+      case'ui_command':this.run(args.command);await Promise.resolve();return{command:args.command,state:this.state(),note:'Native pickers and pending dialogs require user interaction or further dialog commands.'};
+      case'ui_dialog':{const dialog=this.dialogs.stack.at(-1);if(!dialog)throw new Error('No application dialog is open.');if(args.action==='inspect')return this.dialogState();if(args.action==='close'){dialog.close();return this.dialogState();}const controls=[...dialog.el.querySelectorAll('input,select,textarea,button')],states=this.dialogState().controls,index=states.findIndex(c=>c.id===args.control),control=controls[index];if(!control)throw new Error('Unknown dialog control. Inspect the dialog for control IDs.');if(control.type==='password')throw new Error('Access-token controls cannot be manipulated by an agent.');if(args.action==='set'){if(!['INPUT','SELECT','TEXTAREA'].includes(control.tagName))throw new Error('This control is not editable');if(control.type==='checkbox'||control.type==='radio')control.checked=!!args.value;else control.value=String(args.value??'');control.dispatchEvent(new Event('input',{bubbles:true}));control.dispatchEvent(new Event('change',{bubbles:true}));}else if(args.action==='click'){if(control.disabled)throw new Error('This control is disabled');control.click();}await Promise.resolve();return this.dialogState();}
+      case'app_get_metrics':return this.metrics();
+      case'app_capture_viewport':this.view.render();return{mimeType:'image/png',data:this.renderer.screenshot().split(',')[1],width:this.renderer.width,height:this.renderer.height};
+      default:throw new Error('Unknown tool');
+    }
+  }
+}
+const app=new NotepadApp();
+window.notepad=Object.freeze({ready:app.ready,execute:(name,args)=>app.execute(name,args),getState:()=>app.state(),getMetrics:()=>app.metrics(),getTools:()=>structuredClone(TOOLS),screenshot:()=>app.renderer.screenshot()});
+
+
+})();
+
+</script>
+</body></html>
